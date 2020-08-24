@@ -2,8 +2,11 @@ import {Component, ElementRef, ViewChild,  Injectable} from '@angular/core';
 import {loadModules} from 'esri-loader';
 import { HttpClient } from '@angular/common/http';
 
-var stamm = "https://arcgis-web.url.edu.gt/incyt/api/sosguate";
-
+//var stamm = "https://arcgis-web.url.edu.gt/incyt/api/sosguate";
+var stamm = "http://localhost:3004/incyt/api/clima"
+var estations;
+var years;
+var months;
 
   @Injectable()
   export class ConfigService {
@@ -28,12 +31,18 @@ export class AppComponent {
   title = 'ArcGIS angular map Template';
 
   //DUMMY FUNCTION GET
-  httpGetFunction(url) {
+  httpGetFunctionOnInit(url,option) {
     this.http.get(url)
       .subscribe(
         (val) => {
-          console.log("GET call successful value returned in body",
-            val);
+          //console.log("GET call successful value returned in body", val);
+          if (option === 1)
+            estations = val;
+          if (option === 2)
+            years = val;
+          if (option === 3)
+            months = val;
+
         },
         response => {
           console.log("GET call in error", response);
@@ -69,9 +78,12 @@ export class AppComponent {
   constructor(private http: HttpClient) {
 
   //Staadten detail Dienst addresse
-  var url = stamm  + "/getmunicipios";
-  this.httpGetFunction(url);
-
+  var url = stamm  + "/getestaciones";
+  this.httpGetFunctionOnInit(url,1);
+  url = stamm  + "/getanios";
+  this.httpGetFunctionOnInit(url,2);
+  url = stamm  + "/getmeses";
+  this.httpGetFunctionOnInit(url,3);
 
 
 
