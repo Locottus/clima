@@ -2,6 +2,8 @@ import {Component, ElementRef, ViewChild,  Injectable} from '@angular/core';
 import {loadModules} from 'esri-loader';
 import { HttpClient } from '@angular/common/http';
 
+//https://swimlane.github.io/ngx-charts/#/ngx-charts/line-chart
+
 //var stamm = "https://arcgis-web.url.edu.gt/incyt/api/sosguate";
 var stamm = "http://localhost:3004/incyt/api/clima"
 var estations;
