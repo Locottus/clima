@@ -13,7 +13,7 @@
 <div class="content" role="main">
   <div #mapView></div>  
 
-  <div class="container-fluid">
+  <div class="control-view">
     <h1>Panel de Controles</h1>
     
     
@@ -38,11 +38,40 @@
 
 
     <div>
-      <p>aqui va la grafica</p>
+     
+
+
+  <!-- <ngx-charts-line-chart 
+      [view]="[1000,400]"
+      [results]="saleData"
+      [xAxisLabel]="'Products'"
+      [legendTitle]="'Product Sale Chart'"
+      [yAxisLabel]="'Sale'"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [gradient]="true">
+  </ngx-charts-line-chart> -->
+
     </div>
+    
+  <ngx-charts-bar-vertical 
+  
+  [results]="saleData"
+  [xAxisLabel]="'Products'"
+  [legendTitle]="'Product Sale Chart'"
+  [yAxisLabel]="'Sale'"
+  [legend]="true"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
+  [xAxis]="true"
+  [yAxis]="true"
+  [gradient]="true">
+</ngx-charts-bar-vertical>
   </div>
   
-
 
 
 

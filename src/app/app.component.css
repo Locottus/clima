@@ -37,6 +37,14 @@
 }
 
 
+.control-view {
+  height: 85%;
+  width: 50%;
+   padding:5px; 
+   margin:15px;
+  /* outline: none; */
+}
+
 .header-title {
   color: #24292e;
   font-size: 16pt;

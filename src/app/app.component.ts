@@ -3,15 +3,7 @@ import { loadModules } from "esri-loader";
 import { HttpClient } from "@angular/common/http";
 
 //https://swimlane.github.io/ngx-charts/#/ngx-charts/line-chart
-
-
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
-var estations;
-var years;
-var months;
-
-
-
 //http://localhost:3004/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
 
 @Injectable()
@@ -25,6 +17,24 @@ export class ConfigService {
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
+
+  stations ;
+  years ;
+  months;
+  dataStations;
+
+
+  //https://swimlane.gitbook.io/ngx-charts/examples/bar-charts/vertical-bar-chart
+  saleData = [
+    { name: "Mobiles", value: 105000 },
+    { name: "Laptop", value: 55000 },
+    { name: "AC", value: 15000 },
+    { name: "Headset", value: 150000 },
+    { name: "Fridge", value: 20000 },
+    { name: "service", value: 110000 }
+  ];
+
+
   // Get a container link for map place
   @ViewChild("mapView", { static: true })
   private readonly mapViewElement: ElementRef;
@@ -35,11 +45,11 @@ export class AppComponent {
   cargaEstacion() {
     console.log("carga estaciones");
     var select = document.getElementById("selectEstacion");
-    console.log(estations);
-    for (var i = 0; i < estations.length; i++) {
+    console.log(this.stations);
+    for (var i = 0; i < this.stations.length; i++) {
       var el = document.createElement("option");
-      el.textContent = estations[i].estacion;
-      el.value = estations[i].estacion;
+      el.textContent = this.stations[i].estacion;
+      el.value = this.stations[i].estacion;
       select.appendChild(el);
     }
   }
@@ -54,27 +64,27 @@ export class AppComponent {
 
     var select = document.getElementById(objeto);
     if (opcion === 1 ) {
-      for (var i = years.length - 1; i >= 0 ; i--) {
+      for (var i = this.years.length - 1; i >= 0 ; i--) {
         var el = document.createElement("option");
-        el.textContent = years[i].year;
-        el.value = years[i].year;
+        el.textContent = this.years[i].year;
+        el.value = this.years[i].year;
         select.appendChild(el);
       }
     }
     if ( opcion === 3) {
-      for (var i = 0 ; i < years.length ; i++) {
+      for (var i = 0 ; i < this.years.length ; i++) {
         var el = document.createElement("option");
-        el.textContent = years[i].year;
-        el.value = years[i].year;
+        el.textContent = this.years[i].year;
+        el.value = this.years[i].year;
         select.appendChild(el);
       }
     }
 
     if (opcion === 2 || opcion === 4) {
-      for (var i = 0; i < months.length; i++) {
+      for (var i = 0; i < this.months.length; i++) {
         var el = document.createElement("option");
-        el.textContent = months[i].mes;
-        el.value = months[i].id;
+        el.textContent = this.months[i].mes;
+        el.value = this.months[i].id;
         select.appendChild(el);
       }
     }
@@ -86,20 +96,24 @@ export class AppComponent {
       (val) => {
         console.log("GET call successful value returned in body", val);
         if (option === 1) {
-          estations = val;
+          this.stations = val;
           this.cargaEstacion();
         }
 
         if (option === 2) {
-          years = val;
+          this.years = val;
           this.cargaFechas(1);
           this.cargaFechas(3);
         }
 
         if (option === 3) {
-          months = val;
+          this.months = val;
           this.cargaFechas(2);
           this.cargaFechas(4);
+        }
+
+        if (option === 4){
+          //recibe los datos de las consultas
         }
       },
       (response) => {
