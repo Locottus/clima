@@ -4,11 +4,15 @@ import { HttpClient } from "@angular/common/http";
 
 //https://swimlane.github.io/ngx-charts/#/ngx-charts/line-chart
 
-//var stamm = "https://arcgis-web.url.edu.gt/incyt/api/sosguate";
-var stamm = "http://localhost:3004/incyt/api/clima";
+
+var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 var estations;
 var years;
 var months;
+
+
+
+//http://localhost:3004/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
 
 @Injectable()
 export class ConfigService {
@@ -129,6 +133,11 @@ export class AppComponent {
       );
   }
 
+
+
+
+
+  
   constructor(private http: HttpClient) {
     //Staadten detail Dienst addresse
     var url = stamm + "/getestaciones";
@@ -136,8 +145,8 @@ export class AppComponent {
 
     url = stamm + "/getanios";
     this.httpGetFunctionOnInit(url, 2);
-    url = stamm + "/getmeses";
-    this.httpGetFunctionOnInit(url, 3);
+    // url = stamm + "/getmeses";
+    // this.httpGetFunctionOnInit(url, 3);
 
     // This function to load Dojo's require the classes listed in the array modules
     loadModules([
