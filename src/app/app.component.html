@@ -13,31 +13,26 @@
 <div class="content" role="main">
   <div #mapView></div>  
 
-  <div class="control-view">
-    <h1>Panel de Controles</h1>
+  <div class="control-graphic-view">
     
-    
+    <div class = "control-view">
+      <label>Estacion</label>&nbsp;
+      <select  id="selectEstacion"   class="selectpicker" ></select>&nbsp;
 
-    
-    
-    <div class="row">
-      Estacion <select  id="selectEstacion"  onchange="alert('cambiada la estacion');"></select>
+       <label>Año Inicial</label>&nbsp;
+       <select  id="selectyyyy1"  class="selectpicker"></select>&nbsp;
 
-      Año Inicial
-        <select  id="selectyyyy1"  onchange="alert('cambiada la yyy1');"></select>
-        <!-- Mes Inicial
-        <select  id="selectmm1"  onchange="alert('cambiada la mm1');"></select> -->
-        Año Final
-        <select  id="selectyyyy2"  onchange="alert('cambiada la yyy1');"></select> &nbsp;
-        <!-- Mes Final
-        <select  id="selectmm2"  onchange="alert('cambiada la mm1');"></select> -->
-        <button id="getData" onclick="alert('test load data');">Cargar datos</button>        
-        
+       <!-- Mes Inicial
+       <select  id="selectmm1"  onchange="alert('cambiada la mm1');"></select> -->
+       <label>Año Final</label>&nbsp;
+       <select  id="selectyyyy2" class="selectpicker" ></select> &nbsp;&nbsp;
+       <!-- Mes Final
+       <select  id="selectmm2"  onchange="alert('cambiada la mm1');"></select> -->
+       <button id="getData" class="btn btn-primary" onclick="alert('test load data');">Cargar datos</button>        
+   
+   <div>
+
     </div>
-
-
-
-    <div>
      
 
 
