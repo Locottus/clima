@@ -17,24 +17,14 @@ export class ConfigService {
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
-
- 
-  stations ;
-  years ;
+  stations;
+  years;
   months;
   dataStations;
 
-  parms = {"estacion" : "",
-                "yyyy1":"",
-                "yyyy2":""
-              };
-
-  selectData ;
-
-
-
-
-
+  parms = { estacion: "", yyyy1: "", yyyy2: "" };
+  map;
+  selectData;
 
   //https://swimlane.gitbook.io/ngx-charts/examples/bar-charts/vertical-bar-chart
   saleData = [
@@ -43,9 +33,8 @@ export class AppComponent {
     { name: "AC", value: 15000 },
     { name: "Headset", value: 150000 },
     { name: "Fridge", value: 20000 },
-    { name: "service", value: 110000 }
+    { name: "service", value: 110000 },
   ];
-
 
   // Get a container link for map place
   @ViewChild("mapView", { static: true })
@@ -75,16 +64,16 @@ export class AppComponent {
     if (opcion === 4) objeto = "selectmm2";
 
     var select = document.getElementById(objeto);
-    if (opcion === 1 ) {
-      for (var i = this.years.length - 1; i >= 0 ; i--) {
+    if (opcion === 1) {
+      for (var i = this.years.length - 1; i >= 0; i--) {
         var el = document.createElement("option");
         el.textContent = this.years[i].year;
         el.value = this.years[i].year;
         select.appendChild(el);
       }
     }
-    if ( opcion === 3) {
-      for (var i = 0 ; i < this.years.length ; i++) {
+    if (opcion === 3) {
+      for (var i = 0; i < this.years.length; i++) {
         var el = document.createElement("option");
         el.textContent = this.years[i].year;
         el.value = this.years[i].year;
@@ -102,16 +91,15 @@ export class AppComponent {
     }
   }
 
-  muestraPuntosEnMapa(){
+  muestraPuntosEnMapa() {
     var point = {
       id: 0,
       type: "point",
       longitude: "",
       latitude: "",
     };
-  
-  
-     var simpleMarkerSymbol = {
+
+    var simpleMarkerSymbol = {
       type: "simple-marker",
       color: [255, 0, 0], // https://www.w3schools.com/colors/colors_picker.asp
       outline: {
@@ -119,7 +107,6 @@ export class AppComponent {
         width: 1,
       },
     };
-
   }
 
   //DUMMY FUNCTION GET
@@ -145,7 +132,7 @@ export class AppComponent {
           this.cargaFechas(4);
         }
 
-        if (option === 4){
+        if (option === 4) {
           this.selectData = val;
         }
       },
@@ -158,7 +145,7 @@ export class AppComponent {
     );
   }
 
-  onDataChanged(){
+  onDataChanged() {
     console.log(this.parms);
     var url = stamm + "/getanios";
     //httpGetFunctionOnInit(url, 4)
@@ -186,11 +173,6 @@ export class AppComponent {
       );
   }
 
-
-
-
-
-  
   constructor(private http: HttpClient) {
     //Staadten detail Dienst addresse
     var url = stamm + "/getestaciones";
@@ -201,7 +183,6 @@ export class AppComponent {
     // url = stamm + "/getmeses";
     // this.httpGetFunctionOnInit(url, 3);
 
-    // This function to load Dojo's require the classes listed in the array modules
     loadModules([
       "esri/Map",
       "esri/views/MapView",
@@ -210,14 +191,11 @@ export class AppComponent {
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
       "esri/request",
+      'esri/geometry/Point',
+      'esri/symbols/SimpleMarkerSymbol'
     ]).then(
-      ([Map, MapView, MapImageLayer]: [
-        __esri.MapConstructor,
-        __esri.MapViewConstructor,
-        __esri.MapImageLayerConstructor
-      ]) => {
-        // set default map properties
-
+      ([Map, MapView, MapImageLayer,GraphicsLayer,Point,Graphic]) => {
+        
         const mapProperties = {
           basemap: "topo",
         };
@@ -235,19 +213,19 @@ export class AppComponent {
         // create map view by default properties
         this.mapView = new MapView(mapViewProperties);
 
-        // Set service properties
-        // url - this address to MapServer from ArcGIS Enterprise
-        // sublayers - this are the settings for the inner layers of the service.
-        // id = 1 it tell us that will be displayed only one layer with the identifier
-        const oilSandLayerProperties = {
-          url:
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/OilSandsProjectBoundaries/MapServer",
-          sublayers: [{ id: 1 }],
-        };
-        // Create map image layer by properties
-        const oilSandsLayer = new MapImageLayer(oilSandLayerProperties);
-        // Adding a layer into map
-        map.add(oilSandsLayer);
+
+          //punkte ansicht Karte Einstellungen
+        var graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
+
+
+        
+        this.map = map;
+
+        
+        
+        
+        
       }
     );
   }
