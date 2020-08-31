@@ -23,7 +23,8 @@ export class AppComponent {
   dataStations;
 
   parms = { estacion: "", yyyy1: "", yyyy2: "" };
-  map;
+  // map;
+  // graphicsLayer;
   selectData;
 
   //https://swimlane.gitbook.io/ngx-charts/examples/bar-charts/vertical-bar-chart
@@ -41,7 +42,8 @@ export class AppComponent {
   private readonly mapViewElement: ElementRef;
   // main map view
   private mapView;
-  title = "ArcGIS angular map Template";
+
+  title = "Clima Incyt";
 
   cargaEstacion() {
     console.log("carga estaciones");
@@ -186,47 +188,70 @@ export class AppComponent {
     loadModules([
       "esri/Map",
       "esri/views/MapView",
-      "esri/layers/MapImageLayer",
-      "esri/widgets/Track",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-      "esri/request",
-      'esri/geometry/Point',
-      'esri/symbols/SimpleMarkerSymbol'
-    ]).then(
-      ([Map, MapView, MapImageLayer,GraphicsLayer,Point,Graphic]) => {
-        
-        const mapProperties = {
-          basemap: "topo",
-        };
-        // create map by default properties
-        const map = new Map(mapProperties);
-        // set default map view properties
-        // container - element in html-template for locate map
-        // zoom - default zoom parameter, value from 1 to 18
-        const mapViewProperties = {
-          container: this.mapViewElement.nativeElement,
-          center: [-90.625, 15.6], //this is the center of the map
-          zoom: 8, //zoom level
-          map,
-        };
-        // create map view by default properties
-        this.mapView = new MapView(mapViewProperties);
+    ]).then(([Map, MapView,  Graphic, GraphicsLayer]) => {
+      const mapProperties = {
+        basemap: "topo",
+      };
+      // create map by default properties
+      const map = new Map(mapProperties);
+      // set default map view properties
+      // container - element in html-template for locate map
+      // zoom - default zoom parameter, value from 1 to 18
+      const mapViewProperties = {
+        container: this.mapViewElement.nativeElement,
+        center: [-90.625, 15.6], //this is the center of the map
+        zoom: 8, //zoom level
+        map,
+      };
+      // create map view by default properties
+      this.mapView = new MapView(mapViewProperties);
+      
+      
+      
+      var point = {
+        type: "point",
+        longitude: -90.80657463861,
+        latitude: 14.0005930608889
+      };
 
+      var simpleMarkerSymbol = {
+        type: "simple-marker",
+        color: [226, 119, 40],  // orange
+        outline: {
+          color: [255, 255, 255], // white
+          width: 1
+        }
+      };
 
-          //punkte ansicht Karte Einstellungen
-        var graphicsLayer = new GraphicsLayer();
-        map.add(graphicsLayer);
+      var pointGraphic = new Graphic({
+        geometry: point,
+        symbol: simpleMarkerSymbol
+      });
+ 
+      
+      var graphicA = new Graphic();  // graphic with line geometry
+      var graphicB = new Graphic();  // graphic with point geometry
+      var graphicC = new Graphic();  // graphic with polygon geometry
+      var graphicD = new Graphic();
+      var graphicE = new Graphic();
 
+      // Add graphic when GraphicsLayer is constructed
+  var layer = new GraphicsLayer({
+    graphics: [pointGraphic]
+  });
 
-        
-        this.map = map;
+  // Add graphic to graphics collection
+  layer.graphics.add(graphicB);
 
-        
-        
-        
-        
-      }
-    );
+  // Add graphic using add()
+  layer.add(graphicC);
+  layer.addMany([graphicD, graphicE]);
+
+  // Add GraphicsLayer to map
+  map.add(layer);
+
+    });
   }
 }
