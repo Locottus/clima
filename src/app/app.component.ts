@@ -18,10 +18,22 @@ export class ConfigService {
 })
 export class AppComponent {
 
+ 
   stations ;
   years ;
   months;
   dataStations;
+
+  parms = {"estacion" : "",
+                "yyyy1":"",
+                "yyyy2":""
+              };
+
+  selectData ;
+
+
+
+
 
 
   //https://swimlane.gitbook.io/ngx-charts/examples/bar-charts/vertical-bar-chart
@@ -90,6 +102,26 @@ export class AppComponent {
     }
   }
 
+  muestraPuntosEnMapa(){
+    var point = {
+      id: 0,
+      type: "point",
+      longitude: "",
+      latitude: "",
+    };
+  
+  
+     var simpleMarkerSymbol = {
+      type: "simple-marker",
+      color: [255, 0, 0], // https://www.w3schools.com/colors/colors_picker.asp
+      outline: {
+        color: [255, 255, 255], // white
+        width: 1,
+      },
+    };
+
+  }
+
   //DUMMY FUNCTION GET
   httpGetFunctionOnInit(url, option) {
     this.http.get(url).subscribe(
@@ -98,6 +130,7 @@ export class AppComponent {
         if (option === 1) {
           this.stations = val;
           this.cargaEstacion();
+          this.muestraPuntosEnMapa();
         }
 
         if (option === 2) {
@@ -113,7 +146,7 @@ export class AppComponent {
         }
 
         if (option === 4){
-          //recibe los datos de las consultas
+          this.selectData = val;
         }
       },
       (response) => {
@@ -123,6 +156,12 @@ export class AppComponent {
         console.log("The GET observable is now completed.");
       }
     );
+  }
+
+  onDataChanged(){
+    console.log(this.parms);
+    var url = stamm + "/getanios";
+    //httpGetFunctionOnInit(url, 4)
   }
 
   //DUMMY FUNCTION POST
@@ -167,6 +206,10 @@ export class AppComponent {
       "esri/Map",
       "esri/views/MapView",
       "esri/layers/MapImageLayer",
+      "esri/widgets/Track",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer",
+      "esri/request",
     ]).then(
       ([Map, MapView, MapImageLayer]: [
         __esri.MapConstructor,

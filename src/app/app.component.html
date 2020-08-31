@@ -17,18 +17,18 @@
     
     <div class = "control-view">
       <label>Estacion</label>&nbsp;
-      <select  id="selectEstacion"   class="selectpicker" ></select>&nbsp;
+      <select  id="selectEstacion"  [(ngModel)]="parms.estacion" class="selectpicker"  ></select>&nbsp;
 
        <label>Año Inicial</label>&nbsp;
-       <select  id="selectyyyy1"  class="selectpicker"></select>&nbsp;
+       <select  id="selectyyyy1" [(ngModel)]="parms.yyyy1" class="selectpicker"  ></select>&nbsp;
 
        <!-- Mes Inicial
        <select  id="selectmm1"  onchange="alert('cambiada la mm1');"></select> -->
        <label>Año Final</label>&nbsp;
-       <select  id="selectyyyy2" class="selectpicker" ></select> &nbsp;&nbsp;
+       <select  id="selectyyyy2" [(ngModel)]="parms.yyyy2" class="selectpicker" ></select> &nbsp;&nbsp;
        <!-- Mes Final
        <select  id="selectmm2"  onchange="alert('cambiada la mm1');"></select> -->
-       <button id="getData" class="btn btn-primary" onclick="alert('test load data');">Cargar datos</button>        
+       <button id="getData" class="btn btn-primary" (click)="onDataChanged()"  >Cargar datos</button>        
    
    <div>
 
