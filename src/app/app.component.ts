@@ -54,8 +54,13 @@ export class AppComponent {
       el.textContent = this.stations[i].estacion;
       el.value = this.stations[i].estacion;
       select.appendChild(el);
+      
     }
+    this.parms.estacion =   this.stations[0].estacion;
+    
   }
+
+
 
   cargaFechas(opcion) {
     console.log("carga fechas");
@@ -72,7 +77,9 @@ export class AppComponent {
         el.textContent = this.years[i].year;
         el.value = this.years[i].year;
         select.appendChild(el);
+        
       }
+      this.parms.yyyy1 =   this.years[this.years.length - 1].year;
     }
     if (opcion === 3) {
       for (var i = 0; i < this.years.length; i++) {
@@ -80,7 +87,9 @@ export class AppComponent {
         el.textContent = this.years[i].year;
         el.value = this.years[i].year;
         select.appendChild(el);
+        
       }
+      this.parms.yyyy2 =   this.years[0].year;
     }
 
     if (opcion === 2 || opcion === 4) {
@@ -134,9 +143,7 @@ export class AppComponent {
           this.cargaFechas(4);
         }
 
-        if (option === 4) {
-          this.selectData = val;
-        }
+     
       },
       (response) => {
         console.log("GET call in error", response);
@@ -147,10 +154,35 @@ export class AppComponent {
     );
   }
 
+
+
+//DUMMY FUNCTION GET
+httpGetHistory(url) {
+  //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
+  url = url + "?yyyy1=" + this.parms.yyyy1 + "&yyyy2=" + this.parms.yyyy2 + "&estacion=" + this.parms.estacion ;
+  console.log(url);
+  this.http.get(url).subscribe(
+    (val) => {
+      console.log("GET call successful value returned in body", val);
+
+        
+        this.selectData = val;
+        console.log(this.selectData);
+
+    },
+    (response) => {
+      console.log("GET call in error", response);
+    },
+    () => {
+      console.log("The GET observable is now completed.");
+    }
+  );
+}
+
   onDataChanged() {
     console.log(this.parms);
-    var url = stamm + "/getanios";
-    //httpGetFunctionOnInit(url, 4)
+    var url = stamm + "/getdata";
+    this.httpGetHistory(url);
   }
 
   //DUMMY FUNCTION POST
