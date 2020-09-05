@@ -21,7 +21,7 @@ export class AppComponent {
   years;
   months;
   dataStations;
-
+  data;
   parms = { estacion: "", yyyy1: "", yyyy2: "" };
   // map;
   // graphicsLayer;
@@ -142,8 +142,6 @@ export class AppComponent {
           this.cargaFechas(2);
           this.cargaFechas(4);
         }
-
-     
       },
       (response) => {
         console.log("GET call in error", response);
@@ -155,20 +153,48 @@ export class AppComponent {
   }
 
 
+  chartGraph(val){
+    
+    var dataSerie = [];
+    var serie;
+    for(var i = 0; i < val.length; i++){
+      var {id,estacion,longitud,latitud,zona_vida,year,mes,dia,lluvia,tmax,tmin,etp,bc} = val[i];
+       serie = {
+        "year":year,
+        "mes":mes,
+        "dia":dia,
+        "lluvia":lluvia,
+        "tmax":tmax,
+        "tmin":tmin,
+        "etp":etp,
+        "bc":bc
+      };
+      
+      dataSerie.push(serie);
 
-//DUMMY FUNCTION GET
+
+    }
+    console.log('*************************************');
+    console.log(dataSerie);
+    var data = [
+      {
+        "nombre": val[0].estacion,
+        "zona_vida": val[0].zona_vida,
+        "series": dataSerie
+      }
+    ]; 
+    console.log(data);
+  }
+
+  //DUMMY FUNCTION GET
 httpGetHistory(url) {
   //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
   url = url + "?yyyy1=" + this.parms.yyyy1 + "&yyyy2=" + this.parms.yyyy2 + "&estacion=" + this.parms.estacion ;
-  console.log(url);
+  //console.log(url);
   this.http.get(url).subscribe(
     (val) => {
       console.log("GET call successful value returned in body", val);
-
-        
-        this.selectData = val;
-        console.log(this.selectData);
-
+      this.chartGraph(val);
     },
     (response) => {
       console.log("GET call in error", response);
