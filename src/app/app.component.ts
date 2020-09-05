@@ -17,25 +17,88 @@ export class ConfigService {
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
+  multi = [
+    {
+      name: "Germany",
+      series: [
+        {
+          name: "1990",
+          value: 62000000,
+        },
+        {
+          name: "2010",
+          value: 73000000,
+        },
+        {
+          name: "2011",
+          value: 89400000,
+        },
+      ],
+    },
+
+    {
+      name: "USA",
+      series: [
+        {
+          name: "1990",
+          value: 250000000,
+        },
+        {
+          name: "2010",
+          value: 309000000,
+        },
+        {
+          name: "2011",
+          value: 311000000,
+        },
+      ],
+    },
+
+    {
+      name: "France",
+      series: [
+        {
+          name: "1990",
+          value: 58000000,
+        },
+        {
+          name: "2010",
+          value: 50000020,
+        },
+        {
+          name: "2011",
+          value: 58000000,
+        },
+      ],
+    }
+  ];
+
+  view: any[] = [700, 300];
+
+  // options
+  legend: boolean = true;
+  showLabels: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxisLabel: string = "Year";
+  yAxisLabel: string = "Population";
+  timeline: boolean = true;
+
+  colorScheme = {
+    domain: ["#5AA454", "#E44D25", "#CFC0BB", "#7aa3e5", "#a8385d", "#aae3f5"],
+  };
+
   stations;
   years;
   months;
   dataStations;
-  data;
   parms = { estacion: "", yyyy1: "", yyyy2: "" };
   // map;
   // graphicsLayer;
   selectData;
-
-  //https://swimlane.gitbook.io/ngx-charts/examples/bar-charts/vertical-bar-chart
-  saleData = [
-    { name: "Mobiles", value: 105000 },
-    { name: "Laptop", value: 55000 },
-    { name: "AC", value: 15000 },
-    { name: "Headset", value: 150000 },
-    { name: "Fridge", value: 20000 },
-    { name: "service", value: 110000 },
-  ];
 
   // Get a container link for map place
   @ViewChild("mapView", { static: true })
@@ -46,24 +109,20 @@ export class AppComponent {
   title = "Clima Incyt";
 
   cargaEstacion() {
-    console.log("carga estaciones");
+    //console.log("carga estaciones");
     var select = document.getElementById("selectEstacion");
-    console.log(this.stations);
+    //console.log(this.stations);
     for (var i = 0; i < this.stations.length; i++) {
       var el = document.createElement("option");
       el.textContent = this.stations[i].estacion;
       el.value = this.stations[i].estacion;
       select.appendChild(el);
-      
     }
-    this.parms.estacion =   this.stations[0].estacion;
-    
+    this.parms.estacion = this.stations[0].estacion;
   }
 
-
-
   cargaFechas(opcion) {
-    console.log("carga fechas");
+    //console.log("carga fechas");
     var objeto = "";
     if (opcion === 1) objeto = "selectyyyy1";
     if (opcion === 2) objeto = "selectmm1";
@@ -77,9 +136,8 @@ export class AppComponent {
         el.textContent = this.years[i].year;
         el.value = this.years[i].year;
         select.appendChild(el);
-        
       }
-      this.parms.yyyy1 =   this.years[this.years.length - 1].year;
+      this.parms.yyyy1 = this.years[this.years.length - 1].year;
     }
     if (opcion === 3) {
       for (var i = 0; i < this.years.length; i++) {
@@ -87,9 +145,8 @@ export class AppComponent {
         el.textContent = this.years[i].year;
         el.value = this.years[i].year;
         select.appendChild(el);
-        
       }
-      this.parms.yyyy2 =   this.years[0].year;
+      this.parms.yyyy2 = this.years[0].year;
     }
 
     if (opcion === 2 || opcion === 4) {
@@ -152,61 +209,127 @@ export class AppComponent {
     );
   }
 
+  chartGraph(val) {
+    var dataSerieLluvia = [],
+      dataSerieTmax = [],
+      dataSerieTmin = [],
+      dataEtp = [],
+      dataBc = [];
+    var sLluvia, sTmax, sTmin, sEtp, sBc;
+    for (var i = 0; i < val.length; i++) {
+      var {
+        id,
+        estacion,
+        longitud,
+        latitud,
+        zona_vida,
+        year,
+        mes,
+        dia,
+        lluvia,
+        tmax,
+        tmin,
+        etp,
+        bc,
+      } = val[i];
 
-  chartGraph(val){
-    
-    var dataSerie = [];
-    var serie;
-    for(var i = 0; i < val.length; i++){
-      var {id,estacion,longitud,latitud,zona_vida,year,mes,dia,lluvia,tmax,tmin,etp,bc} = val[i];
-       serie = {
-        "year":year,
-        "mes":mes,
-        "dia":dia,
-        "lluvia":lluvia,
-        "tmax":tmax,
-        "tmin":tmin,
-        "etp":etp,
-        "bc":bc
+      sLluvia = {
+        "name": year + "/" + mes + "/" + dia,
+        //mes: mes,
+        //dia: dia,
+        "value": lluvia,
       };
-      
-      dataSerie.push(serie);
 
+      sTmax = {
+        "name": year + "/" + mes + "/" + dia,
+        //mes: mes,
+        //dia: dia,
+        "value": tmax,
+      };
 
+      sTmin = {
+        "name": year + "/" + mes + "/" + dia,
+        //mes: mes,
+        //dia: dia,
+        "value": tmin,
+      };
+
+      sEtp = {
+        "name": year + "/" + mes + "/" + dia,
+        //mes: mes,
+        //dia: dia,
+        "value": etp,
+      };
+
+      sBc = {
+        "name": year + "/" + mes + "/" + dia,
+        //mes: mes,
+        //dia: dia,
+        "value": bc,
+      };
+
+      dataSerieLluvia.push(sLluvia);
+      dataSerieTmax.push(sTmax);
+      dataSerieTmin.push(sTmin);
+      dataEtp.push(sEtp);
+      dataBc.push(sBc);
     }
-    console.log('*************************************');
-    console.log(dataSerie);
+    //console.log("*************************************");
+    //console.log(dataSerie);
     var data = [
       {
-        "nombre": val[0].estacion,
-        "zona_vida": val[0].zona_vida,
-        "series": dataSerie
-      }
-    ]; 
+        name: "Lluvia",
+        series: dataSerieLluvia,
+      },
+      {
+        name: "Temperatura Maxima",
+        series: dataSerieTmax,
+      },
+      {
+        name: "Temperatura Minima",
+        series: dataSerieTmin,
+      },
+      {
+        name: "ETP",
+        series: dataEtp,
+      },
+      {
+        name: "BC",
+        series: dataBc,
+      },
+    ];
     console.log(data);
+    this.multi = data;
   }
 
   //DUMMY FUNCTION GET
-httpGetHistory(url) {
-  //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
-  url = url + "?yyyy1=" + this.parms.yyyy1 + "&yyyy2=" + this.parms.yyyy2 + "&estacion=" + this.parms.estacion ;
-  //console.log(url);
-  this.http.get(url).subscribe(
-    (val) => {
-      console.log("GET call successful value returned in body", val);
-      this.chartGraph(val);
-    },
-    (response) => {
-      console.log("GET call in error", response);
-    },
-    () => {
-      console.log("The GET observable is now completed.");
-    }
-  );
-}
+  httpGetHistory(url) {
+    //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
+    url =
+      url +
+      "?yyyy1=" +
+      this.parms.yyyy1 +
+      "&yyyy2=" +
+      this.parms.yyyy2 +
+      "&estacion=" +
+      this.parms.estacion;
+    //console.log(url);
+    this.http.get(url).subscribe(
+      (val) => {
+        console.log("GET call successful value returned in body", val);
+        this.chartGraph(val);
+      },
+      (response) => {
+        console.log("GET call in error", response);
+      },
+      () => {
+        console.log("The GET observable is now completed.");
+      }
+    );
+  }
 
   onDataChanged() {
-    console.log(this.parms);
+    //console.log(this.parms);
     var url = stamm + "/getdata";
     this.httpGetHistory(url);
   }
@@ -248,7 +371,7 @@ httpGetHistory(url) {
       "esri/views/MapView",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-    ]).then(([Map, MapView,  Graphic, GraphicsLayer]) => {
+    ]).then(([Map, MapView, Graphic, GraphicsLayer]) => {
       const mapProperties = {
         basemap: "topo",
       };
@@ -265,51 +388,59 @@ httpGetHistory(url) {
       };
       // create map view by default properties
       this.mapView = new MapView(mapViewProperties);
-      
-      
-      
+
       var point = {
         type: "point",
         longitude: -90.80657463861,
-        latitude: 14.0005930608889
+        latitude: 14.0005930608889,
       };
 
       var simpleMarkerSymbol = {
         type: "simple-marker",
-        color: [226, 119, 40],  // orange
+        color: [226, 119, 40], // orange
         outline: {
           color: [255, 255, 255], // white
-          width: 1
-        }
+          width: 1,
+        },
       };
 
       var pointGraphic = new Graphic({
         geometry: point,
-        symbol: simpleMarkerSymbol
+        symbol: simpleMarkerSymbol,
       });
- 
-      
-      var graphicA = new Graphic();  // graphic with line geometry
-      var graphicB = new Graphic();  // graphic with point geometry
-      var graphicC = new Graphic();  // graphic with polygon geometry
+
+      var graphicA = new Graphic(); // graphic with line geometry
+      var graphicB = new Graphic(); // graphic with point geometry
+      var graphicC = new Graphic(); // graphic with polygon geometry
       var graphicD = new Graphic();
       var graphicE = new Graphic();
 
       // Add graphic when GraphicsLayer is constructed
-  var layer = new GraphicsLayer({
-    graphics: [pointGraphic]
-  });
+      var layer = new GraphicsLayer({
+        graphics: [pointGraphic],
+      });
 
-  // Add graphic to graphics collection
-  layer.graphics.add(graphicB);
+      // Add graphic to graphics collection
+      layer.graphics.add(graphicB);
 
-  // Add graphic using add()
-  layer.add(graphicC);
-  layer.addMany([graphicD, graphicE]);
+      // Add graphic using add()
+      layer.add(graphicC);
+      layer.addMany([graphicD, graphicE]);
 
-  // Add GraphicsLayer to map
-  map.add(layer);
-
+      // Add GraphicsLayer to map
+      map.add(layer);
     });
+  }
+
+  onSelect(data): void {
+    console.log("Item clicked", JSON.parse(JSON.stringify(data)));
+  }
+
+  onActivate(data): void {
+    console.log("Activate", JSON.parse(JSON.stringify(data)));
+  }
+
+  onDeactivate(data): void {
+    console.log("Deactivate", JSON.parse(JSON.stringify(data)));
   }
 }
