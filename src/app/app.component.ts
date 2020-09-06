@@ -18,59 +18,57 @@ export class ConfigService {
 })
 export class AppComponent {
   multi = [
-    {
-      name: "Germany",
-      series: [
-        {
-          name: "1990",
-          value: 62000000,
-        },
-        {
-          name: "2010",
-          value: 73000000,
-        },
-        {
-          name: "2011",
-          value: 89400000,
-        },
-      ],
-    },
-
-    {
-      name: "USA",
-      series: [
-        {
-          name: "1990",
-          value: 250000000,
-        },
-        {
-          name: "2010",
-          value: 309000000,
-        },
-        {
-          name: "2011",
-          value: 311000000,
-        },
-      ],
-    },
-
-    {
-      name: "France",
-      series: [
-        {
-          name: "1990",
-          value: 58000000,
-        },
-        {
-          name: "2010",
-          value: 50000020,
-        },
-        {
-          name: "2011",
-          value: 58000000,
-        },
-      ],
-    }
+    // {
+    //   name: "Germany",
+    //   series: [
+    //     {
+    //       name: "1990",
+    //       value: 62000000,
+    //     },
+    //     {
+    //       name: "2010",
+    //       value: 73000000,
+    //     },
+    //     {
+    //       name: "2011",
+    //       value: 89400000,
+    //     },
+    //   ],
+    // },
+    // {
+    //   name: "USA",
+    //   series: [
+    //     {
+    //       name: "1990",
+    //       value: 250000000,
+    //     },
+    //     {
+    //       name: "2010",
+    //       value: 309000000,
+    //     },
+    //     {
+    //       name: "2011",
+    //       value: 311000000,
+    //     },
+    //   ],
+    // },
+    // {
+    //   name: "France",
+    //   series: [
+    //     {
+    //       name: "1990",
+    //       value: 58000000,
+    //     },
+    //     {
+    //       name: "2010",
+    //       value: 50000020,
+    //     },
+    //     {
+    //       name: "2011",
+    //       value: 58000000,
+    //     },
+    //   ],
+    // }
   ];
 
   view: any[] = [700, 300];
@@ -83,8 +81,8 @@ export class AppComponent {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
-  xAxisLabel: string = "Year";
-  yAxisLabel: string = "Population";
+  xAxisLabel: string = "Fecha";
+  yAxisLabel: string = "Historico por Caterogira";
   timeline: boolean = true;
 
   colorScheme = {
@@ -210,6 +208,12 @@ export class AppComponent {
   }
 
   chartGraph(val) {
+    /*//for getting length of object
+int length = jsonObject.length();
+
+//for getting length of array
+int length = jsonArray.length(); */
+
     var dataSerieLluvia = [],
       dataSerieTmax = [],
       dataSerieTmin = [],
@@ -217,6 +221,18 @@ export class AppComponent {
       dataBc = [];
     var sLluvia, sTmax, sTmin, sEtp, sBc;
     for (var i = 0; i < val.length; i++) {
+      // var n = Object.keys(val[i]).length;
+      // console.log(n);
+      // for (var j = 0; j < Object.keys(val[i]).length; j++) {
+      //   //console.log(Object.keys(val[i])[j]);
+      //   //console.log("**************************************" +   Object.keys(val[i])[j]);
+      //   if (Object.values(val[i])[j] === "-99.9") {
+      //     //console.log("encontreado valor negativo " + Object.values(val[i])[j] + ' ' + Object.keys(val[i])[j]);
+      //     Object.values(val[i])[j] = "0";
+      //     console.log("encontreado valor negativo " + Object.values(val[i])[j] + ' ' + Object.keys(val[i])[j]);
+      //   }
+      // }
+
       var {
         id,
         estacion,
@@ -233,39 +249,46 @@ export class AppComponent {
         bc,
       } = val[i];
 
+      //fixing values
+      lluvia = lluvia === "-99.9" ? "0" : lluvia;
+      tmax = tmax === "-99.9" ? "0" : tmax;
+      tmin = tmin === "-99.9" ? "0" : tmin;
+      etp = etp === "-99.9" ? "0" : etp;
+      bc = bc === "-99.9" ? "0" : bc;
+
       sLluvia = {
-        "name": year + "/" + mes + "/" + dia,
+        name: year + "/" + mes + "/" + dia,
         //mes: mes,
         //dia: dia,
-        "value": lluvia,
+        value: lluvia,
       };
 
       sTmax = {
-        "name": year + "/" + mes + "/" + dia,
+        name: year + "/" + mes + "/" + dia,
         //mes: mes,
         //dia: dia,
-        "value": tmax,
+        value: tmax,
       };
 
       sTmin = {
-        "name": year + "/" + mes + "/" + dia,
+        name: year + "/" + mes + "/" + dia,
         //mes: mes,
         //dia: dia,
-        "value": tmin,
+        value: tmin,
       };
 
       sEtp = {
-        "name": year + "/" + mes + "/" + dia,
+        name: year + "/" + mes + "/" + dia,
         //mes: mes,
         //dia: dia,
-        "value": etp,
+        value: etp,
       };
 
       sBc = {
-        "name": year + "/" + mes + "/" + dia,
+        name: year + "/" + mes + "/" + dia,
         //mes: mes,
         //dia: dia,
-        "value": bc,
+        value: bc,
       };
 
       dataSerieLluvia.push(sLluvia);
@@ -282,11 +305,11 @@ export class AppComponent {
         series: dataSerieLluvia,
       },
       {
-        name: "Temperatura Maxima",
+        name: "T. Maxima",
         series: dataSerieTmax,
       },
       {
-        name: "Temperatura Minima",
+        name: "T. Minima",
         series: dataSerieTmin,
       },
       {
@@ -298,7 +321,7 @@ export class AppComponent {
         series: dataBc,
       },
     ];
-    console.log(data);
+    //console.log(data);
     this.multi = data;
   }
 
