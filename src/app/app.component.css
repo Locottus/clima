@@ -28,7 +28,7 @@
 
 .esri-view {
   height: 100%;
-  width: 50%;
+  width: 40%;
   /* padding:5px; */
   /* outline: none; */
 }
@@ -43,7 +43,7 @@
 
 .control-view {
   margin: auto;
-  width: 50%;
+  width: 60%;
   
   border: 3px solid rgb(50, 25, 192);
   padding: 10px;
@@ -52,7 +52,7 @@
 
 .control-graphic-view {
   height: 85%;
-  width: 50%;
+  width: 60%;
    padding:5px; 
    margin:15px;
   /* outline: none; */

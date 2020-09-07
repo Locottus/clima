@@ -257,35 +257,35 @@ int length = jsonArray.length(); */
       bc = bc === "-99.9" ? "0" : bc;
 
       sLluvia = {
-        name: year + "/" + mes + "/" + dia,
+        name: dia + "/" + mes + "/" + year,
         //mes: mes,
         //dia: dia,
         value: lluvia,
       };
 
       sTmax = {
-        name: year + "/" + mes + "/" + dia,
+        name: dia + "/" + mes + "/" + year,
         //mes: mes,
         //dia: dia,
         value: tmax,
       };
 
       sTmin = {
-        name: year + "/" + mes + "/" + dia,
+        name: dia + "/" + mes + "/" + year,
         //mes: mes,
         //dia: dia,
         value: tmin,
       };
 
       sEtp = {
-        name: year + "/" + mes + "/" + dia,
+        name: dia + "/" + mes + "/" + year,
         //mes: mes,
         //dia: dia,
         value: etp,
       };
 
       sBc = {
-        name: year + "/" + mes + "/" + dia,
+        name: dia + "/" + mes + "/" + year,
         //mes: mes,
         //dia: dia,
         value: bc,
