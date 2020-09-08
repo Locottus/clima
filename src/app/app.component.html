@@ -41,7 +41,15 @@
         [(ngModel)]="parms.yyyy2"
         class="selectpicker"
       ></select>
-      &nbsp;&nbsp;
+
+      <label>Visualizacion</label>&nbsp;
+      <select
+        id="sVisualizacion"
+        [(ngModel)]="visualizacion"
+        class="selectpicker"
+      ></select>
+
+      &nbsp;
       <!-- Mes Final
        <select  id="selectmm2"  onchange="alert('cambiada la mm1');"></select> -->
       <button id="getData" class="btn btn-primary" (click)="onDataChanged()">

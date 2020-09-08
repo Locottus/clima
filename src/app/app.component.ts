@@ -2,13 +2,18 @@ import { Component, ElementRef, ViewChild, Injectable } from "@angular/core";
 import { loadModules } from "esri-loader";
 import { HttpClient } from "@angular/common/http";
 
+// ng build --prod --deploy-url "/clima/" 
+//https://github.com/angular/angular-cli/issues/1080
+
 //https://swimlane.github.io/ngx-charts/#/ngx-charts/line-chart
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 //http://localhost:3004/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
 
 @Injectable()
 export class ConfigService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    
+  }
 }
 
 @Component({
@@ -17,59 +22,7 @@ export class ConfigService {
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
-  multi = [
-    // {
-    //   name: "Germany",
-    //   series: [
-    //     {
-    //       name: "1990",
-    //       value: 62000000,
-    //     },
-    //     {
-    //       name: "2010",
-    //       value: 73000000,
-    //     },
-    //     {
-    //       name: "2011",
-    //       value: 89400000,
-    //     },
-    //   ],
-    // },
-    // {
-    //   name: "USA",
-    //   series: [
-    //     {
-    //       name: "1990",
-    //       value: 250000000,
-    //     },
-    //     {
-    //       name: "2010",
-    //       value: 309000000,
-    //     },
-    //     {
-    //       name: "2011",
-    //       value: 311000000,
-    //     },
-    //   ],
-    // },
-    // {
-    //   name: "France",
-    //   series: [
-    //     {
-    //       name: "1990",
-    //       value: 58000000,
-    //     },
-    //     {
-    //       name: "2010",
-    //       value: 50000020,
-    //     },
-    //     {
-    //       name: "2011",
-    //       value: 58000000,
-    //     },
-    //   ],
-    // }
-  ];
+  multi = [  ];
 
   view: any[] = [700, 300];
 
@@ -93,6 +46,7 @@ export class AppComponent {
   years;
   months;
   dataStations;
+  visualizacion = [{id: "1", descripcion : "Promedio"},{id: "2", descripcion : "Historico"}];
   parms = { estacion: "", yyyy1: "", yyyy2: "" };
   // map;
   // graphicsLayer;
@@ -106,6 +60,18 @@ export class AppComponent {
 
   title = "Clima Incyt";
 
+  cargaTipoReporte(){
+    var select = document.getElementById("sVisualizacion");
+    //console.log(this.stations);
+    for (var i = 0; i < this.visualizacion.length; i++) {
+      var el = document.createElement("option");
+      el.textContent = this.visualizacion[i].descripcion;
+      el.value = this.visualizacion[i].id;
+      select.appendChild(el);
+    }
+
+  }
+
   cargaEstacion() {
     //console.log("carga estaciones");
     var select = document.getElementById("selectEstacion");
@@ -117,6 +83,7 @@ export class AppComponent {
       select.appendChild(el);
     }
     this.parms.estacion = this.stations[0].estacion;
+    this.cargaTipoReporte();
   }
 
   cargaFechas(opcion) {
@@ -380,6 +347,9 @@ int length = jsonArray.length(); */
   }
 
   constructor(private http: HttpClient) {
+
+    //this.cargaTipoReporte();
+
     //Staadten detail Dienst addresse
     var url = stamm + "/getestaciones";
     this.httpGetFunctionOnInit(url, 1);
