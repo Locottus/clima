@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, Injectable } from "@angular/core";
 import { loadModules } from "esri-loader";
 import { HttpClient } from "@angular/common/http";
 
-// ng build --prod --deploy-url "/clima/" 
+// ng build --prod --deploy-url "/clima/"
 //https://github.com/angular/angular-cli/issues/1080
 
 //https://swimlane.github.io/ngx-charts/#/ngx-charts/line-chart
@@ -11,9 +11,7 @@ var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 
 @Injectable()
 export class ConfigService {
-  constructor(private http: HttpClient) {
-    
-  }
+  constructor(private http: HttpClient) {}
 }
 
 @Component({
@@ -22,7 +20,7 @@ export class ConfigService {
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
-  multi = [  ];
+  multi = [];
 
   view: any[] = [700, 300];
 
@@ -39,15 +37,16 @@ export class AppComponent {
   timeline: boolean = true;
 
   colorScheme = {
-    domain: ["#5AA454", "#E44D25", "#CFC0BB", "#7aa3e5", "#a8385d", "#aae3f5"],
+    domain: ["#7aa3e5", "#5AA454", "#E44D25", "#fcba03", "#a8385d", "#181c18"],
   };
 
   stations;
   years;
   months;
   dataStations;
-  visualizacion = [{id: "1", descripcion : "Promedio"},{id: "2", descripcion : "Historico"}];
-  parms = { estacion: "", yyyy1: "", yyyy2: "" };
+  visualizacion = ["Promedio", "Historico"];
+
+  parms = { estacion: "", yyyy1: "", yyyy2: "", visualizacion: "" };
   // map;
   // graphicsLayer;
   selectData;
@@ -60,16 +59,16 @@ export class AppComponent {
 
   title = "Clima Incyt";
 
-  cargaTipoReporte(){
+  cargaTipoReporte() {
     var select = document.getElementById("sVisualizacion");
     //console.log(this.stations);
     for (var i = 0; i < this.visualizacion.length; i++) {
       var el = document.createElement("option");
-      el.textContent = this.visualizacion[i].descripcion;
-      el.value = this.visualizacion[i].id;
+      el.textContent = this.visualizacion[i];
+      el.value = this.visualizacion[i];
       select.appendChild(el);
     }
-
+    this.parms.visualizacion = this.visualizacion[0];
   }
 
   cargaEstacion() {
@@ -292,6 +291,80 @@ int length = jsonArray.length(); */
     this.multi = data;
   }
 
+  chartGraphAVG(val) {
+    var dataSerieLluvia = [],
+      dataSerieTmax = [],
+      dataSerieTmin = [],
+      dataEtp = [],
+      dataBc = [];
+    var sLluvia, sTmax, sTmin, sEtp, sBc;
+    for (var i = 0; i < val.length; i++) {
+      var { estacion, year, mes, lluvia, tmax, tmin, etp, bc } = val[i];
+
+      //fixing values
+      lluvia = lluvia === "-99.9" ? "0" : lluvia;
+      tmax = tmax === "-99.9" ? "0" : tmax;
+      tmin = tmin === "-99.9" ? "0" : tmin;
+      etp = etp === "-99.9" ? "0" : etp;
+      bc = bc === "-99.9" ? "0" : bc;
+
+      sLluvia = {
+        name: mes + "/" + year,
+        value: lluvia,
+      };
+
+      sTmax = {
+        name: mes + "/" + year,
+        value: tmax,
+      };
+
+      sTmin = {
+        name: mes + "/" + year,
+        value: tmin,
+      };
+
+      sEtp = {
+        name: mes + "/" + year,
+        value: etp,
+      };
+
+      sBc = {
+        name: mes + "/" + year,
+        value: bc,
+      };
+
+      dataSerieLluvia.push(sLluvia);
+      dataSerieTmax.push(sTmax);
+      dataSerieTmin.push(sTmin);
+      dataEtp.push(sEtp);
+      dataBc.push(sBc);
+    }
+    var data = [
+      {
+        name: "Lluvia",
+        series: dataSerieLluvia,
+      },
+      {
+        name: "T. Maxima",
+        series: dataSerieTmax,
+      },
+      {
+        name: "T. Minima",
+        series: dataSerieTmin,
+      },
+      {
+        name: "ETP",
+        series: dataEtp,
+      },
+      {
+        name: "BC",
+        series: dataBc,
+      },
+    ];
+    //console.log(data);
+    this.multi = data;
+  }
+
   //DUMMY FUNCTION GET
   httpGetHistory(url) {
     //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
@@ -307,7 +380,10 @@ int length = jsonArray.length(); */
     this.http.get(url).subscribe(
       (val) => {
         console.log("GET call successful value returned in body", val);
-        this.chartGraph(val);
+        //this.stations[0].estacion
+
+        if (this.parms.visualizacion === "Historico") this.chartGraph(val);
+        else this.chartGraphAVG(val);
       },
       (response) => {
         console.log("GET call in error", response);
@@ -347,7 +423,6 @@ int length = jsonArray.length(); */
   }
 
   constructor(private http: HttpClient) {
-
     //this.cargaTipoReporte();
 
     //Staadten detail Dienst addresse
