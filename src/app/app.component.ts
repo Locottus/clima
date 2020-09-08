@@ -37,7 +37,16 @@ export class AppComponent {
   timeline: boolean = true;
 
   colorScheme = {
-    domain: ["#7aa3e5", "#5AA454", "#E44D25", "#fcba03", "#a8385d", "#181c18"],
+    domain: [
+      "#7aa3e5",
+      "#5AA454",
+      "#E44D25",
+      "#fcba03",
+      "#a8385d",
+      "#c242f5",
+      "#5BA455",
+      "#fdb113",
+    ],
   };
 
   stations;
@@ -296,10 +305,15 @@ int length = jsonArray.length(); */
       dataSerieTmax = [],
       dataSerieTmin = [],
       dataEtp = [],
-      dataBc = [];
-    var sLluvia, sTmax, sTmin, sEtp, sBc;
+      dataBc = [],
+      dataTP = [];
+    var sLluvia, sTmax, sTmin, sEtp, sBc, tP;
+    //console.log(val);
+
     for (var i = 0; i < val.length; i++) {
-      var { estacion, year, mes, lluvia, tmax, tmin, etp, bc } = val[i];
+      var { estacion, year, mes, lluvia, tmax, tmin, etp, bc, tPromedio } = val[
+        i
+      ];
 
       //fixing values
       lluvia = lluvia === "-99.9" ? "0" : lluvia;
@@ -307,7 +321,7 @@ int length = jsonArray.length(); */
       tmin = tmin === "-99.9" ? "0" : tmin;
       etp = etp === "-99.9" ? "0" : etp;
       bc = bc === "-99.9" ? "0" : bc;
-
+      tPromedio = tPromedio === "-99.9" ? "0" : tPromedio;
       sLluvia = {
         name: mes + "/" + year,
         value: lluvia,
@@ -333,11 +347,17 @@ int length = jsonArray.length(); */
         value: bc,
       };
 
+      tP = {
+        name: mes + "/" + year,
+        value: tPromedio,
+      };
+
       dataSerieLluvia.push(sLluvia);
       dataSerieTmax.push(sTmax);
       dataSerieTmin.push(sTmin);
       dataEtp.push(sEtp);
       dataBc.push(sBc);
+      dataTP.push(tP);
     }
     var data = [
       {
@@ -359,6 +379,10 @@ int length = jsonArray.length(); */
       {
         name: "BC",
         series: dataBc,
+      },
+      {
+        name: "T. Promedio",
+        series: dataTP,
       },
     ];
     //console.log(data);
@@ -396,8 +420,9 @@ int length = jsonArray.length(); */
 
   onDataChanged() {
     //console.log(this.parms);
-    var url = stamm + "/getdata";
-    this.httpGetHistory(url);
+    if (this.parms.visualizacion === "Historico")
+      this.httpGetHistory(stamm + "/getdata");
+    else this.httpGetHistory(stamm + "/getdataAVG");
   }
 
   //DUMMY FUNCTION POST
@@ -501,14 +526,14 @@ int length = jsonArray.length(); */
   }
 
   onSelect(data): void {
-    console.log("Item clicked", JSON.parse(JSON.stringify(data)));
+    //console.log("Item clicked", JSON.parse(JSON.stringify(data)));
   }
 
   onActivate(data): void {
-    console.log("Activate", JSON.parse(JSON.stringify(data)));
+    //console.log("Activate", JSON.parse(JSON.stringify(data)));
   }
 
   onDeactivate(data): void {
-    console.log("Deactivate", JSON.parse(JSON.stringify(data)));
+    //console.log("Deactivate", JSON.parse(JSON.stringify(data)));
   }
 }

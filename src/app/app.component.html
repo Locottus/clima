@@ -40,16 +40,14 @@
         id="selectyyyy2"
         [(ngModel)]="parms.yyyy2"
         class="selectpicker"
-      ></select>
+      ></select>&nbsp;
 
       <label>Visualizacion</label>&nbsp;
       <select
         id="sVisualizacion"
         [(ngModel)]="parms.visualizacion"
         class="selectpicker"
-      ></select>
-
-      &nbsp;
+      ></select>&nbsp;
       <!-- Mes Final
        <select  id="selectmm2"  onchange="alert('cambiada la mm1');"></select> -->
       <button id="getData" class="btn btn-primary" (click)="onDataChanged()">
@@ -75,6 +73,9 @@
       (deactivate)="onDeactivate($event)"
     >
     </ngx-charts-line-chart>
+
+
+    
   </div>
 
   <footer>
