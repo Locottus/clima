@@ -17,44 +17,58 @@
 
   <div class="control-graphic-view">
     <div class="control-view">
-      <label>Estacion</label>&nbsp;
-      <select
-        id="selectEstacion"
-        [(ngModel)]="parms.estacion"
-        class="selectpicker"
-      ></select
-      >&nbsp;
-
-      <label>Año Inicial</label>&nbsp;
-      <select
-        id="selectyyyy1"
-        [(ngModel)]="parms.yyyy1"
-        class="selectpicker"
-      ></select
-      >&nbsp;
-
+      <div>
+        <label>Estacion</label>&nbsp;
+        <select
+          id="selectEstacion"
+          [(ngModel)]="parms.estacion"
+          class="selectpicker"
+        ></select
+        >&nbsp;
+      </div>
+      <div>
+        <label>Año Inicial</label>&nbsp;
+        <select
+          id="selectyyyy1"
+          [(ngModel)]="parms.yyyy1"
+          class="selectpicker"
+        ></select
+        >&nbsp;
+      
       <!-- Mes Inicial
        <select  id="selectmm1"  onchange="alert('cambiada la mm1');"></select> -->
-      <label>Año Final</label>&nbsp;
-      <select
-        id="selectyyyy2"
-        [(ngModel)]="parms.yyyy2"
-        class="selectpicker"
-      ></select>&nbsp;
-
-      <label>Visualizacion</label>&nbsp;
-      <select
-        id="sVisualizacion"
-        [(ngModel)]="parms.visualizacion"
-        class="selectpicker"
-      ></select>&nbsp;
+      
+        <label>Año Final</label>&nbsp;
+        <select
+          id="selectyyyy2"
+          [(ngModel)]="parms.yyyy2"
+          class="selectpicker"
+        ></select
+        >&nbsp;
+      </div>
+      <div>
+        <label>Visualizacion</label>&nbsp;
+        <select
+          id="sVisualizacion"
+          [(ngModel)]="parms.visualizacion"
+          class="selectpicker"
+        ></select
+        >&nbsp;
+      
+      
+        <label>Datos</label>&nbsp;
+        <select
+          id="sDatos"
+          [(ngModel)]="parms.datos"
+          class="selectpicker"
+        ></select
+        >&nbsp;
+      </div>
       <!-- Mes Final
        <select  id="selectmm2"  onchange="alert('cambiada la mm1');"></select> -->
       <button id="getData" class="btn btn-primary" (click)="onDataChanged()">
         Cargar datos
       </button>
-
-      <div></div>
     </div>
 
     <ngx-charts-line-chart
@@ -73,9 +87,6 @@
       (deactivate)="onDeactivate($event)"
     >
     </ngx-charts-line-chart>
-
-
-    
   </div>
 
   <footer>

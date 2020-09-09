@@ -54,8 +54,9 @@ export class AppComponent {
   months;
   dataStations;
   visualizacion = ["Promedio", "Historico"];
+  datos = ["Lluvia", "Temperatura"];
 
-  parms = { estacion: "", yyyy1: "", yyyy2: "", visualizacion: "" };
+  parms = { estacion: "", yyyy1: "", yyyy2: "", visualizacion: "", datos: "" };
   // map;
   // graphicsLayer;
   selectData;
@@ -80,6 +81,18 @@ export class AppComponent {
     this.parms.visualizacion = this.visualizacion[0];
   }
 
+  cargaTipoDato() {
+    var select = document.getElementById("sDatos");
+    //console.log(this.stations);
+    for (var i = 0; i < this.datos.length; i++) {
+      var el = document.createElement("option");
+      el.textContent = this.datos[i];
+      el.value = this.datos[i];
+      select.appendChild(el);
+    }
+    this.parms.datos = this.datos[0];
+  }
+
   cargaEstacion() {
     //console.log("carga estaciones");
     var select = document.getElementById("selectEstacion");
@@ -92,6 +105,7 @@ export class AppComponent {
     }
     this.parms.estacion = this.stations[0].estacion;
     this.cargaTipoReporte();
+    this.cargaTipoDato();
   }
 
   cargaFechas(opcion) {
@@ -183,12 +197,6 @@ export class AppComponent {
   }
 
   chartGraph(val) {
-    /*//for getting length of object
-int length = jsonObject.length();
-
-//for getting length of array
-int length = jsonArray.length(); */
-
     var dataSerieLluvia = [],
       dataSerieTmax = [],
       dataSerieTmin = [],
@@ -196,18 +204,6 @@ int length = jsonArray.length(); */
       dataBc = [];
     var sLluvia, sTmax, sTmin, sEtp, sBc;
     for (var i = 0; i < val.length; i++) {
-      // var n = Object.keys(val[i]).length;
-      // console.log(n);
-      // for (var j = 0; j < Object.keys(val[i]).length; j++) {
-      //   //console.log(Object.keys(val[i])[j]);
-      //   //console.log("**************************************" +   Object.keys(val[i])[j]);
-      //   if (Object.values(val[i])[j] === "-99.9") {
-      //     //console.log("encontreado valor negativo " + Object.values(val[i])[j] + ' ' + Object.keys(val[i])[j]);
-      //     Object.values(val[i])[j] = "0";
-      //     console.log("encontreado valor negativo " + Object.values(val[i])[j] + ' ' + Object.keys(val[i])[j]);
-      //   }
-      // }
-
       var {
         id,
         estacion,
@@ -272,32 +268,54 @@ int length = jsonArray.length(); */
       dataEtp.push(sEtp);
       dataBc.push(sBc);
     }
-    //console.log("*************************************");
-    //console.log(dataSerie);
-    var data = [
-      {
-        name: "Lluvia",
-        series: dataSerieLluvia,
-      },
-      {
-        name: "T. Maxima",
-        series: dataSerieTmax,
-      },
-      {
-        name: "T. Minima",
-        series: dataSerieTmin,
-      },
-      {
-        name: "ETP",
-        series: dataEtp,
-      },
-      {
-        name: "BC",
-        series: dataBc,
-      },
-    ];
-    //console.log(data);
-    this.multi = data;
+    if (this.parms.datos === "Lluvia") {
+      var data = [
+        {
+          name: "Lluvia",
+          series: dataSerieLluvia,
+        },
+        /*{
+          name: "T. Maxima",
+          series: dataSerieTmax,
+        },
+        {
+          name: "T. Minima",
+          series: dataSerieTmin,
+        },
+        {
+          name: "ETP",
+          series: dataEtp,
+        },
+        {
+          name: "BC",
+          series: dataBc,
+        },*/
+      ];
+      //console.log(data);
+      this.multi = data;
+    } else if (this.parms.datos === "Temperatura") {
+      var data = [
+        {
+          name: "T. Maxima",
+          series: dataSerieTmax,
+        },
+        {
+          name: "T. Minima",
+          series: dataSerieTmin,
+        },
+      ];
+      //console.log(data);
+      this.multi = data;
+    }
+  }
+
+  getMesNombre(numMes){
+    for(var i = 0; i < this.months.length;i++){
+      if (numMes === this.months[i].id)
+        return this.months[i].mes;
+    }
+    return numMes;
+
   }
 
   chartGraphAVG(val) {
@@ -326,7 +344,7 @@ int length = jsonArray.length(); */
         name: mes + "/" + year,
         value: lluvia,
       };
-
+      //mes = this.getMesNombre(mes);
       sTmax = {
         name: mes + "/" + year,
         value: tmax,
@@ -359,34 +377,32 @@ int length = jsonArray.length(); */
       dataBc.push(sBc);
       dataTP.push(tP);
     }
-    var data = [
-      {
-        name: "Lluvia",
-        series: dataSerieLluvia,
-      },
-      {
-        name: "T. Maxima",
-        series: dataSerieTmax,
-      },
-      {
-        name: "T. Minima",
-        series: dataSerieTmin,
-      },
-      {
-        name: "ETP",
-        series: dataEtp,
-      },
-      {
-        name: "BC",
-        series: dataBc,
-      },
-      {
-        name: "T. Promedio",
-        series: dataTP,
-      },
-    ];
-    //console.log(data);
-    this.multi = data;
+    if (this.parms.datos === "Lluvia") {
+      var data = [
+        {
+          name: "Lluvia",
+          series: dataSerieLluvia,
+        },
+      ];
+
+      this.multi = data;
+    } else if (this.parms.datos === "Temperatura") {
+      var data = [
+        {
+          name: "T. Maxima",
+          series: dataSerieTmax,
+        },
+        {
+          name: "T. Minima",
+          series: dataSerieTmin,
+        },
+        {
+          name: "T. Promedio",
+          series: dataTP,
+        },
+      ];
+      this.multi = data;
+    }
   }
 
   //DUMMY FUNCTION GET
@@ -456,8 +472,8 @@ int length = jsonArray.length(); */
 
     url = stamm + "/getanios";
     this.httpGetFunctionOnInit(url, 2);
-    // url = stamm + "/getmeses";
-    // this.httpGetFunctionOnInit(url, 3);
+     url = stamm + "/getmeses";
+     this.httpGetFunctionOnInit(url, 3);
 
     loadModules([
       "esri/Map",
