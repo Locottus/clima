@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, Injectable } from "@angular/core";
 import { loadModules } from "esri-loader";
 import { HttpClient } from "@angular/common/http";
 
-// ng build --prod --deploy-url "/clima/"
+// ng build --prod --deploy-url "/clima/"    --aot --output-hashing=all
 //https://github.com/angular/angular-cli/issues/1080
 
 //https://swimlane.github.io/ngx-charts/#/ngx-charts/line-chart
