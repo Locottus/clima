@@ -69,6 +69,20 @@ export class AppComponent {
 
   title = "Clima Incyt";
 
+  localizaEstacion(){
+    //console.log("estacion seleccionada:", this.parms.estacion);
+    var estacion_seleccionada = 0;
+    for (var i = 0; i < this.stations.length; i++){
+      //console.log(this.stations[i]);
+      if (this.stations[i].estacion === this.parms.estacion){
+        estacion_seleccionada = i;
+        break;
+      }
+      
+    }
+    console.log('*******************************',estacion_seleccionada);
+
+  }
   cargaTipoReporte() {
     var select = document.getElementById("sVisualizacion");
     //console.log(this.stations);
@@ -137,12 +151,12 @@ export class AppComponent {
     }
 
     if (opcion === 2 || opcion === 4) {
-      for (var i = 0; i < this.months.length; i++) {
+      /*for (var i = 0; i < this.months.length; i++) {
         var el = document.createElement("option");
         el.textContent = this.months[i].mes;
         el.value = this.months[i].id;
         select.appendChild(el);
-      }
+      }*/
     }
   }
 
@@ -480,7 +494,9 @@ export class AppComponent {
       "esri/views/MapView",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-    ]).then(([Map, MapView, Graphic, GraphicsLayer]) => {
+      "esri/widgets/Track",
+      "esri/request"
+    ]).then(([Map, MapView, Graphic, GraphicsLayer, Track, esriRequest]) => {
       const mapProperties = {
         basemap: "topo",
       };
@@ -527,6 +543,7 @@ export class AppComponent {
       // Add graphic when GraphicsLayer is constructed
       var layer = new GraphicsLayer({
         graphics: [pointGraphic],
+        //atributos: 
       });
 
       // Add graphic to graphics collection
@@ -538,8 +555,11 @@ export class AppComponent {
 
       // Add GraphicsLayer to map
       map.add(layer);
+      
     });
   }
+
+  
 
   onSelect(data): void {
     //console.log("Item clicked", JSON.parse(JSON.stringify(data)));

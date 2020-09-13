@@ -23,6 +23,7 @@
           id="selectEstacion"
           [(ngModel)]="parms.estacion"
           class="selectpicker"
+          (change)="localizaEstacion()"
         ></select
         >&nbsp;
       </div>
