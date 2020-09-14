@@ -21,7 +21,7 @@ export class ConfigService {
 })
 export class AppComponent {
   multi = [];
-
+track;
   view: any[] = [700, 300];
 
   // options
@@ -555,7 +555,23 @@ export class AppComponent {
 
       // Add GraphicsLayer to map
       map.add(layer);
+
       
+       // Create an instance of the Track widget
+  // and add it to the view's UI
+  this.track = new Track({
+    view: this.mapView,
+  });
+
+  this.mapView.ui.add(this.track, "top-left");
+  // The sample will start tracking your location
+  // once the view becomes ready
+  this.mapView.when(function () {
+    //uncomment to start with current location on load
+    //track.start();
+  });
+
+
     });
   }
 
