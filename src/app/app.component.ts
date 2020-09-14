@@ -548,6 +548,23 @@ export class AppComponent {
         //console.log("delay stopped@@@@@@@");
       }, 3000);
 
+
+      this.mapView.on(["click"], function (evt) {
+
+        console.log('map is being clicked');
+        //this.mapView.hitTest(evt).then(getGraphics);
+    
+        /*function getGraphics(response) {
+    
+          if (response.results.length) {
+    
+              reporteCubo1();
+    
+          }
+        }*/
+      });
+
+
       // Create an instance of the Track widget
       // and add it to the view's UI
       this.track = new Track({
