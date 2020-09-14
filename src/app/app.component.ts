@@ -21,7 +21,7 @@ export class ConfigService {
 })
 export class AppComponent {
   multi = [];
-track;
+  track;
   view: any[] = [700, 300];
 
   // options
@@ -69,19 +69,17 @@ track;
 
   title = "Clima Incyt";
 
-  localizaEstacion(){
+  localizaEstacion() {
     //console.log("estacion seleccionada:", this.parms.estacion);
     var estacion_seleccionada = 0;
-    for (var i = 0; i < this.stations.length; i++){
+    for (var i = 0; i < this.stations.length; i++) {
       //console.log(this.stations[i]);
-      if (this.stations[i].estacion === this.parms.estacion){
+      if (this.stations[i].estacion === this.parms.estacion) {
         estacion_seleccionada = i;
         break;
       }
-      
     }
-    console.log('*******************************',estacion_seleccionada);
-
+    console.log("*******************************", estacion_seleccionada);
   }
   cargaTipoReporte() {
     var select = document.getElementById("sVisualizacion");
@@ -323,13 +321,11 @@ track;
     }
   }
 
-  getMesNombre(numMes){
-    for(var i = 0; i < this.months.length;i++){
-      if (numMes === this.months[i].id)
-        return this.months[i].mes;
+  getMesNombre(numMes) {
+    for (var i = 0; i < this.months.length; i++) {
+      if (numMes === this.months[i].id) return this.months[i].mes;
     }
     return numMes;
-
   }
 
   chartGraphAVG(val) {
@@ -486,8 +482,8 @@ track;
 
     url = stamm + "/getanios";
     this.httpGetFunctionOnInit(url, 2);
-     url = stamm + "/getmeses";
-     this.httpGetFunctionOnInit(url, 3);
+    url = stamm + "/getmeses";
+    this.httpGetFunctionOnInit(url, 3);
 
     loadModules([
       "esri/Map",
@@ -495,7 +491,7 @@ track;
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
       "esri/widgets/Track",
-      "esri/request"
+      "esri/request",
     ]).then(([Map, MapView, Graphic, GraphicsLayer, Track, esriRequest]) => {
       const mapProperties = {
         basemap: "topo",
@@ -514,68 +510,59 @@ track;
       // create map view by default properties
       this.mapView = new MapView(mapViewProperties);
 
-      var point = {
-        type: "point",
-        longitude: -90.80657463861,
-        latitude: 14.0005930608889,
-      };
 
-      var simpleMarkerSymbol = {
-        type: "simple-marker",
-        color: [226, 119, 40], // orange
-        outline: {
-          color: [255, 255, 255], // white
-          width: 1,
-        },
-      };
+      var lPoints = [];
+      setTimeout(() => {
+        for (var i = 0; i < this.stations.length; i++) {
+          //console.log(this.stations[i]);
 
-      var pointGraphic = new Graphic({
-        geometry: point,
-        symbol: simpleMarkerSymbol,
+          var point = {
+            type: "point",
+            longitude: this.stations[i].longitud,
+            latitude: this.stations[i].latitud,
+          };
+
+          var simpleMarkerSymbol = {
+            type: "simple-marker",
+            color: [226, 119, 40], // orange
+            outline: {
+              color: [255, 255, 255], // white
+              width: 1,
+            },
+          };
+
+          var pointGraphic = new Graphic({
+            geometry: point,
+            symbol: simpleMarkerSymbol,
+          });
+
+          // Add graphic when GraphicsLayer is constructed
+          var layer = new GraphicsLayer({
+            graphics: [pointGraphic],
+            atributos: this.stations[i].estacion,
+          });
+
+          map.add(layer);
+        }
+
+        //console.log("delay stopped@@@@@@@");
+      }, 3000);
+
+      // Create an instance of the Track widget
+      // and add it to the view's UI
+      this.track = new Track({
+        view: this.mapView,
       });
 
-      var graphicA = new Graphic(); // graphic with line geometry
-      var graphicB = new Graphic(); // graphic with point geometry
-      var graphicC = new Graphic(); // graphic with polygon geometry
-      var graphicD = new Graphic();
-      var graphicE = new Graphic();
-
-      // Add graphic when GraphicsLayer is constructed
-      var layer = new GraphicsLayer({
-        graphics: [pointGraphic],
-        //atributos: 
+      this.mapView.ui.add(this.track, "top-left");
+      // The sample will start tracking your location
+      // once the view becomes ready
+      this.mapView.when(function () {
+        //uncomment to start with current location on load
+        //track.start();
       });
-
-      // Add graphic to graphics collection
-      layer.graphics.add(graphicB);
-
-      // Add graphic using add()
-      layer.add(graphicC);
-      layer.addMany([graphicD, graphicE]);
-
-      // Add GraphicsLayer to map
-      map.add(layer);
-
-      
-       // Create an instance of the Track widget
-  // and add it to the view's UI
-  this.track = new Track({
-    view: this.mapView,
-  });
-
-  this.mapView.ui.add(this.track, "top-left");
-  // The sample will start tracking your location
-  // once the view becomes ready
-  this.mapView.when(function () {
-    //uncomment to start with current location on load
-    //track.start();
-  });
-
-
     });
   }
-
-  
 
   onSelect(data): void {
     //console.log("Item clicked", JSON.parse(JSON.stringify(data)));
