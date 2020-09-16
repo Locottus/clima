@@ -65,7 +65,7 @@ export class AppComponent {
   @ViewChild("mapView", { static: true })
   private readonly mapViewElement: ElementRef;
   // main map view
-  private mapView;
+  mapView;
 
   title = "Clima Incyt";
 
@@ -492,7 +492,8 @@ export class AppComponent {
       "esri/layers/GraphicsLayer",
       "esri/widgets/Track",
       "esri/request",
-    ]).then(([Map, MapView, Graphic, GraphicsLayer, Track, esriRequest]) => {
+      "esri/views/SceneView"
+    ]).then(([Map, MapView, Graphic, GraphicsLayer, Track, esriRequest,SceneView]) => {
       const mapProperties = {
         basemap: "topo",
       };
@@ -546,24 +547,19 @@ export class AppComponent {
         }
 
         //console.log("delay stopped@@@@@@@");
-      }, 3000);
+      }, 5000);
 
 
-      this.mapView.on(["click"], function (evt) {
-
-        console.log('map is being clicked');
-        //this.mapView.hitTest(evt).then(getGraphics);
-    
-        /*function getGraphics(response) {
-    
-          if (response.results.length) {
-    
-              reporteCubo1();
-    
-          }
-        }*/
+      var scene = this.mapView;
+      scene.on("click", function(event){
+        scene.hitTest(event)
+          .then(function(response){
+             // do something with the result graphic
+             var graphic = response.results[0].graphic;
+             console.log(graphic.layer.atributos);
+             alert('estacion: ' + graphic.layer.atributos);
+          });
       });
-
 
       // Create an instance of the Track widget
       // and add it to the view's UI
