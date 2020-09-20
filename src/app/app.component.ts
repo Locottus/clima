@@ -66,20 +66,35 @@ export class AppComponent {
   private readonly mapViewElement: ElementRef;
   // main map view
   mapView;
-
+  Graphic;
+  scene;
+  
   title = "Clima Incyt";
 
   localizaEstacion() {
     //console.log("estacion seleccionada:", this.parms.estacion);
     var estacion_seleccionada = 0;
+    var long,lat;
     for (var i = 0; i < this.stations.length; i++) {
       //console.log(this.stations[i]);
       if (this.stations[i].estacion === this.parms.estacion) {
         estacion_seleccionada = i;
+        long = this.stations[i].longitud;
+        lat = this.stations[i].latitud;
         break;
       }
     }
-    console.log("*******************************", estacion_seleccionada);
+
+    //console.log("*******************************", estacion_seleccionada);
+ 
+    var point = {
+      type: "point",
+      longitude: long,
+      latitude: lat,
+    };
+
+    this.mapView.center = [long,lat];
+    this.mapView.zoom = 12;
   }
   cargaTipoReporte() {
     var select = document.getElementById("sVisualizacion");
@@ -536,6 +551,7 @@ export class AppComponent {
             geometry: point,
             symbol: simpleMarkerSymbol,
           });
+          this.Graphic = Graphic;
 
           // Add graphic when GraphicsLayer is constructed
           var layer = new GraphicsLayer({
@@ -560,7 +576,7 @@ export class AppComponent {
              alert('estacion: ' + graphic.layer.atributos);
           });
       });
-
+      this.scene = scene;
       // Create an instance of the Track widget
       // and add it to the view's UI
       this.track = new Track({
