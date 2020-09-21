@@ -68,13 +68,13 @@ export class AppComponent {
   mapView;
   Graphic;
   scene;
-  
+
   title = "Clima Incyt";
 
   localizaEstacion() {
     //console.log("estacion seleccionada:", this.parms.estacion);
     var estacion_seleccionada = 0;
-    var long,lat;
+    var long, lat;
     for (var i = 0; i < this.stations.length; i++) {
       //console.log(this.stations[i]);
       if (this.stations[i].estacion === this.parms.estacion) {
@@ -86,14 +86,14 @@ export class AppComponent {
     }
 
     //console.log("*******************************", estacion_seleccionada);
- 
+
     var point = {
       type: "point",
       longitude: long,
       latitude: lat,
     };
-
-    this.mapView.center = [long,lat];
+    //https://gis.stackexchange.com/questions/115481/how-to-set-center-of-map-in-arcgis-api-for-javascript-using-lat-long
+    this.mapView.center = [long, lat];
     this.mapView.zoom = 12;
   }
   cargaTipoReporte() {
@@ -507,90 +507,97 @@ export class AppComponent {
       "esri/layers/GraphicsLayer",
       "esri/widgets/Track",
       "esri/request",
-      "esri/views/SceneView"
-    ]).then(([Map, MapView, Graphic, GraphicsLayer, Track, esriRequest,SceneView]) => {
-      const mapProperties = {
-        basemap: "topo",
-      };
-      // create map by default properties
-      const map = new Map(mapProperties);
-      // set default map view properties
-      // container - element in html-template for locate map
-      // zoom - default zoom parameter, value from 1 to 18
-      const mapViewProperties = {
-        container: this.mapViewElement.nativeElement,
-        center: [-90.625, 15.6], //this is the center of the map
-        zoom: 8, //zoom level
-        map,
-      };
-      // create map view by default properties
-      this.mapView = new MapView(mapViewProperties);
+      "esri/views/SceneView",
+    ]).then(
+      ([
+        Map,
+        MapView,
+        Graphic,
+        GraphicsLayer,
+        Track,
+        esriRequest,
+        SceneView,
+      ]) => {
+        const mapProperties = {
+          basemap: "topo",
+        };
+        // create map by default properties
+        const map = new Map(mapProperties);
+        // set default map view properties
+        // container - element in html-template for locate map
+        // zoom - default zoom parameter, value from 1 to 18
+        const mapViewProperties = {
+          container: this.mapViewElement.nativeElement,
+          center: [-90.625, 15.6], //this is the center of the map
+          zoom: 8, //zoom level
+          map,
+        };
+        // create map view by default properties
+        this.mapView = new MapView(mapViewProperties);
 
+        var lPoints = [];
+        setTimeout(() => {
+          for (var i = 0; i < this.stations.length; i++) {
+            //console.log(this.stations[i]);
 
-      var lPoints = [];
-      setTimeout(() => {
-        for (var i = 0; i < this.stations.length; i++) {
-          //console.log(this.stations[i]);
+            var point = {
+              type: "point",
+              longitude: this.stations[i].longitud,
+              latitude: this.stations[i].latitud,
+            };
 
-          var point = {
-            type: "point",
-            longitude: this.stations[i].longitud,
-            latitude: this.stations[i].latitud,
-          };
+            var simpleMarkerSymbol = {
+              type: "simple-marker",
+              color: [226, 119, 40], // orange
+              outline: {
+                color: [255, 255, 255], // white
+                width: 1,
+              },
+            };
 
-          var simpleMarkerSymbol = {
-            type: "simple-marker",
-            color: [226, 119, 40], // orange
-            outline: {
-              color: [255, 255, 255], // white
-              width: 1,
-            },
-          };
+            var pointGraphic = new Graphic({
+              geometry: point,
+              symbol: simpleMarkerSymbol,
+            });
+            this.Graphic = Graphic;
 
-          var pointGraphic = new Graphic({
-            geometry: point,
-            symbol: simpleMarkerSymbol,
+            // Add graphic when GraphicsLayer is constructed
+            var layer = new GraphicsLayer({
+              graphics: [pointGraphic],
+              atributos: this.stations[i].estacion,
+            });
+
+            map.add(layer);
+          }
+
+          //console.log("delay stopped@@@@@@@");
+        }, 5000);
+
+        var scene = this.mapView;
+        scene.on("click", function (event) {
+          scene.hitTest(event).then(function (response) {
+            // do something with the result graphic
+            var graphic = response.results[0].graphic;
+            console.log(graphic.layer.atributos);
+            alert("estacion: " + graphic.layer.atributos);
           });
-          this.Graphic = Graphic;
+        });
+        this.scene = scene;
+        // Create an instance of the Track widget
+        // and add it to the view's UI
+        this.track = new Track({
+          view: this.mapView,
+        });
 
-          // Add graphic when GraphicsLayer is constructed
-          var layer = new GraphicsLayer({
-            graphics: [pointGraphic],
-            atributos: this.stations[i].estacion,
-          });
-
-          map.add(layer);
-        }
-
-        //console.log("delay stopped@@@@@@@");
-      }, 5000);
-
-
-      var scene = this.mapView;
-      scene.on("click", function(event){
-        scene.hitTest(event)
-          .then(function(response){
-             // do something with the result graphic
-             var graphic = response.results[0].graphic;
-             console.log(graphic.layer.atributos);
-             alert('estacion: ' + graphic.layer.atributos);
-          });
-      });
-      this.scene = scene;
-      // Create an instance of the Track widget
-      // and add it to the view's UI
-      this.track = new Track({
-        view: this.mapView,
-      });
-
-      this.mapView.ui.add(this.track, "top-left");
-      // The sample will start tracking your location
-      // once the view becomes ready
-      this.mapView.when(function () {
-        //uncomment to start with current location on load
-        //track.start();
-      });
-    });
+        this.mapView.ui.add(this.track, "top-left");
+        // The sample will start tracking your location
+        // once the view becomes ready
+        this.mapView.when(function () {
+          //uncomment to start with current location on load
+          //track.start();
+        });
+      }
+    );
   }
 
   onSelect(data): void {
