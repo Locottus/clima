@@ -53,7 +53,7 @@ export class AppComponent {
   years;
   months;
   dataStations;
-  visualizacion = ["Promedio", "Historico"];
+  visualizacion = ["Promedio", "Historico", "Proyeccion"];
   datos = ["Lluvia", "Temperatura"];
 
   parms = { estacion: "", yyyy1: "", yyyy2: "", visualizacion: "", datos: "" };
@@ -343,6 +343,11 @@ export class AppComponent {
     return numMes;
   }
 
+  chartGraphProyeccion(val){
+    console.log('proyeccion');
+    
+  }
+
   chartGraphAVG(val) {
     var dataSerieLluvia = [],
       dataSerieTmax = [],
@@ -448,7 +453,8 @@ export class AppComponent {
         //this.stations[0].estacion
 
         if (this.parms.visualizacion === "Historico") this.chartGraph(val);
-        else this.chartGraphAVG(val);
+        else if (this.parms.visualizacion === "Promedio") this.chartGraphAVG(val);
+        else  if (this.parms.visualizacion === "Proyeccion") {this.chartGraphProyeccion(val);}
       },
       (response) => {
         console.log("GET call in error", response);
