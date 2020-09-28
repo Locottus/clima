@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, Injectable } from "@angular/core";
 import { loadModules } from "esri-loader";
 import { HttpClient } from "@angular/common/http";
+import { ToastrService } from 'ngx-toastr';
 
 // ng build --prod --deploy-url "/clima/"    --aot --output-hashing=all
 //https://github.com/angular/angular-cli/issues/1080
@@ -38,11 +39,11 @@ export class AppComponent {
 
   colorScheme = {
     domain: [
-      "#7aa3e5",
       "#5AA454",
       "#E44D25",
       "#fcba03",
       "#a8385d",
+      "#7aa3e5",
       "#c242f5",
       "#5BA455",
       "#fdb113",
@@ -71,6 +72,7 @@ export class AppComponent {
 
   title = "Clima Incyt";
 
+  
   localizaEstacion() {
     //console.log("estacion seleccionada:", this.parms.estacion);
     var estacion_seleccionada = 0;
@@ -494,7 +496,7 @@ export class AppComponent {
       );
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private toastr: ToastrService) {
     //this.cargaTipoReporte();
 
     //Staadten detail Dienst addresse
@@ -505,6 +507,9 @@ export class AppComponent {
     this.httpGetFunctionOnInit(url, 2);
     url = stamm + "/getmeses";
     this.httpGetFunctionOnInit(url, 3);
+
+
+    
 
     loadModules([
       "esri/Map",
@@ -586,6 +591,8 @@ export class AppComponent {
             var graphic = response.results[0].graphic;
             console.log(graphic.layer.atributos);
             alert("estacion: " + graphic.layer.atributos);
+            //this.toastMessage("estacion: " + graphic.layer.atributos);
+            //this.toastr.success("tada","pompom");
           });
         });
         this.scene = scene;
@@ -617,4 +624,36 @@ export class AppComponent {
   onDeactivate(data): void {
     //console.log("Deactivate", JSON.parse(JSON.stringify(data)));
   }
+
+  toastMessage(header, message) {
+    //https://www.npmjs.com/package/ngx-toastr
+    this.toastr.success(header, message);
+  }
+
+  
 }
+
+
+
+
+/*
+https://www.youtube.com/watch?v=K5vTytWq2Sc
+
+create table proyeccion_porcentual(
+	id serial,
+	estacion text not null,
+	longitud numeric not null,
+	latitud numeric not null,
+	zona_vida text not null,
+	year numeric,
+	mes numeric NOT NULL,
+    dia numeric NOT NULL,
+    lluvia numeric NOT NULL,
+    tmax numeric NOT NULL,
+    tmin numeric NOT NULL,
+    etp numeric NOT NULL,
+    bc numeric NOT NULL
+    
+);
+
+*/
