@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <!--
+  ArcGIS API for JavaScript, https://js.arcgis.com
+  For more information about the request sample, read the original sample description at developers.arcgis.com.
+  https://developers.arcgis.com/javascript/latest/sample-code/request/index.html
+  -->
+<title>Request data from a remote server - 4.14</title>
+
+    <style>
+      html,
+      body,
+      #container {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      .container {
+        padding: 1em;
+      }
+
+      #btnQuery {
+        overflow: auto;
+        text-align: center;
+        cursor: pointer;
+        font-size: 1em;
+      }
+
+      input {
+        width: 75%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="main.css"
+    />
+    <script src="dojo.js"></script>
+  </head>
+
+  <body>
+    <div class="container esri-widget">
+      <div>
+        <h2>Using esri/request</h2>
+        <button id="btnQuery">Make Request</button>
+        <input
+          id="inputUrl"
+          type="text"
+          value="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"
+        />
+      </div>
+      <pre id="resultsDiv"></pre>
+    </div>
+
+    <script>
+      require(["esri/request"], function(esriRequest) {
+        var resultsDiv = document.getElementById("resultsDiv");
+        var input = document.getElementById("inputUrl");
+
+        // Define the 'options' for the request
+        var options = {
+          query: {
+            f: "json"
+          },
+          responseType: "json"
+        };
+
+        // Make the request on a button click using the
+        // value of the 'input' text
+        btnQuery.addEventListener("click", function() {
+          var url = input.value;
+          esriRequest(url, options).then(function(response) {
+            console.log("response", response);
+            var responseJSON = JSON.stringify(response, null, 2);
+            resultsDiv.innerHTML = responseJSON;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

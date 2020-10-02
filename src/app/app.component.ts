@@ -1,11 +1,12 @@
 import { Component, ElementRef, ViewChild, Injectable } from "@angular/core";
 import { loadModules } from "esri-loader";
 import { HttpClient } from "@angular/common/http";
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from "ngx-toastr";
+
 
 // ng build --prod --deploy-url "/clima/"    --aot --output-hashing=all
 //https://github.com/angular/angular-cli/issues/1080
-
+//https://swimlane.github.io/ngx-charts/#/ngx-charts/bar-vertical
 //https://swimlane.github.io/ngx-charts/#/ngx-charts/line-chart
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 //http://localhost:3004/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
@@ -72,7 +73,6 @@ export class AppComponent {
 
   title = "Clima Incyt";
 
-  
   localizaEstacion() {
     //console.log("estacion seleccionada:", this.parms.estacion);
     var estacion_seleccionada = 0;
@@ -345,9 +345,8 @@ export class AppComponent {
     return numMes;
   }
 
-  chartGraphProyeccion(val){
-    console.log('proyeccion');
-    
+  chartGraphProyeccion(val) {
+    console.log("proyeccion");
   }
 
   chartGraphAVG(val) {
@@ -455,8 +454,11 @@ export class AppComponent {
         //this.stations[0].estacion
 
         if (this.parms.visualizacion === "Historico") this.chartGraph(val);
-        else if (this.parms.visualizacion === "Promedio") this.chartGraphAVG(val);
-        else  if (this.parms.visualizacion === "Proyeccion") {this.chartGraphProyeccion(val);}
+        else if (this.parms.visualizacion === "Promedio")
+          this.chartGraphAVG(val);
+        else if (this.parms.visualizacion === "Proyeccion") {
+          this.chartGraphProyeccion(val);
+        }
       },
       (response) => {
         console.log("GET call in error", response);
@@ -467,11 +469,13 @@ export class AppComponent {
     );
   }
 
-  onDataChanged() {
-    //console.log(this.parms);
+   onDataChanged() {
+    console.log(this.parms);
     if (this.parms.visualizacion === "Historico")
       this.httpGetHistory(stamm + "/getdata");
     else this.httpGetHistory(stamm + "/getdataAVG");
+
+    //this.toastMessage("hi","jo")
   }
 
   //DUMMY FUNCTION POST
@@ -508,9 +512,6 @@ export class AppComponent {
     url = stamm + "/getmeses";
     this.httpGetFunctionOnInit(url, 3);
 
-
-    
-
     loadModules([
       "esri/Map",
       "esri/views/MapView",
@@ -546,7 +547,6 @@ export class AppComponent {
         // create map view by default properties
         this.mapView = new MapView(mapViewProperties);
 
-        var lPoints = [];
         setTimeout(() => {
           for (var i = 0; i < this.stations.length; i++) {
             //console.log(this.stations[i]);
@@ -591,8 +591,9 @@ export class AppComponent {
             var graphic = response.results[0].graphic;
             console.log(graphic.layer.atributos);
             alert("estacion: " + graphic.layer.atributos);
+
             //this.toastMessage("estacion: " + graphic.layer.atributos);
-            //this.toastr.success("tada","pompom");
+            
           });
         });
         this.scene = scene;
@@ -629,12 +630,7 @@ export class AppComponent {
     //https://www.npmjs.com/package/ngx-toastr
     this.toastr.success(header, message);
   }
-
-  
 }
-
-
-
 
 /*
 https://www.youtube.com/watch?v=K5vTytWq2Sc

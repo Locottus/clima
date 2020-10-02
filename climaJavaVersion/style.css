@@ -1,0 +1,114 @@
+html,
+body,
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#mainImage {
+  bottom: 30px;
+  left: 15px;
+  /* font-family: arial; */
+  position: absolute;
+  z-index: 1;
+  background-color: none;
+}
+
+#info {
+  top: 10px;
+  color: #444;
+  height: auto;
+  /* font-family: arial; */
+  right: 10px;
+  margin: 10px;
+  padding: 10px;
+  position: absolute;
+  width: auto;
+  z-index: 9999;
+  border: solid 2px #666;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+#infoPoint {
+  background-color: black;
+  opacity: 0.75;
+  color: orange;
+  font-size: 18pt;
+  padding: 8px;
+  visibility: hidden;
+}
+
+button {
+  display: block;
+}
+
+.i {
+  display: block;
+}
+/*FORMA DE BOTON*/
+
+/* The popup form - hidden by default */
+#infoForm {
+  display: none;
+  top: 10px;
+  color: #444;
+  height: auto;
+  right: 10px;
+  margin: 10px;
+  padding: 10px;
+  position: absolute;
+  width: auto;
+  z-index: 9999;
+  border: solid 2px #666;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+/*FORMA DE datos de punto*/
+
+/* The popup form - hidden by default */
+#infoRegion {
+  display: none;
+  top: 10px;
+  color: #444;
+  height: auto;
+  right: 10px;
+  margin: 10px;
+  padding: 10px;
+  position: absolute;
+  width: auto;
+  z-index: 9999;
+  border: solid 2px #666;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+img {
+  width: 40%;
+  height: auto;
+}
+
+.mainImage {
+  display:block;
+  text-align: center;
+}
+
+
+#theframe {
+  display: none;
+  top: 10px;
+  color: #444;
+  height: auto;
+  right: 10px;
+  margin: 10px;
+  padding: 10px;
+  position: absolute;
+  width: auto;
+  z-index: 9999;
+  border: solid 2px #666;
+  border-radius: 4px;
+  background-color: #fff;
+}
