@@ -231,14 +231,11 @@ require([
     function getGraphics(response) {
       if (response.results.length) {
         console.log("picked something");
-
-        //reporteCubo1();
         this.parms.estacion = response.results[0].graphic.atributos.estacion;
-
         console.log(response.results[0].graphic.atributos);
-        
-        
-        alert(response.results[0].graphic.atributos.estacion);
+        document.getElementById('selectEstacion').value = response.results[0].graphic.atributos.estacion;
+        this.parms.estacion =  response.results[0].graphic.atributos.estacion;
+        unhide('infoForm');
       }
     }
   });
