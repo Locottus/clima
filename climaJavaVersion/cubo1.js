@@ -67,9 +67,7 @@ function fillTable(data) {
   }
 }
 $(document).ready(function () {
-  // console.log("Pagina cargada correctamente");
   const queryString = window.location.search;
-  // console.log(queryString);
   const urlParams = new URLSearchParams(queryString);
   const id = urlParams.get("id");
   const municipio = urlParams.get("municipio");

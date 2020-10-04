@@ -84,9 +84,11 @@
             <div class="input-group-append">
               <label class="input-group-text" for="selectEstacion"
                 >Estacion Primaria</label
+                
               >
             </div>
-            <select class="custom-select" id="selectEstacion">
+            <select class="custom-select" id="selectEstacion"
+            onchange="zoom2Map()">
               <!-- <option selected>Choose...</option> -->
             </select>
           </div>
@@ -161,7 +163,7 @@
             </select>
           </div>
 
-          <i class="fas fa-3x fa-share" onclick="alert('not yet implemented')"></i>&nbsp;&nbsp;&nbsp;
+          <i class="fas fa-3x fa-share" onclick="reportes()"></i>&nbsp;&nbsp;&nbsp;
           <i class="fas fa-3x fa-window-close" onclick="hide('infoForm')"></i>
       </section>
 
