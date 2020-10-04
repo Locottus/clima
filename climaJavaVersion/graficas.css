@@ -1,3 +1,18 @@
+html,
+body,
+#viewDiv {
+  padding: 20px;
+  margin: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+h1,h2,h3{
+    align-items: center;
+    text-align: center;
+}
+
+
 canvas {
     -moz-user-select: none;
     -webkit-user-select: none;

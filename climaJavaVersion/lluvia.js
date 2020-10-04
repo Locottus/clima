@@ -1,3 +1,12 @@
+var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
+//var stamm = "http://localhost:3000/incyt/api/sosguate";
+
+var meses;
+var estacion ;
+var estacion2 ;
+var yyyy1 ;
+var yyyy2 ;
+var selectVisualizacion ;
 
 async function fetchData() {
   //MESES
@@ -6,20 +15,20 @@ async function fetchData() {
   this.meses = await res.json();
 
   //estaciones
-  res = await fetch(stamm + "/getestaciones");
-  this.estaciones = await res.json();
+  // res = await fetch(stamm + "/getestaciones");
+  // this.estaciones = await res.json();
 
   //anios
-  res = await fetch(stamm + "/getanios");
-  this.anios = await res.json();
+  // res = await fetch(stamm + "/getanios");
+  // this.anios = await res.json();
 
   //url = stamm  + "/getmunicipios";
   //url = stamm  + "/getdepartamentos";
 
   //console.log(estaciones);
   console.log(this.meses);
-  console.log(this.estaciones);
-  console.log(this.anios);
+  // console.log(this.estaciones);
+  // console.log(this.anios);
 
   
 }
@@ -70,14 +79,6 @@ function reporte(id) {
       var atributos = ({ fecha,text } = data[i]);
       var myDate;
   
-      /*if(isNaN(atributos.created_at)){
-        console.log(atributos.created_at + " is not a number ");
-        myDate = atributos.created_at;
-       }else{
-        console.log(atributos.created_at + " is a number ");
-        myDate = new Date(1000 * atributos.created_at);
-        console.log(myDate);
-       }*/
       
       console.log(atributos);
   
@@ -96,31 +97,16 @@ function reporte(id) {
   $(document).ready(function () {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const estacion = urlParams.get("selectEstacion");
-    const estacion2 = urlParams.get("selectEstacion2");
-    const yyyy1 = urlParams.get("selectYYYY1");
-    const yyyy2 = urlParams.get("selectYYYY2");
-    const selectVisualizacion = urlParams.get("selectVisualizacion");
+    this.estacion = urlParams.get("selectEstacion");
+    this.estacion2 = urlParams.get("selectEstacion2");
+    this.yyyy1 = urlParams.get("selectYYYY1");
+    this.yyyy2 = urlParams.get("selectYYYY2");
+    this.selectVisualizacion = urlParams.get("selectVisualizacion");
 
-    document.getElementById("tituloPrincipal").innerHTML = 'Estacion: ' + estacion + ' año inicial ' + yyyy1 + ' año final ' + yyyy2 + ' visualizacion ' + selectVisualizacion ;
-    //cargamos los datos detallados
-    //reporte(id);
+    document.getElementById("tituloPrincipal").innerHTML = 'Estacion: ' + this.estacion + ' año inicial ' 
+    + this.yyyy1 + ' año final ' + this.yyyy2 + ' visualizacion ' + this.selectVisualizacion ;
+
+    fetchData();
   });
 
 
-  /*    var url =
-      "lluvia.html?titulo=Historico de LLuvia" +
-      "&selectEstacion=" +
-      selectEstacion +
-      "&selecEstacion2=" +
-      selectEstacion2 +
-      "&selectYYYY1=" +
-      selectYYYY1 +
-      "&selectYYYY2=" +
-      selectYYYY2 +
-      "&selectVisualizacion=" +
-      selectVisualizacion;
-    myWindow = window.open(url, "", "scrollbars=1");
-    myWindow.focus();
-*/
-  
