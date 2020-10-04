@@ -1,11 +1,11 @@
 function reporte(id) {
     //console.log("entrando a generar reporte");
     //console.log(currentDepartment + ' ' + currentMunicipio + ' ' +currentMunicipioId);
+  //https://github.com/chartjs/Chart.js
   
-  
-    var stamm = "https://arcgis-web.url.edu.gt/incyt/api/sosguate";
+    var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
     //var stamm = "http://localhost:3000/incyt/api/sosguate";
-  
+      
     var url =
       stamm + "/getalertsdetailreport" +
       "?id=" + id;
