@@ -1,3 +1,30 @@
+
+async function fetchData() {
+  //MESES
+  var res;
+  res = await fetch(stamm + "/getmeses");
+  this.meses = await res.json();
+
+  //estaciones
+  res = await fetch(stamm + "/getestaciones");
+  this.estaciones = await res.json();
+
+  //anios
+  res = await fetch(stamm + "/getanios");
+  this.anios = await res.json();
+
+  //url = stamm  + "/getmunicipios";
+  //url = stamm  + "/getdepartamentos";
+
+  //console.log(estaciones);
+  console.log(this.meses);
+  console.log(this.estaciones);
+  console.log(this.anios);
+
+  
+}
+
+
 function reporte(id) {
     //console.log("entrando a generar reporte");
     //console.log(currentDepartment + ' ' + currentMunicipio + ' ' +currentMunicipioId);
@@ -73,8 +100,9 @@ function reporte(id) {
     const estacion2 = urlParams.get("selectEstacion2");
     const yyyy1 = urlParams.get("selectYYYY1");
     const yyyy2 = urlParams.get("selectYYYY2");
+    const selectVisualizacion = urlParams.get("selectVisualizacion");
 
-    //document.getElementById("tituloPrincipal").innerHTML =  departamento + " " + municipio;
+    document.getElementById("tituloPrincipal").innerHTML = 'Estacion: ' + estacion + ' año inicial ' + yyyy1 + ' año final ' + yyyy2 + ' visualizacion ' + selectVisualizacion ;
     //cargamos los datos detallados
     //reporte(id);
   });
