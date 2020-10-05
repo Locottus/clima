@@ -278,10 +278,16 @@ require([
       },
     };
 
+    var popupTemplate = {
+      title: "Estacion Seleccionada",
+      content: atributos.estacion
+    };
+
     var pointGraphic = new Graphic({
       geometry: point,
       atributos: atributos,
       symbol: simpleMarkerSymbol,
+      popupTemplate: popupTemplate
     });
 
     graphicsLayer.add(pointGraphic);

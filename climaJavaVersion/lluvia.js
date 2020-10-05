@@ -14,23 +14,8 @@ async function fetchData() {
   res = await fetch(stamm + "/getmeses");
   this.meses = await res.json();
 
-  //estaciones
-  // res = await fetch(stamm + "/getestaciones");
-  // this.estaciones = await res.json();
-
-  //anios
-  // res = await fetch(stamm + "/getanios");
-  // this.anios = await res.json();
-
-  //url = stamm  + "/getmunicipios";
-  //url = stamm  + "/getdepartamentos";
-
-  //console.log(estaciones);
   console.log(this.meses);
-  // console.log(this.estaciones);
-  // console.log(this.anios);
-
-  
+    
 }
 
 
@@ -110,3 +95,4 @@ function reporte(id) {
   });
 
 
+  console.log( randomScalingFactor());
