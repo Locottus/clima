@@ -26,7 +26,7 @@ var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 //var stamm = "http://localhost:3000/incyt/api/sosguate";
 
 function reportes() {
-  console.log("inicia reportes");
+  //console.log("inicia reportes");
   var selectEstacion = document.getElementById("selectEstacion").value;
   var selectEstacion2 = document.getElementById("selectEstacion2").value;
   var selectYYYY1 = document.getElementById("selectYYYY1").value;
@@ -346,7 +346,7 @@ require([
         document.getElementById("selectEstacion").value =
           response.results[0].graphic.atributos.estacion;
         this.parms.estacion = response.results[0].graphic.atributos.estacion;
-        unhide("infoForm");
+        //unhide("infoForm");  //UNHIDE THIS TO DISPLAY THE SETTINGS WHEN SELECTED A POINT
       }
     }
   });
