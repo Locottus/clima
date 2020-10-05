@@ -277,7 +277,7 @@ require([
         width: 1,
       },
     };
-
+//https://developers.arcgis.com/javascript/latest/guide/display-point-line-and-polygon-graphics/
     var popupTemplate = {
       title: "Estacion Seleccionada",
       content: atributos.estacion
