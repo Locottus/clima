@@ -10,8 +10,7 @@ var selectVisualizacion;
 var data;
 
 //graphs
-var labels;
-var datasetLluvia;
+
 var color = Chart.helpers.color;
 
 
@@ -23,6 +22,8 @@ async function fetchData(estacion,estacion2,yyyy1,yyyy2,selectVisualizacion,ctx)
   var titulo = '';
   var l =[];
   var d1 = [];
+  var d2 = [];
+  var d3 = [];
   var barChartData;
 
   //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
@@ -37,22 +38,32 @@ async function fetchData(estacion,estacion2,yyyy1,yyyy2,selectVisualizacion,ctx)
     
     for(var i = 0; i < this.data.length; i++){
         l.push(this.data[i].year + '/' + this.data[i].mes + '/' +this.data[i].dia)
-        d1.push(this.data[i].lluvia);
+        d1.push(this.data[i].tmax);
+        d2.push(this.data[i].tmin);
     }
-    this.labels = l;
-    this.datasetLluvia = d1;
-    console.log(this.labels);
-    console.log(this.datasetLluvia);
-
+    console.log('***********************************');
+    console.log(d1);
+    console.log(d2);
+    console.log('***********************************');
     barChartData = {
-      labels: labels,
-      datasets: [{
-        label: titulo,
-        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+      labels: l,
+      datasets: [
+        {
+        label: "temperatura maxima",
+        //backgroundColor: window.chartColors.red,
         borderColor: window.chartColors.red,
         borderWidth: 1,
-        data: datasetLluvia
-      }]
+        data: d1
+      },
+      {
+        label: "temperatura minima",
+        //backgroundColor: window.chartColors.blue,
+        borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: d2
+      }
+
+    ]
     };
     console.log(barChartData);
 
@@ -67,7 +78,10 @@ async function fetchData(estacion,estacion2,yyyy1,yyyy2,selectVisualizacion,ctx)
 
      for(var i = 0; i < this.data.length; i++){
       l.push(this.data[i].year + '/' + this.data[i].mes )
-      d1.push(this.data[i].lluvia);
+      d1.push(this.data[i].tmax);
+      d2.push(this.data[i].tmin);
+      d3.push(this.data[i].tPromedio);
+
   }
   this.labels = l;
   this.datasetLluvia = d1;
@@ -75,14 +89,32 @@ async function fetchData(estacion,estacion2,yyyy1,yyyy2,selectVisualizacion,ctx)
   console.log(this.datasetLluvia);
 
   barChartData = {
-    labels: labels,
-    datasets: [{
-      label: titulo,
-      backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+    labels: l,
+    datasets: [
+      {
+      label: "temperatura maxima",
+      //backgroundColor: window.chartColors.red,
       borderColor: window.chartColors.red,
       borderWidth: 1,
-      data: datasetLluvia
-    }]
+      data: d1
+    },    {
+      label: "temperatura minima",
+      //backgroundColor: window.chartColors.blue,
+      borderColor: window.chartColors.blue,
+      borderWidth: 1,
+      data: d2
+    },
+    {
+      label: "temperatura promedio",
+      //backgroundColor: window.chartColors.black,
+      borderColor: window.chartColors.green,
+      borderWidth: 1,
+      data: d3
+    }
+  
+  
+  
+  ]
   };
   console.log(barChartData);
 
