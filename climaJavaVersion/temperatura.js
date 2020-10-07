@@ -250,7 +250,6 @@ $(document).ready(function () {
     " visualizacion " +
     this.selectVisualizacion;
 
-  if (this.estacion2.length > 1)
     fetchData(
       this.estacion,
       this.estacion2,
@@ -259,13 +258,12 @@ $(document).ready(function () {
       this.selectVisualizacion,
       ctx
     );
-  else
-    fetchData2(
+    /*fetchData2(
       this.estacion,
       this.estacion2,
       this.yyyy1,
       this.yyyy2,
       this.selectVisualizacion,
       ctx
-    );
+    );*/
 });

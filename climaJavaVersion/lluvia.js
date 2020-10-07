@@ -110,7 +110,7 @@ async function fetchData(
       datasets: [
         {
           label: titulo,
-          backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+          backgroundColor: window.chartColors.red,
           borderColor: window.chartColors.red,
           borderWidth: 1,
           data: datasetLluvia,
@@ -217,7 +217,6 @@ $(document).ready(function () {
     " visualizacion " +
     this.selectVisualizacion;
 
-  if (this.estacion2.length > 1)
     fetchData(
       this.estacion,
       this.estacion2,
@@ -226,13 +225,12 @@ $(document).ready(function () {
       this.selectVisualizacion,
       ctx
     );
-  else
-    fetchData2(
+    /*fetchData2(
       this.estacion,
       this.estacion2,
       this.yyyy1,
       this.yyyy2,
       this.selectVisualizacion,
       ctx
-    );
+    );*/
 });
