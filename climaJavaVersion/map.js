@@ -42,7 +42,7 @@ function reportes() {
       "lluvia.html?titulo=Historico de LLuvia" +
       "&selectEstacion=" +
       selectEstacion +
-      "&selecEstacion2=" +
+      "&selectEstacion2=" +
       selectEstacion2 +
       "&selectYYYY1=" +
       selectYYYY1 +

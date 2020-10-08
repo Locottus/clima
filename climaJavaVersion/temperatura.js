@@ -8,21 +8,10 @@ var yyyy1;
 var yyyy2;
 var selectVisualizacion;
 var data;
-
+var data2;
 //graphs
 
 var color = Chart.helpers.color;
-
-async function fetchData2(
-  estacion,
-  estacion2,
-  yyyy1,
-  yyyy2,
-  selectVisualizacion,
-  ctx
-) {
-  console.log("viene para comparar una segunda estacion");
-}
 
 async function fetchData(
   estacion,
@@ -58,6 +47,23 @@ async function fetchData(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
+
+    try {
+      url =
+        stamm +
+        "/getdata?yyyy1=" +
+        yyyy1 +
+        "&yyyy2=" +
+        yyyy2 +
+        "&estacion=" +
+        estacion2;
+      console.log(url);
+      res = await fetch(url);
+      this.data2 = await res.json();
+      console.log("DATA2", this.data2);
+    } catch {
+      console.log("no station2 comp");
+    }
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(
@@ -104,16 +110,28 @@ async function fetchData(
     res = await fetch(url);
     this.data = await res.json();
 
+    try {
+      url =
+        stamm +
+        "/getdataAVG?yyyy1=" +
+        yyyy1 +
+        "&yyyy2=" +
+        yyyy2 +
+        "&estacion=" +
+        estacion2;
+      console.log(url);
+      res = await fetch(url);
+      this.data2 = await res.json();
+    } catch {
+      console.log("no station 2");
+    }
+
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);
       d1.push(this.data[i].tmax);
       d2.push(this.data[i].tmin);
       d3.push(this.data[i].tPromedio);
     }
-    this.labels = l;
-    this.datasetLluvia = d1;
-    // console.log(this.labels);
-    // console.log(this.datasetLluvia);
 
     barChartData = {
       labels: l,
@@ -250,20 +268,13 @@ $(document).ready(function () {
     " visualizacion " +
     this.selectVisualizacion;
 
-    fetchData(
-      this.estacion,
-      this.estacion2,
-      this.yyyy1,
-      this.yyyy2,
-      this.selectVisualizacion,
-      ctx
-    );
-    /*fetchData2(
-      this.estacion,
-      this.estacion2,
-      this.yyyy1,
-      this.yyyy2,
-      this.selectVisualizacion,
-      ctx
-    );*/
+  fetchData(
+    this.estacion,
+    this.estacion2,
+    this.yyyy1,
+    this.yyyy2,
+    this.selectVisualizacion,
+    ctx
+  );
+
 });
