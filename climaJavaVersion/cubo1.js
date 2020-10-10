@@ -2,13 +2,10 @@ function reporte(id) {
   //console.log("entrando a generar reporte");
   //console.log(currentDepartment + ' ' + currentMunicipio + ' ' +currentMunicipioId);
 
-
   var stamm = "https://arcgis-web.url.edu.gt/incyt/api/sosguate";
   //var stamm = "http://localhost:3000/incyt/api/sosguate";
 
-  var url =
-    stamm + "/getalertsdetailreport" +
-    "?id=" + id;
+  var url = stamm + "/getalertsdetailreport" + "?id=" + id;
 
   $.get(url, function (data, status) {
     //console.log("Data: " + data + "\nStatus: " + status);
@@ -21,7 +18,6 @@ function reporte(id) {
     }
   });
 }
-
 
 function fillTable(data) {
   console.log(data);
@@ -37,10 +33,10 @@ function fillTable(data) {
     "  </tr>" +
     "</thead>  ";
 
-  console.log(data)
+  console.log(data);
   for (var i = 0; i < data.length; i++) {
     //console.log(data);
-    var atributos = ({ fecha,text } = data[i]);
+    var atributos = ({ fecha, text } = data[i]);
     var myDate;
 
     /*if(isNaN(atributos.created_at)){
@@ -51,7 +47,7 @@ function fillTable(data) {
       myDate = new Date(1000 * atributos.created_at);
       console.log(myDate);
      }*/
-    
+
     console.log(atributos);
 
     // IM WEBSITE ANSEHEN

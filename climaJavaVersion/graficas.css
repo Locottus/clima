@@ -25,4 +25,11 @@ fa-eye-slash:hover,
   cursor: pointer;
 }
 
+table, th, td {
+  border: 1px solid black;
+  align-items:center;
+  text-align: center;
+}
+
+
 
