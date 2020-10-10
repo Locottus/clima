@@ -36,7 +36,7 @@ async function fetchData2(
   //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
   console.log(selectVisualizacion);
   if (selectVisualizacion === "Historico") {
-    titulo = "Historico de Lluvia comparativo " + estacion + ' ' + estacion2;
+    titulo = "Historico de Lluvia comparativo " + estacion + " " + estacion2;
     var url =
       stamm +
       "/getdata2?yyyy1=" +
@@ -75,7 +75,9 @@ async function fetchData2(
         },
         {
           label: estacion2,
-          backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+          backgroundColor: color(window.chartColors.blue)
+            .alpha(0.5)
+            .rgbString(),
           borderColor: window.chartColors.blue,
           borderWidth: 1,
           data: d2,
@@ -84,7 +86,7 @@ async function fetchData2(
     };
     console.log(barChartData);
   } else if (selectVisualizacion === "Promedio") {
-    titulo = "Promedio de Lluvia comparativo "+ estacion + ' ' + estacion2;
+    titulo = "Promedio de Lluvia comparativo " + estacion + " " + estacion2;
     var url =
       stamm +
       "/getdataAVG2?yyyy1=" +
@@ -119,7 +121,8 @@ async function fetchData2(
           borderColor: window.chartColors.red,
           borderWidth: 1,
           data: d1,
-        },{
+        },
+        {
           label: estacion2,
           backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
@@ -363,5 +366,4 @@ $(document).ready(function () {
       ctx
     );
   }
-
 });

@@ -92,10 +92,9 @@ img {
 }
 
 .mainImage {
-  display:block;
+  display: block;
   text-align: center;
 }
-
 
 #theframe {
   display: none;
@@ -111,4 +110,11 @@ img {
   border: solid 2px #666;
   border-radius: 4px;
   background-color: #fff;
+}
+
+.fa-window-close:hover,
+.fa-play-circle:hover,
+.fa-cog:hover {
+  color: red;
+  cursor: pointer;
 }
