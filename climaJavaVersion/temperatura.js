@@ -13,6 +13,194 @@ var data2;
 
 var color = Chart.helpers.color;
 
+
+async function fetchData2(
+  estacion,
+  estacion2,
+  yyyy1,
+  yyyy2,
+  selectVisualizacion,
+  ctx
+) {
+  console.log("2 stations");
+  //MESES
+  var res;
+  //res = await fetch(stamm + "/getmeses");
+  //this.meses = await res.json();
+  var titulo = "";
+  var l = [];
+  var tmax1 = [];
+  var tmin1 = [];
+  var tavg1 = [];
+  var tmax2 = [];
+  var tmin2 = [];
+  var tavg2 = [];
+
+  var barChartData;
+
+  //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
+  console.log(selectVisualizacion);
+  if (selectVisualizacion === "Historico") {
+    titulo = "Historico de Lluvia comparativo " + estacion + ' ' + estacion2;
+    var url =
+      stamm +
+      "/getdata2?yyyy1=" +
+      yyyy1 +
+      "&yyyy2=" +
+      yyyy2 +
+      "&estacion=" +
+      estacion +
+      "&estacion2=" +
+      estacion2;
+    console.log(url);
+    res = await fetch(url);
+    this.data = await res.json();
+
+    for (var i = 0; i < this.data.length; i++) {
+      l.push(
+        this.data[i].year + "/" + this.data[i].mes + "/" + this.data[i].dia
+      );
+      tmax1.push(this.data[i].tmax1);
+      tmin1.push(this.data[i].tmin1);
+      //tavg1.push(this.data[i].tPromedio1)
+      tmax2.push(this.data[i].tmax2);
+      tmin2.push(this.data[i].tmin2);
+      //tavg2.push(this.data[i].tPromedio2)
+
+    }
+    this.labels = l;
+    //this.datasetLluvia = d1;
+    //console.log(this.labels);
+    //console.log(this.datasetLluvia);
+
+    barChartData = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Temperatura Maxima ' + estacion,
+          backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.red,
+          borderWidth: 1,
+          data: tmax1,
+        },
+        {
+          label: 'Temperatura Minima ' + estacion,
+          backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.blue,
+          borderWidth: 1,
+          data: tmin1,
+        },
+       
+      ],
+    };
+    console.log(barChartData);
+  } else if (selectVisualizacion === "Promedio") {
+    titulo = "Promedio de Lluvia comparativo "+ estacion + ' ' + estacion2;
+    var url =
+      stamm +
+      "/getdataAVG2?yyyy1=" +
+      yyyy1 +
+      "&yyyy2=" +
+      yyyy2 +
+      "&estacion=" +
+      estacion +
+      "&estacion2=" +
+      estacion2;
+
+    console.log(url);
+    res = await fetch(url);
+    this.data = await res.json();
+
+    for (var i = 0; i < this.data.length; i++) {
+      l.push(this.data[i].year + "/" + this.data[i].mes);
+      tmax1.push(this.data[i].tmax1);
+      tmin1.push(this.data[i].tmin1);
+      tavg1.push(this.data[i].tPromedio1)
+      tmax2.push(this.data[i].tmax2);
+      tmin2.push(this.data[i].tmin2);
+      tavg2.push(this.data[i].tPromedio2)
+    }
+    this.labels = l;
+    //this.datasetLluvia = d1;
+    console.log(this.labels);
+    //console.log(this.datasetLluvia);
+
+    barChartData = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Temperatura Maxima ' + estacion,
+          backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.red,
+          borderWidth: 1,
+          data: tmax1,
+        },
+        {
+          label: 'Temperatura Minima ' + estacion,
+          backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.blue,
+          borderWidth: 1,
+          data: tmin1,
+        },
+        {
+          label: 'Temperatura Promedio ' + estacion,
+          backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.green,
+          borderWidth: 1,
+          data: tavg1,
+        },
+
+        {
+          label: 'Temperatura Maxima ' + estacion2,
+          backgroundColor: color(window.chartColors.yellow).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.yellow,
+          borderWidth: 1,
+          data: tmax2,
+        },
+        {
+          label: 'Temperatura Minima ' + estacion2,
+          backgroundColor: color(window.chartColors.orange).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.orange,
+          borderWidth: 1,
+          data: tmin2,
+        },
+        {
+          label: 'Temperatura Promedio ' + estacion2,
+          backgroundColor: color(window.chartColors.black).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.black,
+          borderWidth: 1,
+          data: tavg2,
+        },
+
+      ],
+    };
+    console.log(barChartData);
+  } else if (selectVisualizacion === "Proyeccion") {
+  }
+
+  //console.log(this.meses);
+  console.log(this.data);
+  //display data
+  window.myBar = new Chart(ctx, {
+    type: "bar",
+    data: barChartData,
+    options: {
+      responsive: true,
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: titulo,
+      },
+    },
+  });
+}
+
+
+
+
+
 async function fetchData(
   estacion,
   estacion2,
@@ -268,13 +456,25 @@ $(document).ready(function () {
     " visualizacion " +
     this.selectVisualizacion;
 
-  fetchData(
-    this.estacion,
-    this.estacion2,
-    this.yyyy1,
-    this.yyyy2,
-    this.selectVisualizacion,
-    ctx
-  );
+    if (this.estacion2.length > 1) {
+      //son 2 a comparar
+      fetchData2(
+        this.estacion,
+        this.estacion2,
+        this.yyyy1,
+        this.yyyy2,
+        this.selectVisualizacion,
+        ctx
+      );
+    } else {
+      fetchData(
+        this.estacion,
+        this.estacion2,
+        this.yyyy1,
+        this.yyyy2,
+        this.selectVisualizacion,
+        ctx
+      );
+    }
 
 });

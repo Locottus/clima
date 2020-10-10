@@ -1,5 +1,5 @@
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
-//var stamm = "http://localhost:3000/incyt/api/sosguate";
+//var stamm = "http://localhost:3005/incyt/api/clima";
 
 var meses;
 var estacion;
@@ -14,6 +14,143 @@ var labels;
 var datasetLluvia;
 var color = Chart.helpers.color;
 
+async function fetchData2(
+  estacion,
+  estacion2,
+  yyyy1,
+  yyyy2,
+  selectVisualizacion,
+  ctx
+) {
+  console.log("2 stations");
+  //MESES
+  var res;
+  //res = await fetch(stamm + "/getmeses");
+  //this.meses = await res.json();
+  var titulo = "";
+  var l = [];
+  var d1 = [];
+  var d2 = [];
+  var barChartData;
+
+  //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
+  console.log(selectVisualizacion);
+  if (selectVisualizacion === "Historico") {
+    titulo = "Historico de Lluvia comparativo " + estacion + ' ' + estacion2;
+    var url =
+      stamm +
+      "/getdata2?yyyy1=" +
+      yyyy1 +
+      "&yyyy2=" +
+      yyyy2 +
+      "&estacion=" +
+      estacion +
+      "&estacion2=" +
+      estacion2;
+    console.log(url);
+    res = await fetch(url);
+    this.data = await res.json();
+
+    for (var i = 0; i < this.data.length; i++) {
+      l.push(
+        this.data[i].year + "/" + this.data[i].mes + "/" + this.data[i].dia
+      );
+      d1.push(this.data[i].lluvia1);
+      d2.push(this.data[i].lluvia2);
+    }
+    this.labels = l;
+    //this.datasetLluvia = d1;
+    //console.log(this.labels);
+    //console.log(this.datasetLluvia);
+
+    barChartData = {
+      labels: labels,
+      datasets: [
+        {
+          label: estacion,
+          backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.red,
+          borderWidth: 1,
+          data: d1,
+        },
+        {
+          label: estacion2,
+          backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.blue,
+          borderWidth: 1,
+          data: d2,
+        },
+      ],
+    };
+    console.log(barChartData);
+  } else if (selectVisualizacion === "Promedio") {
+    titulo = "Promedio de Lluvia comparativo "+ estacion + ' ' + estacion2;
+    var url =
+      stamm +
+      "/getdataAVG2?yyyy1=" +
+      yyyy1 +
+      "&yyyy2=" +
+      yyyy2 +
+      "&estacion=" +
+      estacion +
+      "&estacion2=" +
+      estacion2;
+
+    console.log(url);
+    res = await fetch(url);
+    this.data = await res.json();
+
+    for (var i = 0; i < this.data.length; i++) {
+      l.push(this.data[i].year + "/" + this.data[i].mes);
+      d1.push(this.data[i].lluvia1);
+      d2.push(this.data[i].lluvia2);
+    }
+    this.labels = l;
+    //this.datasetLluvia = d1;
+    console.log(this.labels);
+    //console.log(this.datasetLluvia);
+
+    barChartData = {
+      labels: labels,
+      datasets: [
+        {
+          label: estacion,
+          backgroundColor: window.chartColors.red,
+          borderColor: window.chartColors.red,
+          borderWidth: 1,
+          data: d1,
+        },{
+          label: estacion2,
+          backgroundColor: window.chartColors.blue,
+          borderColor: window.chartColors.blue,
+          borderWidth: 1,
+          data: d2,
+        },
+      ],
+    };
+    console.log(barChartData);
+  } else if (selectVisualizacion === "Proyeccion") {
+  }
+
+  //console.log(this.meses);
+  console.log(this.data);
+  //display data
+  window.myBar = new Chart(ctx, {
+    type: "bar",
+    data: barChartData,
+    options: {
+      responsive: true,
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: titulo,
+      },
+    },
+  });
+}
+
 async function fetchData(
   estacion,
   estacion2,
@@ -24,8 +161,8 @@ async function fetchData(
 ) {
   //MESES
   var res;
-  res = await fetch(stamm + "/getmeses");
-  this.meses = await res.json();
+  //res = await fetch(stamm + "/getmeses");
+  //this.meses = await res.json();
   var titulo = "";
   var l = [];
   var d1 = [];
@@ -46,23 +183,6 @@ async function fetchData(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-
-    try {
-      url =
-        stamm +
-        "/getdata?yyyy1=" +
-        yyyy1 +
-        "&yyyy2=" +
-        yyyy2 +
-        "&estacion=" +
-        estacion2;
-      console.log(url);
-      res = await fetch(url);
-      this.data2 = await res.json();
-      console.log("DATA2", this.data2);
-    } catch {
-      console.log("no station2 comp");
-    }
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(
@@ -223,13 +343,25 @@ $(document).ready(function () {
     " visualizacion " +
     this.selectVisualizacion;
 
-  fetchData(
-    this.estacion,
-    this.estacion2,
-    this.yyyy1,
-    this.yyyy2,
-    this.selectVisualizacion,
-    ctx
-  );
+  if (this.estacion2.length > 1) {
+    //son 2 a comparar
+    fetchData2(
+      this.estacion,
+      this.estacion2,
+      this.yyyy1,
+      this.yyyy2,
+      this.selectVisualizacion,
+      ctx
+    );
+  } else {
+    fetchData(
+      this.estacion,
+      this.estacion2,
+      this.yyyy1,
+      this.yyyy2,
+      this.selectVisualizacion,
+      ctx
+    );
+  }
 
 });
