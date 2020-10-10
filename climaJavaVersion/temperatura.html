@@ -1,216 +1,65 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Temperatura Incyt</title>
 
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="favicons/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="favicons/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="favicons/favicon-16x16.png"
-    />
-    <link rel="manifest" href="favicons/site.webmanifest" />
-    <link
-      rel="mask-icon"
-      href="favicons/safari-pinned-tab.svg"
-      color="#5bbad5"
-    />
-    <link rel="shortcut icon" href="favicons/favicon.ico" />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="msapplication-config" content="favicons/browserconfig.xml" />
-    <meta name="theme-color" content="#ffffff" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Temperatura Incyt</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="fontawesome-free-5.13.0-web/css/all.css"
-    />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png" />
+  <link rel="manifest" href="favicons/site.webmanifest" />
+  <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5" />
+  <link rel="shortcut icon" href="favicons/favicon.ico" />
+  <meta name="msapplication-TileColor" content="#da532c" />
+  <meta name="msapplication-config" content="favicons/browserconfig.xml" />
+  <meta name="theme-color" content="#ffffff" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="graficas.css" />
-    <script src="jquery-3.5.0.js"></script>
-    <script src="Chart.min.js"></script>
-    <script src="utils.js"></script>
-    <script src="temperatura.js"></script>
-  </head>
-  <body>
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="fontawesome-free-5.13.0-web/css/all.css" />
+
+  <link rel="stylesheet" type="text/css" media="screen" href="graficas.css" />
+  <script src="jquery-3.5.0.js"></script>
+  <script src="Chart.min.js"></script>
+  <script src="utils.js"></script>
+  <script src="temperatura.js"></script>
+</head>
+
+<body>
+
+  <div>
+    <h1 id='tituloPrincipal'></h1>
+  </div>
+
+
+  <section>
+
+    <div style="width:100%;">
+      <canvas id="canvas"></canvas>
+    </div>
+    <br>
+    <br>
+
     <div>
-      <h1 id='tituloPrincipal'></h1>
+      <hr>
+
+      <i class="fas fa-3x fa-align-center fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+      <!-- <i class="fas fa-3x fa-eye-slash"></i>&nbsp;&nbsp; -->
+      <i class="fa fa-3x fa-align-center fa-file" aria-hidden="true"></i> &nbsp;&nbsp;
+      <i class="fas fa-3x fa-align-center fa-print" onclick='window.print()'></i>
+
     </div>
 
-    
-    <section>
-      
-      <div style="width:100%;">
-        <canvas id="canvas"></canvas>
-      </div>
-      <br>
-      <br>
-      <!-- <button id="randomizeData">Randomize Data</button>
-      <button id="addDataset">Add Dataset</button>
-      <button id="removeDataset">Remove Dataset</button>
-      <button id="addData">Add Data</button>
-      <button id="removeData">Remove Data</button> -->
 
-      <div>
-        <hr>
-        <i class="fas fa-3x fa-print" onclick='window.print()'></i>
-      </div>
-
-
-<script>
-  /*
-        var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        var config = {
-          type: 'line',
-          data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-              label: 'My First dataset',
-              backgroundColor: window.chartColors.red,
-              borderColor: window.chartColors.red,
-              data: [
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor()
-              ],
-              fill: false,
-            }, {
-              label: 'My Second dataset',
-              fill: false,
-              backgroundColor: window.chartColors.blue,
-              borderColor: window.chartColors.blue,
-              data: [
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor()
-              ],
-            }]
-          },
-          options: {
-            responsive: true,
-            title: {
-              display: true,
-              text: 'Chart.js Line Chart'
-            },
-            tooltips: {
-              mode: 'index',
-              intersect: false,
-            },
-            hover: {
-              mode: 'nearest',
-              intersect: true
-            },
-            scales: {
-              xAxes: [{
-                display: true,
-                scaleLabel: {
-                  display: true,
-                  labelString: 'Month'
-                }
-              }],
-              yAxes: [{
-                display: true,
-                scaleLabel: {
-                  display: true,
-                  labelString: 'Value'
-                }
-              }]
-            }
-          }
-        };
-    
-        window.onload = function() {
-          var ctx = document.getElementById('canvas').getContext('2d');
-          window.myLine = new Chart(ctx, config);
-        };
-    
-        document.getElementById('randomizeData').addEventListener('click', function() {
-          config.data.datasets.forEach(function(dataset) {
-            dataset.data = dataset.data.map(function() {
-              return randomScalingFactor();
-            });
-    
-          });
-    
-          window.myLine.update();
-        });
-    
-        var colorNames = Object.keys(window.chartColors);
-        document.getElementById('addDataset').addEventListener('click', function() {
-          var colorName = colorNames[config.data.datasets.length % colorNames.length];
-          var newColor = window.chartColors[colorName];
-          var newDataset = {
-            label: 'Dataset ' + config.data.datasets.length,
-            backgroundColor: newColor,
-            borderColor: newColor,
-            data: [],
-            fill: false
-          };
-    
-          for (var index = 0; index < config.data.labels.length; ++index) {
-            newDataset.data.push(randomScalingFactor());
-          }
-    
-          config.data.datasets.push(newDataset);
-          window.myLine.update();
-        });
-    
-        document.getElementById('addData').addEventListener('click', function() {
-          if (config.data.datasets.length > 0) {
-            var month = MONTHS[config.data.labels.length % MONTHS.length];
-            config.data.labels.push(month);
-    
-            config.data.datasets.forEach(function(dataset) {
-              dataset.data.push(randomScalingFactor());
-            });
-    
-            window.myLine.update();
-          }
-        });
-    
-        document.getElementById('removeDataset').addEventListener('click', function() {
-          config.data.datasets.splice(0, 1);
-          window.myLine.update();
-        });
-    
-        document.getElementById('removeData').addEventListener('click', function() {
-          config.data.labels.splice(-1, 1); // remove the label first
-    
-          config.data.datasets.forEach(function(dataset) {
-            dataset.data.pop();
-          });
-    
-          window.myLine.update();
-        });*/
-      </script>
+    <script>
+    </script>
 
 
 
 
-    </section>
-  </body>
+  </section>
+</body>
+
 </html>

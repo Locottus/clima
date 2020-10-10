@@ -16,3 +16,13 @@ canvas {
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+
+.fa-eye:hover,
+fa-eye-slash:hover,
+.fa-file:hover,
+.fa-print:hover {
+  color: red;
+  cursor: pointer;
+}
+
+

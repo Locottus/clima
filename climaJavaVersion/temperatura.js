@@ -77,16 +77,14 @@ async function fetchData2(
       datasets: [
         {
           label: "Temperatura Maxima " + estacion,
-          backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+          //backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
           borderColor: window.chartColors.red,
           borderWidth: 1,
           data: tmax1,
         },
         {
           label: "Temperatura Minima " + estacion,
-          backgroundColor: color(window.chartColors.blue)
-            .alpha(0.5)
-            .rgbString(),
+          //backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
           borderColor: window.chartColors.blue,
           borderWidth: 1,
           data: tmin1,
@@ -94,18 +92,14 @@ async function fetchData2(
 
         {
           label: "Temperatura Maxima " + estacion2,
-          backgroundColor: color(window.chartColors.green)
-            .alpha(0.5)
-            .rgbString(),
+          //backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
           borderColor: window.chartColors.green,
           borderWidth: 1,
           data: tmax2,
         },
         {
           label: "Temperatura Minima " + estacion2,
-          backgroundColor: color(window.chartColors.yellow)
-            .alpha(0.5)
-            .rgbString(),
+          //backgroundColor: color(window.chartColors.yellow).alpha(0.5).rgbString(),
           borderColor: window.chartColors.yellow,
           borderWidth: 1,
           data: tmin2,
@@ -150,25 +144,21 @@ async function fetchData2(
       datasets: [
         {
           label: "Temperatura Maxima " + estacion,
-          backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+          //backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
           borderColor: window.chartColors.red,
           borderWidth: 1,
           data: tmax1,
         },
         {
           label: "Temperatura Minima " + estacion,
-          backgroundColor: color(window.chartColors.blue)
-            .alpha(0.5)
-            .rgbString(),
+          //backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
           borderColor: window.chartColors.blue,
           borderWidth: 1,
           data: tmin1,
         },
         {
           label: "Temperatura Promedio " + estacion,
-          backgroundColor: color(window.chartColors.green)
-            .alpha(0.5)
-            .rgbString(),
+          //backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
           borderColor: window.chartColors.green,
           borderWidth: 1,
           data: tavg1,
@@ -176,27 +166,21 @@ async function fetchData2(
 
         {
           label: "Temperatura Maxima " + estacion2,
-          backgroundColor: color(window.chartColors.yellow)
-            .alpha(0.5)
-            .rgbString(),
+          //backgroundColor: color(window.chartColors.yellow).alpha(0.5).rgbString(),
           borderColor: window.chartColors.yellow,
           borderWidth: 1,
           data: tmax2,
         },
         {
           label: "Temperatura Minima " + estacion2,
-          backgroundColor: color(window.chartColors.orange)
-            .alpha(0.5)
-            .rgbString(),
+          //backgroundColor: color(window.chartColors.orange).alpha(0.5).rgbString(),
           borderColor: window.chartColors.orange,
           borderWidth: 1,
           data: tmin2,
         },
         {
           label: "Temperatura Promedio " + estacion2,
-          backgroundColor: color(window.chartColors.black)
-            .alpha(0.5)
-            .rgbString(),
+          //backgroundColor: color(window.chartColors.black).alpha(0.5).rgbString(),
           borderColor: window.chartColors.black,
           borderWidth: 1,
           data: tavg2,
@@ -211,7 +195,7 @@ async function fetchData2(
   console.log(this.data);
   //display data
   window.myBar = new Chart(ctx, {
-    type: "bar",
+    type: "line",
     data: barChartData,
     options: {
       responsive: true,
