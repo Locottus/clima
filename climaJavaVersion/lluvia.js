@@ -99,7 +99,7 @@ async function fetchData2(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-
+    console.log(data);
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);
       d1.push(this.data[i].lluvia1);

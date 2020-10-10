@@ -41,7 +41,7 @@ async function fetchData2(
   //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
   console.log(selectVisualizacion);
   if (selectVisualizacion === "Historico") {
-    titulo = "Historico de Lluvia comparativo " + estacion + ' ' + estacion2;
+    titulo = "Historico de temperatura comparativo " + estacion + ' ' + estacion2;
     var url =
       stamm +
       "/getdata2?yyyy1=" +
@@ -90,12 +90,27 @@ async function fetchData2(
           borderWidth: 1,
           data: tmin1,
         },
+
+        {
+          label: 'Temperatura Maxima ' + estacion2,
+          backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.green,
+          borderWidth: 1,
+          data: tmax2,
+        },
+        {
+          label: 'Temperatura Minima ' + estacion2,
+          backgroundColor: color(window.chartColors.yellow).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.yellow,
+          borderWidth: 1,
+          data: tmin2,
+        },
        
       ],
     };
     console.log(barChartData);
   } else if (selectVisualizacion === "Promedio") {
-    titulo = "Promedio de Lluvia comparativo "+ estacion + ' ' + estacion2;
+    titulo = "Promedio de temperatura comparativo "+ estacion + ' ' + estacion2;
     var url =
       stamm +
       "/getdataAVG2?yyyy1=" +
