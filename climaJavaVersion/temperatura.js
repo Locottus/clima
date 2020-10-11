@@ -24,7 +24,7 @@ function createTableColumns(arreglo, campos) {
   }
 
   h1 = h1 +  "\n</tr>\n";
-  console.log(h1 );
+  //console.log(h1 );
 
   var h2 = "";
   for (var i = 0; i < data.length; i++) {
@@ -35,7 +35,7 @@ function createTableColumns(arreglo, campos) {
     h2 = h2 + "</tr>\n"
   }
   
-  console.log(h2);
+  //console.log(h2);
   
 
   var tableTail = ` 
@@ -92,7 +92,7 @@ async function fetchData2(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","estacion2","year","mes","dia","tmax1","tMin1","tMax2","tMin2","zona_vida1","zona_vida2"]);
+    createTableColumns(this.data,["estacion1","estacion2","year","mes","dia","tmax1","tMin1","tMax2","tMin2","zona_vida1","zona_vida2"]);
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(
@@ -162,7 +162,7 @@ async function fetchData2(
     //console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","estacion2","year","mes","tmax1","tmin1","tPromedio1","tmax2","tmin2","tPromedio2"]);
+    createTableColumns(this.data,["estacion1","estacion2","year","mes","tmax1","tmin1","tPromedio1","tmax2","tmin2","tPromedio2"]);
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);
       tmax1.push(this.data[i].tmax1);
@@ -325,7 +325,7 @@ async function fetchData(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","year","mes","tmax","tmin","tPromedio","zona_vida"]);
+    createTableColumns(this.data,["estacion","year","mes","tmax","tmin","tPromedio"]);
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);

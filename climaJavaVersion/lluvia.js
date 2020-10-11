@@ -87,9 +87,9 @@ async function fetchData2(
     this.data = await res.json();
     console.log(Object.keys(res));
     createTableColumns(this.data, [
-      "estacion",
+      "estacion1",
       "estacion2",
-      "año",
+      "year",
       "mes",
       "dia",
       "lluvia1",
@@ -150,14 +150,14 @@ async function fetchData2(
     this.data = await res.json();
     //console.log(data);
     createTableColumns(this.data, [
-      "estacion",
+      "estacion1",
       "estacion2",
       "year",
       "mes",
       "lluvia1",
-      "zona_vida1",
+      //"zona_vida1",
       "lluvia2",
-      "zona_vida2",
+      //"zona_vida2",
     ]);
 
     for (var i = 0; i < this.data.length; i++) {
