@@ -17,22 +17,57 @@ var color = Chart.helpers.color;
 function createTableColumns(arreglo, campos) {
   console.log("creando columnas con datos de tabla***************");
   console.log(arreglo);
-
   var table = document.getElementById("tableInfo");
   var h1 = "\n<tr>\n";
   for (var i = 0; i < campos.length; i++) {
     h1 = h1 + " <th>" + campos[i] + "</th> \n";
   }
 
-  table.innerHTML = h1 + "\n</tr>\n";
-  console.log(h1 + "\n</tr>\n");
+  h1 = h1 +  "\n</tr>\n";
+  console.log(h1 );
 
   var h2 = "";
-  for (var i = 0; i < data.length; i++) {
-    h2 = h2 + " <td>" + "data[i]." + "</td>\n";
-    /*          all = all + '     <td style="background-color:#00FF00" >' + /*matrix[i][j]*/ " " +
-      "</td>\n"; //green */
+/*  for (var i = 0; i < data.length; i++) {
+    h2 = h2 + " <td>" + " x " + "</td>\n";
   }
+  
+  
+  <tr>
+     <td  >development</td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+     <td style="background-color:#00FF00" > </td>
+<tr>
+  
+  */
+
+  var tableTail = ` 
+  
+</table>
+`;
+  console.log(h2);
+  table.innerHTML = h1 + h2  + tableTail;
 
   console.log("creando columnas con datos de tabla***************");
 }
@@ -81,7 +116,7 @@ async function fetchData2(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","estacion2","año","mes","dia","tempMax1","tempMin1","tempMax2","tempMin2","zona_vida1","zona_vida2"]);
+    createTableColumns(this.data,["estacion","estacion2","year","mes","dia","tmax1","tMin1","tMax2","tMin2","zona_vida1","zona_vida2"]);
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(
@@ -151,7 +186,7 @@ async function fetchData2(
     //console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","estacion2","año","mes","tempMax1","tempMin1","tempPromedio1","tempMax2","tempMin2","tempPromedio2","zona_vida1","zona_vida2"]);
+    createTableColumns(this.data,["estacion","estacion2","year","mes","tmax1","tmin1","tPromedio1","tmax2","tmin2","tPromedio2"]);
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);
       tmax1.push(this.data[i].tmax1);
@@ -271,23 +306,7 @@ async function fetchData(
     //console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","año","mes","dia","tempMax","tempMin","zona_vida1"]);
-    // try {
-    //   url =
-    //     stamm +
-    //     "/getdata?yyyy1=" +
-    //     yyyy1 +
-    //     "&yyyy2=" +
-    //     yyyy2 +
-    //     "&estacion=" +
-    //     estacion2;
-    //   console.log(url);
-    //   res = await fetch(url);
-    //   this.data2 = await res.json();
-    //   console.log("DATA2", this.data2);
-    // } catch {
-    //   console.log("no station2 comp");
-    // }
+    createTableColumns(this.data,["estacion","year","mes","dia","tmax","tmin","zona_vida1"]);
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(
@@ -296,10 +315,7 @@ async function fetchData(
       d1.push(this.data[i].tmax);
       d2.push(this.data[i].tmin);
     }
-    // console.log('***********************************');
-    // console.log(d1);
-    // console.log(d2);
-    //console.log('***********************************');
+
     barChartData = {
       labels: l,
       datasets: [
@@ -333,22 +349,7 @@ async function fetchData(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","año","mes","tempMax","tempMin","tempPromedio","zona_vida"]);
-    // try {
-    //   url =
-    //     stamm +
-    //     "/getdataAVG?yyyy1=" +
-    //     yyyy1 +
-    //     "&yyyy2=" +
-    //     yyyy2 +
-    //     "&estacion=" +
-    //     estacion2;
-    //   console.log(url);
-    //   res = await fetch(url);
-    //   this.data2 = await res.json();
-    // } catch {
-    //   console.log("no station 2");
-    // }
+    createTableColumns(this.data,["estacion","year","mes","tmax","tmin","tPromedio","zona_vida"]);
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);
@@ -428,49 +429,6 @@ function reporte(id) {
   });
 }
 
-// function fillTable(data) {
-//   console.log(data);
-//   var table = document.getElementById("tableInfo");
-//   var tableTitle = document.getElementById("tableTitle");
-//   tableTitle.innerHTML = "Reportes Municipales de Agua";
-//   table.innerHTML = "";
-//   table.innerHTML =
-//     "<thead>" +
-//     "   <tr>" +
-//     "    <th scope='col'>Fecha</th>" +
-//     "    <th scope='col'>Alerta</th>" +
-//     "  </tr>" +
-//     "</thead>  ";
-
-//   console.log(data);
-//   for (var i = 0; i < data.length; i++) {
-//     //console.log(data);
-//     var atributos = ({ fecha, text } = data[i]);
-//     var myDate;
-
-//     /*if(isNaN(atributos.created_at)){
-//         console.log(atributos.created_at + " is not a number ");
-//         myDate = atributos.created_at;
-//        }else{
-//         console.log(atributos.created_at + " is a number ");
-//         myDate = new Date(1000 * atributos.created_at);
-//         console.log(myDate);
-//        }*/
-
-//     console.log(atributos);
-
-//     // IM WEBSITE ANSEHEN
-//     var row = table.insertRow(i + 1);
-//     var cell0 = row.insertCell(0);
-//     var cell1 = row.insertCell(1);
-//     //var cell2 = row.insertCell(2);
-//     //var cell3 = row.insertCell(3);
-//     cell0.innerHTML = atributos.fecha;
-//     cell1.innerHTML = atributos.text;
-//     //cell2.innerHTML = myDate;//atributos.created_at;
-//     //cell3.innerHTML = atributos.source;
-//   }
-// }
 
 $(document).ready(function () {
   var ctx = document.getElementById("canvas").getContext("2d");
