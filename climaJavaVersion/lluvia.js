@@ -17,25 +17,37 @@ var color = Chart.helpers.color;
 function createTableColumns(arreglo, campos) {
   console.log("creando columnas con datos de tabla***************");
   console.log(arreglo);
-
   var table = document.getElementById("tableInfo");
   var h1 = "\n<tr>\n";
   for (var i = 0; i < campos.length; i++) {
     h1 = h1 + " <th>" + campos[i] + "</th> \n";
   }
 
-  table.innerHTML = h1 + "\n</tr>\n";
-  console.log(h1 + "\n</tr>\n");
+  h1 = h1 +  "\n</tr>\n";
+  console.log(h1 );
 
   var h2 = "";
   for (var i = 0; i < data.length; i++) {
-    h2 = h2 + " <td>" + "data[i]." + "</td>\n";
-    /*          all = all + '     <td style="background-color:#00FF00" >' + /*matrix[i][j]*/ " " +
-      "</td>\n"; //green */
+    h2 = h2 +  "<tr>\n";
+    for(var j = 0; j < campos.length; j++){
+      h2 = h2 + " <td>" + data[i][campos[j]] + "</td>\n";
+    }
+    h2 = h2 + "</tr>\n"
   }
+  
+  console.log(h2);
+  
+
+  var tableTail = ` 
+  
+</table>
+`;
+  console.log(h2);
+  table.innerHTML = h1 + h2  + tableTail;
 
   console.log("creando columnas con datos de tabla***************");
 }
+
 
 async function fetchData2(
   estacion,
@@ -238,7 +250,7 @@ async function fetchData(
       "mes",
       "dia",
       "lluvia",
-      "zona_vida",
+      //"zona_vida",
     ]);
     for (var i = 0; i < this.data.length; i++) {
       l.push(
@@ -282,7 +294,7 @@ async function fetchData(
       "year",
       "mes",
       "tPromedio",
-      "zona_vida",
+      //"zona_vida",
     ]);
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);

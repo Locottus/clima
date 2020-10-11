@@ -27,40 +27,16 @@ function createTableColumns(arreglo, campos) {
   console.log(h1 );
 
   var h2 = "";
-/*  for (var i = 0; i < data.length; i++) {
-    h2 = h2 + " <td>" + " x " + "</td>\n";
+  for (var i = 0; i < data.length; i++) {
+    h2 = h2 +  "<tr>\n";
+    for(var j = 0; j < campos.length; j++){
+      h2 = h2 + " <td>" + data[i][campos[j]] + "</td>\n";
+    }
+    h2 = h2 + "</tr>\n"
   }
   
+  console.log(h2);
   
-  <tr>
-     <td  >development</td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-     <td style="background-color:#00FF00" > </td>
-<tr>
-  
-  */
 
   var tableTail = ` 
   
@@ -306,7 +282,7 @@ async function fetchData(
     //console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","year","mes","dia","tmax","tmin","zona_vida1"]);
+    createTableColumns(this.data,["estacion","year","mes","dia","tmax","tmin","zona_vida"]);
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(
