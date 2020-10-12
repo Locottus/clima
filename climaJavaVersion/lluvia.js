@@ -14,9 +14,20 @@ var labels;
 var datasetLluvia;
 var color = Chart.helpers.color;
 
+var campos;
+var arreglo;
+
+function createFile(){
+  console.log('save file');
+}
+
 function createTableColumns(arreglo, campos) {
+  this.arreglo = arreglo;
+  this.campos =campos;
   console.log("creando columnas con datos de tabla***************");
-  console.log(arreglo);
+  console.log(this.arreglo);
+  console.log(this.campos);
+
   var table = document.getElementById("tableInfo");
   var h1 = "\n<tr>\n";
   for (var i = 0; i < campos.length; i++) {
