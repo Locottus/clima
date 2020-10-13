@@ -26,30 +26,39 @@ function download_csv() {
     console.log("User cancelled the prompt.");
   } else {
     //DOWNLOADING FILE
-    archivo = archivo.replace(/ /g,'');//removing white spaces from file name
-    if (archivo.toUpperCase().indexOf(".CSV") == -1){
-      archivo = archivo + csv;
+    //archivo = archivo.replace(/ /g,'');//removing white spaces from file name
+    if (archivo.toUpperCase().indexOf(".CSV") == -1) {
+      archivo = archivo + ".csv";
     }
     console.log(archivo);
-
+    console.log(campos);
+    console.log(arreglo);
     //here i create the csv.
     var data = [
       ["Foo", "programmer"],
       ["Bar", "bus driver"],
       ["Moo", "Reindeer Hunter"],
     ];
+    var csv = "";
 
-    var csv = "Name,Title\n";
-    data.forEach(function (row) {
-      csv += row.join(",");
+    //set titles
+    for (var i = 0; i < campos.length; i++) {
+      csv += campos[i] + ",";
+    }
+    //set data
+    for (var i = 0; i < arreglo.length; i++) {
       csv += "\n";
-    });
+      for (var j = 0; j < campos.length; j++) {
+        csv += arreglo[i][campos[j]] + ",";
+      }
+    }
+    csv += "\n";
 
     console.log(csv);
     var hiddenElement = document.createElement("a");
     hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
     hiddenElement.target = "_blank";
-    hiddenElement.download = archivo;//"people.csv";
+    hiddenElement.download = archivo; //"people.csv";
     hiddenElement.click();
   }
 }
