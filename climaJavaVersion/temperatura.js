@@ -26,8 +26,8 @@ function createTableColumns(arreglo, campos) {
   this.arreglo = arreglo;
   this.campos =campos;
   console.log("creando columnas con datos de tabla***************");
-  console.log(this.arreglo);
-  console.log(this.campos);
+  // console.log(this.arreglo);
+  // console.log(this.campos);
 
   var table = document.getElementById("tableInfo");
   var h1 = "\n<tr>\n";
@@ -54,7 +54,7 @@ function createTableColumns(arreglo, campos) {
   
 </table>
 `;
-  console.log(h2);
+  //console.log(h2);
   table.innerHTML = h1 + h2  + tableTail;
 
   console.log("creando columnas con datos de tabla***************");

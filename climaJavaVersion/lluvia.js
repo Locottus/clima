@@ -17,16 +17,63 @@ var color = Chart.helpers.color;
 var campos;
 var arreglo;
 
-function createFile(){
-  console.log('save file');
+function download_csv() {
+  var archivo = prompt(
+    "Ingrese el nombre del archivo a salvar:",
+    "archivo_datos.csv"
+  );
+  if (archivo == null || archivo == "") {
+    console.log("User cancelled the prompt.");
+  } else {
+    //DOWNLOADING FILE
+    archivo = archivo.replace(/ /g,'');//removing white spaces from file name
+    if (archivo.toUpperCase().indexOf(".CSV") == -1){
+      archivo = archivo + csv;
+    }
+    console.log(archivo);
+
+    //here i create the csv.
+    var data = [
+      ["Foo", "programmer"],
+      ["Bar", "bus driver"],
+      ["Moo", "Reindeer Hunter"],
+    ];
+
+    var csv = "Name,Title\n";
+    data.forEach(function (row) {
+      csv += row.join(",");
+      csv += "\n";
+    });
+
+    console.log(csv);
+    var hiddenElement = document.createElement("a");
+    hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+    hiddenElement.target = "_blank";
+    hiddenElement.download = archivo;//"people.csv";
+    hiddenElement.click();
+  }
+}
+
+function createFile() {
+  console.log("save file");
+
+  var archivo = prompt(
+    "Ingrese el nombre del archivo a salvar:",
+    "archivo_datos.csv"
+  );
+  if (archivo == null || archivo == "") {
+    console.log("User cancelled the prompt.");
+  } else {
+    console.log(archivo);
+  }
 }
 
 function createTableColumns(arreglo, campos) {
   this.arreglo = arreglo;
-  this.campos =campos;
+  this.campos = campos;
   console.log("creando columnas con datos de tabla***************");
-  console.log(this.arreglo);
-  console.log(this.campos);
+  // console.log(this.arreglo);
+  // console.log(this.campos);
 
   var table = document.getElementById("tableInfo");
   var h1 = "\n<tr>\n";
@@ -34,31 +81,29 @@ function createTableColumns(arreglo, campos) {
     h1 = h1 + " <th>" + campos[i] + "</th> \n";
   }
 
-  h1 = h1 +  "\n</tr>\n";
-  console.log(h1 );
+  h1 = h1 + "\n</tr>\n";
+  console.log(h1);
 
   var h2 = "";
   for (var i = 0; i < data.length; i++) {
-    h2 = h2 +  "<tr>\n";
-    for(var j = 0; j < campos.length; j++){
+    h2 = h2 + "<tr>\n";
+    for (var j = 0; j < campos.length; j++) {
       h2 = h2 + " <td>" + data[i][campos[j]] + "</td>\n";
     }
-    h2 = h2 + "</tr>\n"
+    h2 = h2 + "</tr>\n";
   }
-  
-  console.log(h2);
-  
+
+  //console.log(h2);
 
   var tableTail = ` 
   
 </table>
 `;
-  console.log(h2);
-  table.innerHTML = h1 + h2  + tableTail;
+  //console.log(h2);
+  table.innerHTML = h1 + h2 + tableTail;
 
   console.log("creando columnas con datos de tabla***************");
 }
-
 
 async function fetchData2(
   estacion,
@@ -93,7 +138,7 @@ async function fetchData2(
       estacion +
       "&estacion2=" +
       estacion2;
-    console.log(url);
+    //console.log(url);
     res = await fetch(url);
     this.data = await res.json();
     console.log(Object.keys(res));
