@@ -88,12 +88,8 @@ function createTableColumns(arreglo, campos) {
     }
     h2 = h2 + "</tr>\n"
   }
-  
-  //console.log(h2);
-  
-
-  var tableTail = ` 
-  
+   var tableTail = ` 
+ 
 </table>
 `;
   //console.log(h2);
@@ -127,6 +123,19 @@ async function fetchData2(
   var tavg2 = [];
 
   var barChartData;
+
+  document.getElementById("tituloPrincipal").innerHTML =
+  " Estacion: " +
+  estacion +
+  " Estacion2: " +
+  estacion2 +
+  " año inicial " +
+  yyyy1 +
+  " año final " +
+  yyyy2 +
+  " visualizacion " +
+  selectVisualizacion;
+
 
   //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
   console.log(selectVisualizacion);
@@ -321,6 +330,16 @@ async function fetchData(
   var d3 = [];
   var barChartData;
 
+  document.getElementById("tituloPrincipal").innerHTML =
+  " Estacion: " +
+  estacion +
+  " año inicial " +
+  yyyy1 +
+  " año final " +
+  yyyy2 +
+  " visualizacion " +
+  selectVisualizacion;
+
   //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
   console.log(selectVisualizacion);
   if (selectVisualizacion === "Historico") {
@@ -471,15 +490,15 @@ $(document).ready(function () {
   this.yyyy2 = urlParams.get("selectYYYY2");
   this.selectVisualizacion = urlParams.get("selectVisualizacion");
 
-  document.getElementById("tituloPrincipal").innerHTML =
-    "Estacion: " +
-    this.estacion +
-    " año inicial " +
-    this.yyyy1 +
-    " año final " +
-    this.yyyy2 +
-    " visualizacion " +
-    this.selectVisualizacion;
+  // document.getElementById("tituloPrincipal").innerHTML =
+  //   "Estacion: " +
+  //   this.estacion +
+  //   " año inicial " +
+  //   this.yyyy1 +
+  //   " año final " +
+  //   this.yyyy2 +
+  //   " visualizacion " +
+  //   this.selectVisualizacion;
 
   if (this.estacion2.length > 1) {
     //son 2 a comparar

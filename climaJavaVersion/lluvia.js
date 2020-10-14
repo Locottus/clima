@@ -122,6 +122,20 @@ async function fetchData2(
   selectVisualizacion,
   ctx
 ) {
+
+  document.getElementById("tituloPrincipal").innerHTML =
+  " Estacion: " +
+  estacion +
+  " Estacion2: " +
+  estacion2 +
+  " año inicial " +
+  yyyy1 +
+  " año final " +
+  yyyy2 +
+  " visualizacion " +
+  selectVisualizacion;
+
+
   console.log("2 stations");
   //MESES
   var res;
@@ -285,6 +299,17 @@ async function fetchData(
   selectVisualizacion,
   ctx
 ) {
+
+  document.getElementById("tituloPrincipal").innerHTML =
+  " Estacion: " +
+  estacion +
+  " año inicial " +
+  yyyy1 +
+  " año final " +
+  yyyy2 +
+  " visualizacion " +
+  selectVisualizacion;
+
   //MESES
   var res;
   //res = await fetch(stamm + "/getmeses");
@@ -438,15 +463,15 @@ $(document).ready(function () {
   this.yyyy2 = urlParams.get("selectYYYY2");
   this.selectVisualizacion = urlParams.get("selectVisualizacion");
 
-  document.getElementById("tituloPrincipal").innerHTML =
-    "Estacion: " +
-    this.estacion +
-    " año inicial " +
-    this.yyyy1 +
-    " año final " +
-    this.yyyy2 +
-    " visualizacion " +
-    this.selectVisualizacion;
+  // document.getElementById("tituloPrincipal").innerHTML =
+  //   "Estacion: " +
+  //   this.estacion +
+  //   " año inicial " +
+  //   this.yyyy1 +
+  //   " año final " +
+  //   this.yyyy2 +
+  //   " visualizacion " +
+  //   this.selectVisualizacion;
 
   if (this.estacion2.length > 1) {
     //son 2 a comparar
