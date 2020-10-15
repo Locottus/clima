@@ -32,4 +32,11 @@ table, th, td {
 }
 
 
+.center {
+  align-items:center;
+  text-align: center;
+  margin: auto;
+  width: auto;
+  padding: 30px;
+}
 
