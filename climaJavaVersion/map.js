@@ -36,8 +36,27 @@ function reportes() {
   var selectDatos = document.getElementById("selectDatos").value;
 
   if (selectDatos === datos[0]) {
-    //var strValue = document.getElementById('txtboxId').value;
-    //var url = "cubo1.html?id=" + currentMunicipioId + '&municipio=' + currentMunicipio + '&departamento=' + currentDepartment ;
+    //var visualizacion = ["Promedio", "Historico", "Proyeccion"];
+    if (selectVisualizacion ==visualizacion[2]){
+
+      var url =
+      "proyeccionLluvia.html?titulo=Proyecciones" +
+      "&selectEstacion=" +
+      selectEstacion +
+      "&selectEstacion2=" +
+      selectEstacion2 +
+      "&selectYYYY1=" +
+      selectYYYY1 +
+      "&selectYYYY2=" +
+      selectYYYY2 +
+      "&selectVisualizacion=" +
+      selectVisualizacion;
+
+    myWindow = window.open(url, "", "scrollbars=1");
+    myWindow.focus();
+
+
+    }else{
     var url =
       "lluvia.html?titulo=Historico de LLuvia" +
       "&selectEstacion=" +
@@ -52,7 +71,27 @@ function reportes() {
       selectVisualizacion;
     myWindow = window.open(url, "", "scrollbars=1");
     myWindow.focus();
+  }
   } else if (selectDatos === datos[1]) {
+    if (selectVisualizacion ==visualizacion[2]){
+      var url =
+      "proyeccionTemperatura.html?titulo=Proyecciones" +
+      "&selectEstacion=" +
+      selectEstacion +
+      "&selectEstacion2=" +
+      selectEstacion2 +
+      "&selectYYYY1=" +
+      selectYYYY1 +
+      "&selectYYYY2=" +
+      selectYYYY2 +
+      "&selectVisualizacion=" +
+      selectVisualizacion;
+
+    myWindow = window.open(url, "", "scrollbars=1");
+    myWindow.focus();
+
+    }else{
+
     var url =
       "temperatura.html?titulo=Historico de LLuvia" +
       "&selectEstacion=" +
@@ -68,6 +107,7 @@ function reportes() {
 
     myWindow = window.open(url, "", "scrollbars=1");
     myWindow.focus();
+    }
   }
 }
 
@@ -279,8 +319,9 @@ require([
     };
 //https://developers.arcgis.com/javascript/latest/guide/display-point-line-and-polygon-graphics/
     var popupTemplate = {
-      title: "Estacion Seleccionada",
-      content: atributos.estacion
+      title: "Estacion Metereologica",
+      content: atributos.estacion,
+      image: "./estacion.JPG"
     };
 
     var pointGraphic = new Graphic({
