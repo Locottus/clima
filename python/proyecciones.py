@@ -209,50 +209,39 @@ def ejecutaComandoPsql(query):
     
 if __name__ == "__main__":
   print('inicia proceso de proyecciones')
-  #cargaLLuviaPorDia()
   estaciones = cargaEstaciones()
-
-  #ultimoAnio = cargaUltimoAnio('INSIVUMEH')
-  #lista = getAVGLluvia('INSIVUMEH',12)
-  #proyeccionAbsoluta(lista,ultimoAnio)
-  
 
   for e in estaciones:
     print(e)
     for x in range(1, 12):
       lista = getAVGLluvia(e,x)
       ultimoAnio = cargaUltimoAnio(e)
+
+
       futuroAbsoluto = proyeccionAbsoluta(lista,ultimoAnio)
       for f in futuroAbsoluto:
-          q = 'insert into proyeccion_absoluta (estacion,anio,mes,proyeccion) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) + ' )'
+          q = 'insert into proyeccion_absoluta_lluvia (estacion,anio,mes,proyeccion) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) + ' )'
           ejecutaComandoPsql(q)
 
       futuroPorcentual = proyeccionPorcentual(lista,ultimoAnio)
       for f in futuroPorcentual:
-          q = 'insert into proyeccion_porcentual (estacion,anio,mes,proyeccion) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) + ' )'
+          q = 'insert into proyeccion_porcentual_lluvia (estacion,anio,mes,proyeccion) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) + ' )'
           ejecutaComandoPsql(q)
     
-    #calculaProyeccionAbsoluto(ultimoAnio,datosLluvia,e)
+    
 
 '''
-select estacion,mes,dia,round(avg(lluvia),1) as "avgLluvia" ,count(*)
+
+select estacion,year,mes,round(avg(lluvia),5) as "avgLluvia"
 from historico_estaciones
 where lluvia >=-10
-and lluvia <> 0
-and estacion = 'INSIVUMEH'
-group by estacion,mes,dia
-order by mes,dia
-
-select estacion,year,mes,round(avg(lluvia),5) as "avgLluvia" 
-from historico_estaciones
-where lluvia >=-10
-and mes = 1
-and estacion = 'INSIVUMEH'
-group by estacion,year,mes
-order by mes,year
+and mes = " + str(mes) + "
+and estacion = '" + estacion + "'
+group by estacion,year,mes order by mes,year 
 
 
-create table proyeccion_absoluta(
+
+create table proyeccion_absoluta_lluvia(
 	 id SERIAL,
 	estacion text not null,
 	anio numeric not null,
@@ -262,13 +251,38 @@ create table proyeccion_absoluta(
 )
 
 
-create table proyeccion_porcentual(
+create table proyeccion_porcentual_lluvia(
 	 id SERIAL,
 	estacion text not null,
 	anio numeric not null,
 	mes numeric not null,
 	proyeccion numeric not null,
 	unique (estacion,anio,mes, proyeccion)
+)
+
+
+
+
+create table proyeccion_absoluta_temperatura(
+	 id SERIAL,
+	estacion text not null,
+	anio numeric not null,
+	mes numeric not null,
+	proyeccion_min numeric not null,
+	proyeccion_max numeric not null,
+	proyeccion_avg numeric not null,
+	unique (estacion,anio,mes, proyeccion_min,proyeccion_max,proyeccion_avg)
+)
+
+create table proyeccion_porcentual_temperatura(
+	 id SERIAL,
+	estacion text not null,
+	anio numeric not null,
+	mes numeric not null,
+	proyeccion_min numeric not null,
+	proyeccion_max numeric not null,
+	proyeccion_avg numeric not null,
+	unique (estacion,anio,mes, proyeccion_min,proyeccion_max,proyeccion_avg)
 )
 
 
