@@ -143,7 +143,7 @@ def proyeccionAbsoluta(lista,ultimoAnio):
         #print(lista[i]);
         i+=1
     promedio = promedio / len(lista)
-    print(promedio)
+    #print(promedio)
     estacion = lista[i][0]
     mes = lista[i][2]
     ultimoValor = lista[i][3]
@@ -161,6 +161,39 @@ def proyeccionAbsoluta(lista,ultimoAnio):
         i += 1
     #print(futuro)
     return futuro
+
+
+
+def proyeccionPorcentual(lista,ultimoAnio):
+    #print('proyectando')
+    i = 1
+    promedio = 0
+    while (i < len(lista)-1):
+        if (lista[i][3] != 0):
+            lista[i][4] = (lista[i][3] - lista[i - 1][3]) / lista[i][3] 
+            promedio += lista[i][4]
+        #print(lista[i]);
+        i+=1
+    promedio = promedio / len(lista)
+    #print(promedio)
+    estacion = lista[i][0]
+    mes = lista[i][2]
+    ultimoValor = lista[i][3]
+    i = 1
+    futuro = []
+    
+    while ( i <= prediccion):
+        #y = (ultimoAnio) + 100
+        #print(estacion)
+        #print(y)
+        #print(mes)
+        #print(ultimoValor + promedio)
+        futuro.append([estacion ,ultimoAnio + i, mes, ultimoValor + promedio])
+        ultimoValor = ultimoValor + promedio
+        i += 1
+    #print(futuro)
+    return futuro
+
         
 def ejecutaComandoPsql(query):
     try:
@@ -189,13 +222,14 @@ if __name__ == "__main__":
     for x in range(1, 12):
       lista = getAVGLluvia(e,x)
       ultimoAnio = cargaUltimoAnio(e)
-      futuro = proyeccionAbsoluta(lista,ultimoAnio)
-#      print('***********************')
-#      print(futuro)
-      for f in futuro:
-          #print('******************************')
-          #print(f)
+      futuroAbsoluto = proyeccionAbsoluta(lista,ultimoAnio)
+      for f in futuroAbsoluto:
           q = 'insert into proyeccion_absoluta (estacion,anio,mes,proyeccion) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) + ' )'
+          ejecutaComandoPsql(q)
+
+      futuroPorcentual = proyeccionPorcentual(lista,ultimoAnio)
+      for f in futuroPorcentual:
+          q = 'insert into proyeccion_porcentual (estacion,anio,mes,proyeccion) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) + ' )'
           ejecutaComandoPsql(q)
     
     #calculaProyeccionAbsoluto(ultimoAnio,datosLluvia,e)
@@ -223,6 +257,19 @@ create table proyeccion_absoluta(
 	estacion text not null,
 	anio numeric not null,
 	mes numeric not null,
-	proyeccion numeric not null
+	proyeccion numeric not null,
+	unique (estacion,anio,mes, proyeccion)
 )
+
+
+create table proyeccion_porcentual(
+	 id SERIAL,
+	estacion text not null,
+	anio numeric not null,
+	mes numeric not null,
+	proyeccion numeric not null,
+	unique (estacion,anio,mes, proyeccion)
+)
+
+
 '''
