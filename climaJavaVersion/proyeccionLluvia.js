@@ -1,6 +1,8 @@
 console.log('TODO P(X) LLUVIA');
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 
+var ctxAbsoluta
+var ctxPorcentual
 var meses;
 var estacion;
 var estacion2;
@@ -90,8 +92,9 @@ function download_csv() {
 
 
 $(document).ready(function () {
-    var ctx = document.getElementById("canvas").getContext("2d");
-  
+     this.ctxAbsoluta = document.getElementById("canvasAbsoluta").getContext("2d");
+     this.ctxPorcentual = document.getElementById("canvasPorcentual").getContext("2d");
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     this.estacion = urlParams.get("selectEstacion");
