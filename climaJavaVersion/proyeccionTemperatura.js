@@ -31,19 +31,88 @@ async function loadData(estacion){
 
     var lAbsoluta = [];
     var lPorcentual = [];
+
+    var minAbsoluta = [];
+    var maxAbsoluta = [];
+    var avgAbsoluta = [];
+
+    var minPorcentual = [];
+    var maxPorcentual = [];
+    var avgPorcentual = [];
     
     for (var i = 0; i < this.dataAbsoluto.length; i++) {
       lAbsoluta.push( this.dataAbsoluto[i].anio + "/" + this.dataAbsoluto[i].mes );
+      minAbsoluta.push(this.dataAbsoluto[i].proyeccion_min);
+      maxAbsoluta.push(this.dataAbsoluto[i].proyeccion_max);
+      avgAbsoluta.push(this.dataAbsoluto[i].proyeccion_avg);
     }
 
     for (var i = 0; i < this.dataPorcentual.length; i++) {
       lPorcentual.push( this.dataPorcentual[i].anio + "/" + this.dataPorcentual[i].mes );
+      minPorcentual.push(this.dataPorcentual[i].proyeccion_min);
+      maxPorcentual.push(this.dataPorcentual[i].proyeccion_max);
+      avgPorcentual.push(this.dataPorcentual[i].proyeccion_avg);
+
     }
 
 
+    dataAbsoluta = [minAbsoluta,maxAbsoluta,avgAbsoluta];
+    dataPorcentual = [minPorcentual,maxPorcentual,avgPorcentual];
 
+    displayGraphics('Proyeccion de Datos Absolutos',lAbsoluta,dataAbsoluta,document.getElementById("canvasAbsoluta").getContext("2d"));
+    displayGraphics('Proyeccion de Datos Porcentuales',lPorcentual,dataPorcentual,document.getElementById("canvasPorcentual").getContext("2d"));
+  
     
   }
+
+
+
+  function displayGraphics(titulo, labels,data,ctx){
+  
+    barChartData = {
+      labels: labels,
+      datasets: [
+        {
+          label: "temperatura maxima",
+          //backgroundColor: window.chartColors.red,
+          borderColor: window.chartColors.red,
+          borderWidth: 1,
+          data: data[1],
+        },
+        {
+          label: "temperatura minima",
+          //backgroundColor: window.chartColors.blue,
+          borderColor: window.chartColors.blue,
+          borderWidth: 1,
+          data: data[0],
+        },
+        {
+          label: "temperatura promedio",
+          //backgroundColor: window.chartColors.black,
+          borderColor: window.chartColors.green,
+          borderWidth: 1,
+          data: data[2],
+        },
+      ],
+    };
+  
+    window.myBar = new Chart(ctx, {
+      type: "line",
+      data: barChartData,
+      options: {
+        responsive: true,
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: titulo,
+        },
+      },
+    });
+  
+  }
+  
 
 function download_csv() {
   var archivo = prompt(

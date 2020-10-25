@@ -343,15 +343,13 @@ async function fetchData(
       //"zona_vida",
     ]);
     for (var i = 0; i < this.data.length; i++) {
-      l.push(
-        this.data[i].year + "/" + this.data[i].mes + "/" + this.data[i].dia
-      );
+      l.push( this.data[i].year + "/" + this.data[i].mes + "/" + this.data[i].dia );
       d1.push(this.data[i].lluvia);
     }
     this.labels = l;
     this.datasetLluvia = d1;
-    console.log(this.labels);
-    console.log(this.datasetLluvia);
+    // console.log(this.labels);
+    // console.log(this.datasetLluvia);
 
     barChartData = {
       labels: labels,

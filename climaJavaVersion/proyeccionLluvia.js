@@ -1,8 +1,8 @@
 console.log('TODO P(X) LLUVIA');
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 
-var ctxAbsoluta
-var ctxPorcentual
+// var ctxAbsoluta
+// var ctxPorcentual
 var meses;
 var estacion;
 var estacion2;
@@ -31,17 +31,60 @@ async function loadData(estacion){
 
   var lAbsoluta = [];
   var lPorcentual = [];
+
+  var dataAbsoluta = [];
+  var dataPorcentual = [];
   
   for (var i = 0; i < this.dataAbsoluto.length; i++) {
     lAbsoluta.push( this.dataAbsoluto[i].anio + "/" + this.dataAbsoluto[i].mes );
+    dataAbsoluta.push(this.dataAbsoluto[i].proyeccion);
   }
 
   for (var i = 0; i < this.dataPorcentual.length; i++) {
     lPorcentual.push( this.dataPorcentual[i].anio + "/" + this.dataPorcentual[i].mes );
+    dataPorcentual.push(this.dataPorcentual[i].proyeccion);
   }
 
+  displayGraphics('Proyeccion de Datos Absolutos',lAbsoluta,dataAbsoluta,document.getElementById("canvasAbsoluta").getContext("2d"));
+  displayGraphics('Proyeccion de Datos Porcentuales',lPorcentual,dataPorcentual,document.getElementById("canvasPorcentual").getContext("2d"));
 }
 
+function displayGraphics(titulo, labels,data,ctx){
+  console.log(titulo);
+  console.log(labels);
+  console.log(data);
+  console.log(ctx);
+
+  barChartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: titulo,
+        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+        borderColor: window.chartColors.red,
+        borderWidth: 1,
+        data: data,
+      },
+    ],
+  };
+
+
+  window.myBar = new Chart(ctx, {
+    type: "bar",
+    data: barChartData,
+    options: {
+      responsive: true,
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: titulo,
+      },
+    },
+  });
+
+}
 
 
 function download_csv() {
@@ -92,8 +135,8 @@ function download_csv() {
 
 
 $(document).ready(function () {
-     this.ctxAbsoluta = document.getElementById("canvasAbsoluta").getContext("2d");
-     this.ctxPorcentual = document.getElementById("canvasPorcentual").getContext("2d");
+     //this.ctxAbsoluta = document.getElementById("canvasAbsoluta").getContext("2d");
+     //this.ctxPorcentual = document.getElementById("canvasPorcentual").getContext("2d");
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);

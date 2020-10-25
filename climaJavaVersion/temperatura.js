@@ -433,12 +433,12 @@ async function fetchData(
         },
       ],
     };
-    console.log(barChartData);
+    //console.log(barChartData);
   } else if (selectVisualizacion === "Proyeccion") {
   }
 
   //console.log(this.meses);
-  console.log(this.data);
+  //console.log(this.data);
   //display data
   window.myBar = new Chart(ctx, {
     type: "line",
