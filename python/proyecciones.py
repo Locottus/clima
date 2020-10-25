@@ -2,10 +2,10 @@ import  psycopg2,  json, datetime, sys, requests, time
 
 #connstr para bd
 #dev str
-conn_string = "host='localhost' dbname='clima' user='postgres' password='Guatemala1'"
+#conn_string = "host='localhost' dbname='clima' user='postgres' password='Guatemala1'"
 
 #produccion str
-#conn_string = "host='localhost' dbname='clima' user='postgres' password='postgres2020!Incyt'"
+conn_string = "host='172.17.250.12' dbname='clima' user='postgres' password='postgres2020!Incyt'"
 prediccion = 5 #esto es el num. de anios a proyectar a futuro
 
 def getProcessDate():
@@ -15,7 +15,7 @@ def getProcessDate():
         yesterday = today - datetime.timedelta(days=1)
         return yesterday
     except:
-        write("error en getProcessDate")
+        print("error en getProcessDate")
         
 def convUTF8(cadena):
     try:
@@ -34,7 +34,7 @@ def getLocation():
         conn.close()
         return l
     except:
-        write("error en getLocation")
+        print("error en getLocation")
 
 def ejecutaComandoPsql(query):
     try:
@@ -45,7 +45,7 @@ def ejecutaComandoPsql(query):
         conn.commit()
         conn.close()
     except:
-        write("error en ejecutar comando psql")
+        print("error en ejecutar comando psql")
 
 def cargaUltimoAnio(estacion):
     m = 0
@@ -124,7 +124,7 @@ def ejecutaComandoPsql(query):
         conn.commit()
         conn.close()
     except:
-        write("error en ejecutar comando psql")
+        print("error en ejecutar comando psql")
 
 
 
@@ -220,7 +220,7 @@ def ejecutaComandoPsql(query):
         conn.commit()
         conn.close()
     except:
-        write("error en ejecutar comando psql")
+        print("error en ejecutar comando psql")
 
 
 def proyeccionAbsolutaTemperatura(lista,ultimoAnio):
@@ -274,9 +274,12 @@ def proyeccionPorcentualTemperatura(lista,ultimoAnio):
     promedioMax = 0
     promedioAvg = 0
     while (i < len(lista)-1):
-        lista[i][6] = (lista[i][3] - lista[i - 1][3])/lista[i - 1][3]
-        lista[i][7] = (lista[i][4] - lista[i - 1][4])/lista[i - 1][4]
-        lista[i][8] = (lista[i][5] - lista[i - 1][5])/lista[i - 1][5]
+        if (lista[i - 1][3] != 0):
+            lista[i][6] = (lista[i][3] - lista[i - 1][3])/lista[i - 1][3]
+        if (lista[i - 1][4] != 0):
+            lista[i][7] = (lista[i][4] - lista[i - 1][4])/lista[i - 1][4]
+        if (lista[i - 1][5] != 0):    
+            lista[i][8] = (lista[i][5] - lista[i - 1][5])/lista[i - 1][5]
         promedioMax += lista[i][6]
         promedioMin += lista[i][7]
         promedioAvg += lista[i][8]
