@@ -83,8 +83,8 @@ def getAVGLluvia(estacion,mes):
     m = []
     conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
-    #q = "select estacion,mes,dia,round(avg(lluvia),1) as \"avgLluvia\" ,count(*)  from historico_estaciones  where lluvia >=-10  and lluvia <> 0  and estacion = '" + estacion +"'  group by estacion,mes,dia order by mes,dia "
-    q = "select estacion,year,mes,round(avg(lluvia),5) as \"avgLluvia\" from historico_estaciones where lluvia >=-10 and mes = " + str(mes) + "and estacion = '" + estacion + "' group by estacion,year,mes order by mes,year "
+    
+    q = "select estacion,year,mes,round(avg(lluvia),5) as \"avgLluvia\" from historico_estaciones where lluvia > 0 and mes = " + str(mes) + "and estacion = '" + estacion + "' group by estacion,year,mes order by mes,year "
 
     cursor.execute(q)
     rows = cursor.fetchall()
@@ -312,15 +312,30 @@ def proyeccionPorcentualTemperatura(lista,ultimoAnio):
     return futuro
 
 
+
+
+def resetAll():
+    print('borrando tablas')
+    q = "delete from proyeccion_absoluta_lluvia"
+    ejecutaComandoPsql(q)
+    q = "delete from proyeccion_porcentual_lluvia"
+    ejecutaComandoPsql(q)
+    q = "delete from proyeccion_absoluta_Temperatura"
+    ejecutaComandoPsql(q)
+    q = "delete from proyeccion_porcentual_Temperatura"
+    ejecutaComandoPsql(q)
+    
     
 if __name__ == "__main__":
+  resetAll()
   print('inicia proceso de proyecciones')
   estaciones = cargaEstaciones()
 
 #temperatura
   for e in estaciones:
     print(e)
-    for x in range(1, 12):
+    for x in range(1, 13):
+      print('mes temperatura',x)
       lista = getAVGTemperatura(e,x)
       ultimoAnio = cargaUltimoAnio(e)
           
@@ -338,10 +353,12 @@ if __name__ == "__main__":
 
 
 
+
 #lluvia
   for e in estaciones:
     print(e)
-    for x in range(1, 12):
+    for x in range(1, 13):
+      print('mes lluvia',x)
       lista = getAVGLluvia(e,x)
       ultimoAnio = cargaUltimoAnio(e)
 
