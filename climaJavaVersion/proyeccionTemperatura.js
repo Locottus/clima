@@ -61,7 +61,9 @@ async function loadData(estacion){
 
     displayGraphics('Proyeccion de Datos Absolutos',lAbsoluta,dataAbsoluta,document.getElementById("canvasAbsoluta").getContext("2d"));
     displayGraphics('Proyeccion de Datos Porcentuales',lPorcentual,dataPorcentual,document.getElementById("canvasPorcentual").getContext("2d"));
-  
+    createTableColumns(this.dataAbsoluto,["id","estacion","anio","mes","proyeccion_avg", "proyeccion_max", "proyeccion_min"],"tableInfoAbsoluta");
+    createTableColumns(this.dataPorcentual,["id","estacion","anio","mes","proyeccion_avg", "proyeccion_max", "proyeccion_min"],"tableInfoPorcentual");
+
     
   }
 
@@ -113,6 +115,40 @@ async function loadData(estacion){
   
   }
   
+  function createTableColumns(arreglo, campos, tab) {
+    this.arreglo = arreglo;
+    this.campos =campos;
+    console.log("creando columnas con datos de tabla***************");
+    // console.log(this.arreglo);
+    // console.log(this.campos);
+  
+    var table = document.getElementById(tab);
+    var h1 = "\n<tr>\n";
+    for (var i = 0; i < campos.length; i++) {
+      h1 = h1 + " <th>" + campos[i] + "</th> \n";
+    }
+  
+    h1 = h1 +  "\n</tr>\n";
+    //console.log(h1 );
+  
+    var h2 = "";
+    for (var i = 0; i < arreglo.length; i++) {
+      h2 = h2 +  "<tr>\n";
+      for(var j = 0; j < campos.length; j++){
+        h2 = h2 + " <td>" + arreglo[i][campos[j]] + "</td>\n";
+      }
+      h2 = h2 + "</tr>\n"
+    }
+     var tableTail = ` 
+   
+  </table>
+  `;
+    //console.log(h2);
+    table.innerHTML = h1 + h2  + tableTail;
+  
+    console.log("creando columnas con datos de tabla***************");
+  }
+  
 
 function download_csv() {
   var archivo = prompt(
@@ -130,12 +166,7 @@ function download_csv() {
     console.log(archivo);
     console.log(campos);
     console.log(arreglo);
-    //here i create the csv.
-    var data = [
-      ["Foo", "programmer"],
-      ["Bar", "bus driver"],
-      ["Moo", "Reindeer Hunter"],
-    ];
+
     var csv = "";
 
     //set titles
