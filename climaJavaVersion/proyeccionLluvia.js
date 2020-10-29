@@ -3,6 +3,8 @@ var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 
 // var ctxAbsoluta
 // var ctxPorcentual
+var actualTab;
+
 var meses;
 var estacion;
 var estacion2;
@@ -46,7 +48,7 @@ async function loadData(estacion){
   }
 
   createTableColumns(this.dataAbsoluto,["id","estacion","anio","mes","proyeccion"],"tableInfoAbsoluta");
-  createTableColumns(this.dataPorcentual,["Id","estacion","anio","mes","proyeccion"],"tableInfoPorcentual");
+  createTableColumns(this.dataPorcentual,["id","estacion","anio","mes","proyeccion"],"tableInfoPorcentual");
 
 
   displayGraphics('Proyeccion de Datos Absolutos',lAbsoluta,dataAbsoluta,document.getElementById("canvasAbsoluta").getContext("2d"));
@@ -140,6 +142,16 @@ function download_csv() {
       archivo = archivo + ".csv";
     }
     console.log(archivo);
+    //var campos;
+    var arreglo;
+
+    if (this.actualTab === 'Absoluta'){
+      arreglo = this.dataAbsoluto;
+    }
+    if (this.actualTab === 'Porcentual'){
+      arreglo = this.dataPorcentual;
+    }
+
     console.log(campos);
     console.log(arreglo);
     //here i create the csv.

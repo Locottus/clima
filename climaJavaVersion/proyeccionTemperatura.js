@@ -1,6 +1,8 @@
 console.log('TODO P(X) TEMPERATURA');
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 
+var actualTab;
+
 var ctxAbsoluta
 var ctxPorcentual
 var meses;
@@ -60,11 +62,11 @@ async function loadData(estacion){
     createTableColumns(this.dataPorcentual,["id","estacion","anio","mes","proyeccion_avg", "proyeccion_max", "proyeccion_min"],"tableInfoPorcentual");
 
 
-    dataAbsoluta = [minAbsoluta,maxAbsoluta,avgAbsoluta];
-    dataPorcentual = [minPorcentual,maxPorcentual,avgPorcentual];
+    //dataAbsoluta = [minAbsoluta,maxAbsoluta,avgAbsoluta];
+    //dataPorcentual = [minPorcentual,maxPorcentual,avgPorcentual];
 
-    displayGraphics('Proyeccion de Datos Absolutos',lAbsoluta,dataAbsoluta,document.getElementById("canvasAbsoluta").getContext("2d"));
-    displayGraphics('Proyeccion de Datos Porcentuales',lPorcentual,dataPorcentual,document.getElementById("canvasPorcentual").getContext("2d"));
+    displayGraphics('Proyeccion de Datos Absolutos',lAbsoluta,[minAbsoluta,maxAbsoluta,avgAbsoluta],document.getElementById("canvasAbsoluta").getContext("2d"));
+    displayGraphics('Proyeccion de Datos Porcentuales',lPorcentual,[minPorcentual,maxPorcentual,avgPorcentual],document.getElementById("canvasPorcentual").getContext("2d"));
     
     
     
@@ -167,6 +169,16 @@ function download_csv() {
       archivo = archivo + ".csv";
     }
     console.log(archivo);
+    //var campos;
+    var arreglo;
+
+    if (this.actualTab === 'Absoluta'){
+      arreglo = this.dataAbsoluto;
+    }
+    if (this.actualTab === 'Porcentual'){
+      arreglo = this.dataPorcentual;
+    }
+
     console.log(campos);
     console.log(arreglo);
 
