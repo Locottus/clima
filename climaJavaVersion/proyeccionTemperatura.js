@@ -23,10 +23,12 @@ var arreglo;
 async function loadData(estacion){
     var res = await fetch(stamm + "/proyeccionAbsolutaTemperatura?estacion=" + estacion);
     this.dataAbsoluto = await res.json();
+    console.log("ABSOLUTO");
     console.log(this.dataAbsoluto);
 
     res = await fetch(stamm + "/proyeccionPorcentualTemperatura?estacion=" + estacion);
     this.dataPorcentual = await res.json();
+    console.log("PORCENTUAL");
     console.log(this.dataPorcentual);
 
     var lAbsoluta = [];
@@ -54,6 +56,8 @@ async function loadData(estacion){
       avgPorcentual.push(this.dataPorcentual[i].proyeccion_avg);
 
     }
+    createTableColumns(this.dataAbsoluto,["id","estacion","anio","mes","proyeccion_avg", "proyeccion_max", "proyeccion_min"],"tableInfoAbsoluta");
+    createTableColumns(this.dataPorcentual,["id","estacion","anio","mes","proyeccion_avg", "proyeccion_max", "proyeccion_min"],"tableInfoPorcentual");
 
 
     dataAbsoluta = [minAbsoluta,maxAbsoluta,avgAbsoluta];
@@ -61,9 +65,8 @@ async function loadData(estacion){
 
     displayGraphics('Proyeccion de Datos Absolutos',lAbsoluta,dataAbsoluta,document.getElementById("canvasAbsoluta").getContext("2d"));
     displayGraphics('Proyeccion de Datos Porcentuales',lPorcentual,dataPorcentual,document.getElementById("canvasPorcentual").getContext("2d"));
-    createTableColumns(this.dataAbsoluto,["id","estacion","anio","mes","proyeccion_avg", "proyeccion_max", "proyeccion_min"],"tableInfoAbsoluta");
-    createTableColumns(this.dataPorcentual,["id","estacion","anio","mes","proyeccion_avg", "proyeccion_max", "proyeccion_min"],"tableInfoPorcentual");
-
+    
+    
     
   }
 

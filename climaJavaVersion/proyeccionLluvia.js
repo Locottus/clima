@@ -45,10 +45,13 @@ async function loadData(estacion){
     dataPorcentual.push(this.dataPorcentual[i].proyeccion);
   }
 
+  createTableColumns(this.dataAbsoluto,["id","estacion","anio","mes","proyeccion"],"tableInfoAbsoluta");
+  createTableColumns(this.dataPorcentual,["Id","estacion","anio","mes","proyeccion"],"tableInfoPorcentual");
+
+
   displayGraphics('Proyeccion de Datos Absolutos',lAbsoluta,dataAbsoluta,document.getElementById("canvasAbsoluta").getContext("2d"));
   displayGraphics('Proyeccion de Datos Porcentuales',lPorcentual,dataPorcentual,document.getElementById("canvasPorcentual").getContext("2d"));
-  createTableColumns(this.dataAbsoluto,["id","estacion","anio","mes","proyeccion"],"tableInfoAbsoluta");
-  createTableColumns(this.dataPorcentual,["Id","Estacion","year","mes","proyeccion"],"tableInfoPorcentual");
+
 }
 
 function displayGraphics(titulo, labels,data,ctx){
