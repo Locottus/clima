@@ -344,12 +344,13 @@ if __name__ == "__main__":
       for f in futuroAbsoluto:
           q = 'insert into proyeccion_absoluta_Temperatura (estacion,anio,mes,proyeccion_max,proyeccion_min,proyeccion_avg) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) +  ',' + str(f[4])+ ',' + str(f[5]) + ' )'
           ejecutaComandoPsql(q)
-    
+
+'''    
       futuroAbsoluto = proyeccionPorcentualTemperatura(lista,ultimoAnio)
       for f in futuroAbsoluto:
           q = 'insert into proyeccion_porcentual_Temperatura (estacion,anio,mes,proyeccion_max,proyeccion_min,proyeccion_avg) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) +  ',' + str(f[4])+ ',' + str(f[5]) + ' )'
           ejecutaComandoPsql(q)
-
+'''
 
 
 
@@ -368,11 +369,12 @@ if __name__ == "__main__":
           q = 'insert into proyeccion_absoluta_lluvia (estacion,anio,mes,proyeccion) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) + ' )'
           ejecutaComandoPsql(q)
 
+'''
       futuroPorcentual = proyeccionPorcentual(lista,ultimoAnio)
       for f in futuroPorcentual:
           q = 'insert into proyeccion_porcentual_lluvia (estacion,anio,mes,proyeccion) values (\'' + str(f[0]) + '\','+ str(f[1]) + ',' + str(f[2]) + ',' + str(f[3]) + ' )'
           ejecutaComandoPsql(q)
-
+'''
 
 
 print('fin de proyeccion')
