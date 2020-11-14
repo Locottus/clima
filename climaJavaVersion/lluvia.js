@@ -17,6 +17,36 @@ var color = Chart.helpers.color;
 var campos;
 var arreglo;
 
+
+//d = data, dataAvg
+function poblarFechas(d){
+  var fechas = [];
+  for(var i = 0; i < d.length; i++){
+      var s = d[i].dia + '/' + d[i].mes + '/' + d[i].year; 
+      if (fechas.indexOf( d[i].dia + '/' + d[i].mes + '/' + d[i].year) == -1)
+          fechas.push(s);
+  }
+  return fechas;
+}
+
+
+function poblarEstaciones(d,modelo){
+  var est = [];
+  for (var i = 0; i < fechas.length; i++){
+      est.push(modelo)
+  }
+
+  for(var i = 0; i < d.length; i++){
+      var indice = fechas.indexOf( d[i].dia + '/' + d[i].mes + '/' + d[i].year);
+      if (indice != -1){
+          est[indice] = d[i];
+      }   
+  }
+  console.log(est);
+  return est;
+}
+
+
 function download_csv() {
   var archivo = prompt(
     "Ingrese el nombre del archivo a salvar:",
@@ -34,11 +64,7 @@ function download_csv() {
     console.log(campos);
     console.log(arreglo);
     //here i create the csv.
-    var data = [
-      ["Foo", "programmer"],
-      ["Bar", "bus driver"],
-      ["Moo", "Reindeer Hunter"],
-    ];
+    
     var csv = "";
 
     //set titles
@@ -153,7 +179,7 @@ async function fetchData2(
     titulo = "Historico de Lluvia comparativo " + estacion + " " + estacion2;
     var url =
       stamm +
-      "/getdata2?yyyy1=" +
+      "/getdata3?yyyy1=" +
       yyyy1 +
       "&yyyy2=" +
       yyyy2 +
@@ -215,7 +241,7 @@ async function fetchData2(
     titulo = "Promedio de Lluvia comparativo " + estacion + " " + estacion2;
     var url =
       stamm +
-      "/getdataAVG2?yyyy1=" +
+      "/getdataAVG3?yyyy1=" +
       yyyy1 +
       "&yyyy2=" +
       yyyy2 +
@@ -227,7 +253,7 @@ async function fetchData2(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    //console.log(data);
+    console.log(data);
     createTableColumns(this.data, [
       "estacion1",
       "estacion2",

@@ -17,6 +17,35 @@ var campos;
 var arreglo;
 
 
+//d = data, dataAvg
+function poblarFechas(d){
+  var fechas = [];
+  for(var i = 0; i < d.length; i++){
+      var s = d[i].dia + '/' + d[i].mes + '/' + d[i].year; 
+      if (fechas.indexOf( d[i].dia + '/' + d[i].mes + '/' + d[i].year) == -1)
+          fechas.push(s);
+  }
+  return fechas;
+}
+
+
+function poblarEstaciones(d,modelo){
+  var est = [];
+  for (var i = 0; i < fechas.length; i++){
+      est.push(modelo)
+  }
+
+  for(var i = 0; i < d.length; i++){
+      var indice = fechas.indexOf( d[i].dia + '/' + d[i].mes + '/' + d[i].year);
+      if (indice != -1){
+          est[indice] = d[i];
+      }   
+  }
+  console.log(est);
+  return est;
+}
+
+
 function download_csv() {
   var archivo = prompt(
     "Ingrese el nombre del archivo a salvar:",
