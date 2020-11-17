@@ -19,33 +19,47 @@ var arreglo;
 
 
 //d = data, dataAvg
-function poblarFechas(d){
+function poblarFechas(d,tipo){
   var fechas = [];
   for(var i = 0; i < d.length; i++){
-      var s = d[i].dia + '/' + d[i].mes + '/' + d[i].year; 
-      if (fechas.indexOf( d[i].dia + '/' + d[i].mes + '/' + d[i].year) == -1)
+    var s = "";
+    if(tipo === "Historico")
+       s = d[i].dia + '/' + d[i].mes + '/' + d[i].year; 
+    else
+       s =  d[i].mes + '/' + d[i].year; 
+    
+      if (fechas.indexOf(   s  ) == -1)
           fechas.push(s);
   }
-  return fechas;
+  return fechas.sort();
 }
 
 
-function poblarEstaciones(d,modelo){
+
+m = {
+  "estacion": "",
+  "lluvia": 0,
+};
+
+
+
+function poblarEstaciones(d,modelo,estacion,fechas){
   var est = [];
+  modelo.estacion = estacion;
   for (var i = 0; i < fechas.length; i++){
       est.push(modelo)
   }
 
   for(var i = 0; i < d.length; i++){
       var indice = fechas.indexOf( d[i].dia + '/' + d[i].mes + '/' + d[i].year);
-      if (indice != -1){
-          est[indice] = d[i];
+      if ((indice != -1) && (estacion === d[i].estacion) ){
+        est[indice].lluvia = d[i].lluvia;
       }   
   }
+  console.log("---------------------------------")
   console.log(est);
   return est;
 }
-
 
 function download_csv() {
   var archivo = prompt(
@@ -192,29 +206,31 @@ async function fetchData2(
     this.data = await res.json();
     console.log(Object.keys(res));
     createTableColumns(this.data, [
-      "estacion1",
-      "estacion2",
+      "estacion",
       "year",
       "mes",
       "dia",
-      "lluvia1",
-      "zona_vida1",
-      "lluvia2",
-      "zona_vida2",
+      "lluvia",
+      "zona_vida"
+
     ]);
 
-    for (var i = 0; i < this.data.length; i++) {
+    l = poblarFechas(data,"Historico");
+    /*for (var i = 0; i < this.data.length; i++) {
       l.push(
         this.data[i].year + "/" + this.data[i].mes + "/" + this.data[i].dia
       );
       d1.push(this.data[i].lluvia1);
       d2.push(this.data[i].lluvia2);
-    }
+    }*/
+    d1 = poblarEstaciones(data,m,estacion,l);
+    d2 = poblarEstaciones(data,m,estacion2,l);
     this.labels = l;
     //this.datasetLluvia = d1;
     //console.log(this.labels);
     //console.log(this.datasetLluvia);
-
+    console.log("here is the new d1:");
+    console.log(d1);
     barChartData = {
       labels: labels,
       datasets: [
@@ -250,26 +266,27 @@ async function fetchData2(
       "&estacion2=" +
       estacion2;
 
-    console.log(url);
+    //console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    console.log(data);
+    //console.log(data);
     createTableColumns(this.data, [
-      "estacion1",
-      "estacion2",
+      "estacion",
       "year",
       "mes",
-      "lluvia1",
-      //"zona_vida1",
-      "lluvia2",
-      //"zona_vida2",
+      "lluvia"
     ]);
 
-    for (var i = 0; i < this.data.length; i++) {
+    /*for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);
       d1.push(this.data[i].lluvia1);
       d2.push(this.data[i].lluvia2);
-    }
+    }*/
+
+    l = poblarFechas(data,"Promedio");
+    d1 = poblarEstaciones(data,m,estacion,l);
+    d2 = poblarEstaciones(data,m,estacion2,l);
+
     this.labels = l;
     //this.datasetLluvia = d1;
     console.log(this.labels);

@@ -28,16 +28,42 @@ function poblarFechas(d){
   return fechas;
 }
 
+m = {
+  "estacion": "",
+  "year": "0",
+  "mes": "0",
+  "dia": "0",
+  "lluvia": "0",
+  "tmax": "0",
+  "tmin": "0",
+  "etp": "0",
+  "bc": "0",
+  "zona_vida": "0"
+};
 
-function poblarEstaciones(d,modelo){
+mAvg =     {
+  "estacion": "",
+  "year": "0",
+  "mes": "0",
+  "lluvia": "0",
+  "tmax": "0",
+  "tmin": "0",
+  "etp": "0",
+  "bc": "0",
+  "tPromedio": "0"
+};
+
+
+function poblarEstaciones(d,modelo,estacion,fechas){
   var est = [];
+  modelo.estacion = estacion;
   for (var i = 0; i < fechas.length; i++){
       est.push(modelo)
   }
 
   for(var i = 0; i < d.length; i++){
       var indice = fechas.indexOf( d[i].dia + '/' + d[i].mes + '/' + d[i].year);
-      if (indice != -1){
+      if ((indice != -1) && (estacion === d[i].estacion) ){
           est[indice] = d[i];
       }   
   }
@@ -63,11 +89,6 @@ function download_csv() {
     console.log(campos);
     console.log(arreglo);
     //here i create the csv.
-    var data = [
-      ["Foo", "programmer"],
-      ["Bar", "bus driver"],
-      ["Moo", "Reindeer Hunter"],
-    ];
     var csv = "";
 
     //set titles
@@ -173,7 +194,7 @@ async function fetchData2(
       "Historico de temperatura comparativo " + estacion + " " + estacion2;
     var url =
       stamm +
-      "/getdata2?yyyy1=" +
+      "/getdata3?yyyy1=" +
       yyyy1 +
       "&yyyy2=" +
       yyyy2 +
@@ -184,9 +205,13 @@ async function fetchData2(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion1","estacion2","year","mes","dia","tmax1","tMin1","tMax2","tMin2","zona_vida1","zona_vida2"]);
+    createTableColumns(this.data,["estacion","year","mes","dia","tmax","tmin","zona_vida"]);
 
-    for (var i = 0; i < this.data.length; i++) {
+    l = poblarFechas(data,"Historico");
+    d1 = poblarEstaciones(data,m,estacion,l);
+    d2 = poblarEstaciones(data,m,estacion2,l);
+
+    /*for (var i = 0; i < this.data.length; i++) {
       l.push(
         this.data[i].year + "/" + this.data[i].mes + "/" + this.data[i].dia
       );
@@ -196,7 +221,7 @@ async function fetchData2(
       tmax2.push(this.data[i].tmax2);
       tmin2.push(this.data[i].tmin2);
       //tavg2.push(this.data[i].tPromedio2)
-    }
+    }*/
     this.labels = l;
     //this.datasetLluvia = d1;
     //console.log(this.labels);
@@ -242,7 +267,7 @@ async function fetchData2(
       "Promedio de temperatura comparativo " + estacion + " " + estacion2;
     var url =
       stamm +
-      "/getdataAVG2?yyyy1=" +
+      "/getdataAVG3?yyyy1=" +
       yyyy1 +
       "&yyyy2=" +
       yyyy2 +
@@ -254,7 +279,7 @@ async function fetchData2(
     //console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion1","estacion2","year","mes","tmax1","tmin1","tPromedio1","tmax2","tmin2","tPromedio2"]);
+    createTableColumns(this.data,["estacion","year","mes","tmax","tmin","tPromedio"]);
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);
       tmax1.push(this.data[i].tmax1);
