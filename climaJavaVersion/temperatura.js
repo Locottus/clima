@@ -28,46 +28,36 @@ function poblarFechas(d){
   return fechas;
 }
 
-m = {
-  "estacion": "",
-  "year": "0",
-  "mes": "0",
-  "dia": "0",
-  "lluvia": "0",
-  "tmax": "0",
-  "tmin": "0",
-  "etp": "0",
-  "bc": "0",
-  "zona_vida": "0"
-};
-
-mAvg =     {
-  "estacion": "",
-  "year": "0",
-  "mes": "0",
-  "lluvia": "0",
-  "tmax": "0",
-  "tmin": "0",
-  "etp": "0",
-  "bc": "0",
-  "tPromedio": "0"
-};
 
 
-function poblarEstaciones(d,modelo,estacion,fechas){
-  var est = [];
-  modelo.estacion = estacion;
+function poblarEstaciones(d,estacion, fechas, tipo) {
+  console.log(d);
+  var est0 [fechas.length];
+  var est1 [fechas.length];
+  
   for (var i = 0; i < fechas.length; i++){
-      est.push(modelo)
+    est0[i] = '0';
+    est1[i] = '0';
   }
+    
 
-  for(var i = 0; i < d.length; i++){
-      var indice = fechas.indexOf( d[i].dia + '/' + d[i].mes + '/' + d[i].year);
-      if ((indice != -1) && (estacion === d[i].estacion) ){
-          est[indice] = d[i];
-      }   
+  for (var i = 0; i < d.length; i++) {
+    var s = "";
+    if (tipo === "Historico") 
+      s = d[i].dia + "/" + d[i].mes + "/" + d[i].year;
+    else 
+      s = d[i].mes + "/" + d[i].year;
+    
+    var indice = fechas.indexOf(s);
+
+    //console.log(indice,s,' indice de fechas');
+    //console.log(d[i]);
+    if ((indice > -1) && (estacion === d[i].estacion)) {
+      est[indice] = d[i].lluvia;
+    }
   }
-  console.log(est);
+  //console.log("---------------------------------");
+  //console.log(est);
   return est;
 }
 
@@ -208,8 +198,8 @@ async function fetchData2(
     createTableColumns(this.data,["estacion","year","mes","dia","tmax","tmin","zona_vida"]);
 
     l = poblarFechas(data,"Historico");
-    d1 = poblarEstaciones(data,m,estacion,l);
-    d2 = poblarEstaciones(data,m,estacion2,l);
+    d1 = poblarEstaciones(data,estacion,l);
+    d2 = poblarEstaciones(data,estacion2,l);
 
     /*for (var i = 0; i < this.data.length; i++) {
       l.push(
