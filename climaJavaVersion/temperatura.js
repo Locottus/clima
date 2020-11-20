@@ -204,11 +204,11 @@ async function fetchData2(
 
     l = poblarFechas(data,"Historico");
     
-    d1 = poblarEstaciones(data,estacion,l,"Promedio","tmax");
-    d2 = poblarEstaciones(data,estacion2,l,"Promedio","tmax");
+    tmax1 = poblarEstaciones(data,estacion,l,"Historico","tmax");
+    tmin1 = poblarEstaciones(data,estacion,l,"Historico","tmin");
 
-    d1 = poblarEstaciones(data,estacion,l,"Promedio","tmin");
-    d2 = poblarEstaciones(data,estacion2,l,"Promedio","tmin");
+    tmax2 = poblarEstaciones(data,estacion2,l,"Historico","tmax");
+    tmin1 = poblarEstaciones(data,estacion2,l,"Historico","tmin");
 
     
     this.labels = l;
@@ -267,25 +267,16 @@ async function fetchData2(
     res = await fetch(url);
     this.data = await res.json();
     createTableColumns(this.data,["estacion","year","mes","tmax","tmin","tPromedio"]);
-    /*for (var i = 0; i < this.data.length; i++) {
-      l.push(this.data[i].year + "/" + this.data[i].mes);
-      tmax1.push(this.data[i].tmax1);
-      tmin1.push(this.data[i].tmin1);
-      tavg1.push(this.data[i].tPromedio1);
-      tmax2.push(this.data[i].tmax2);
-      tmin2.push(this.data[i].tmin2);
-      tavg2.push(this.data[i].tPromedio2);
-    }*/
 
     l = poblarFechas(data,"Promedio");
     
-    d1 = poblarEstaciones(this.data,estacion,l,"Promedio","tmax");
-    d2 = poblarEstaciones(this.data,estacion,l,"Promedio","tmin");
-    d3 = poblarEstaciones(this.data,estacion,l,"Promedio","tPromedio");
+    tmax1 = poblarEstaciones(this.data,estacion,l,"Promedio","tmax");
+    tmin1 = poblarEstaciones(this.data,estacion,l,"Promedio","tmin");
+    tavg1 = poblarEstaciones(this.data,estacion,l,"Promedio","tPromedio");
 
-    d1 = poblarEstaciones(this.data,estacion,l,"Promedio","tmax");
-    d2 = poblarEstaciones(this.data,estacion2,l,"Promedio","tmin");
-    d3 = poblarEstaciones(this.data,estacion2,l,"Promedio","tPromedio");
+    tmax2 = poblarEstaciones(this.data,estacion,l,"Promedio","tmax");
+    tmin2 = poblarEstaciones(this.data,estacion2,l,"Promedio","tmin");
+    tavg2 = poblarEstaciones(this.data,estacion2,l,"Promedio","tPromedio");
 
     this.labels = l;
     //this.datasetLluvia = d1;
