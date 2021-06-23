@@ -379,7 +379,33 @@ require([
   view.on(["click"], function (evt) {
     view.hitTest(evt).then(getGraphics);
 
+    async function  getWeather(){
+      var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat=' + this.y +'&lon='+this.x;
+      console.log(url);
+      var res;
+      res = await fetch(url);
+      var clima = await res.json();
+      console.log(clima);
+      
+      
+      document.getElementById("dialogClima").showModal();
+      
+      document.getElementById('divClimaMain').innerHTML = `
+      Nombre del punto: ${clima.name} <br> 
+      Latitud: ${this.y} Longitud: ${this.x} <br>
+      Nubosidad: ${clima.clouds.all}<br>
+      Visibilidad: ${clima.visibility}<br>
+      
+      Humendad: ${clima.main.humidity}<br>
+      Presion: ${clima.main.pressure}<br>
+      Altura nivel del mar: ${clima.main.sea_level}<br>
+      Temperatura: ${clima.main.temp} <br>
+         Max: ${clima.main.temp_max}, Min: ${clima.main.temp_min}, feels like: ${clima.main.feels_like}<br>
+      `;
+
+    }
     function getGraphics(response) {
+      getWeather();
       if (response.results.length) {
         console.log("picked something");
         this.parms.estacion = response.results[0].graphic.atributos.estacion;
