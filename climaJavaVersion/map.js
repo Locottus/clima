@@ -119,8 +119,8 @@ function zoom2Map() {
       document.getElementById("selectEstacion").value
     ) {
       this.parms.estacion = document.getElementById("selectEstacion").value;
-      console.log(this.estaciones[i].longitud, this.estaciones[i].latitud);
-      console.log(this.MapView);
+      //console.log(this.estaciones[i].longitud, this.estaciones[i].latitud);
+      //console.log(this.MapView);
 
       //showCoordinates(view.toMap({ x: 0, y: 0 }));
       this.MapView.zoom = 12;
@@ -175,9 +175,9 @@ async function fetchData() {
   //url = stamm  + "/getdepartamentos";
 
   //console.log(estaciones);
-  console.log(this.meses);
-  console.log(this.estaciones);
-  console.log(this.anios);
+  //console.log(this.meses);
+  //console.log(this.estaciones);
+  //console.log(this.anios);
 
   cargaFechas(2);
   cargaFechas(1);
@@ -379,33 +379,73 @@ require([
   view.on(["click"], function (evt) {
     view.hitTest(evt).then(getGraphics);
 
+    function cToF(celsius) 
+    {
+      var cTemp = celsius;
+      var cToFahr = cTemp * 9 / 5 + 32;
+      var message = cTemp+'\xB0C is ' + cToFahr + ' \xB0F.';
+      console.log(message);
+      return cToFahr;
+    }
+    
+    function fToC(fahrenheit) 
+    {
+      var fTemp = fahrenheit;
+      var fToCel = (fTemp - 32) * 5 / 9;
+      var message = fTemp+'\xB0F is ' + fToCel + '\xB0C.';
+        console.log(message);
+      return fToCel;
+    } 
     async function  getWeather(){
-      var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat=' + this.y +'&lon='+this.x;
-      console.log(url);
+      var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat=' 
+      + this.y +'&lon='+this.x +'&lang=sp&units=metric';
+      //console.log(url);
       var res;
       res = await fetch(url);
       var clima = await res.json();
       console.log(clima);
       
-      
+      //show clima data
       document.getElementById("dialogClima").showModal();
       
-      document.getElementById('divClimaMain').innerHTML = `
-      Nombre del punto: ${clima.name} <br> 
-      Latitud: ${this.y} Longitud: ${this.x} <br>
-      Nubosidad: ${clima.clouds.all}<br>
-      Visibilidad: ${clima.visibility}<br>
-      
-      Humendad: ${clima.main.humidity}<br>
-      Presion: ${clima.main.pressure}<br>
-      Altura nivel del mar: ${clima.main.sea_level}<br>
-      Temperatura: ${clima.main.temp} <br>
-         Max: ${clima.main.temp_max}, Min: ${clima.main.temp_min}, feels like: ${clima.main.feels_like}<br>
+      document.getElementById('divLugar').innerHTML = `
+      <b>${clima.name}</b><br>
       `;
 
+
+      document.getElementById('divClimaMain').innerHTML = `
+      <b>Datos Generales</b><br>
+      Latitud: ${this.y} Longitud: ${this.x} <br>
+      Nubosidad: ${clima.clouds.all} %<br>
+      Visibilidad: ${clima.visibility} m<br>
+      Humedad: ${clima.main.humidity} %<br>
+      Presión: ${clima.main.pressure} hPa<br>
+      Altura a nivel del mar: ${clima.main.sea_level} m<br>
+      Temperatura: ${(clima.main.temp)} ℃<br>
+      Max: ${(clima.main.temp_max)} ℃<br>
+      Min: ${(clima.main.temp_min)} ℃<br>
+      feels like: ${(clima.main.feels_like)} ℃
+      `;
+
+      document.getElementById('divClimaWeather').innerHTML = `
+      <b>Estado del cielo: ${clima.weather[0].description}</b>
+      <!--Amanecer: ${clima.sys.sunrise}<br>
+      Atardecer: ${clima.sys.sunset}<br>-->
+      
+      `;
+
+
+      document.getElementById('divClimaWind').innerHTML = `
+      <b>Viento</b><br>
+      Grados: ${clima.wind.deg} ℃<br>
+      Gust: ${clima.wind.gust}<br>
+      Velocidad: ${clima.wind.speed} m/s<br>
+      `;
     }
+
+
     function getGraphics(response) {
-      getWeather();
+      
       if (response.results.length) {
         console.log("picked something");
         this.parms.estacion = response.results[0].graphic.atributos.estacion;
@@ -414,7 +454,8 @@ require([
           response.results[0].graphic.atributos.estacion;
         this.parms.estacion = response.results[0].graphic.atributos.estacion;
         //unhide("infoForm");  //UNHIDE THIS TO DISPLAY THE SETTINGS WHEN SELECTED A POINT
-      }
+      }else
+        getWeather();
     }
   });
   // Create an instance of the Track widget
