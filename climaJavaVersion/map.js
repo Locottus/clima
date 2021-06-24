@@ -158,6 +158,7 @@ function hide(elemento) {
 }*/
 
 async function fetchData() {
+  
   //MESES
   var res;
   res = await fetch(stamm + "/getmeses");
@@ -506,4 +507,5 @@ require([
 });
 
 //run stuff
+
 fetchData();
