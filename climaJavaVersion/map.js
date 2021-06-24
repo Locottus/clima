@@ -328,7 +328,7 @@ require([
       geometry: point,
       atributos: atributos,
       symbol: simpleMarkerSymbol,
-      popupTemplate: popupTemplate
+      //popupTemplate: popupTemplate
     });
 
     graphicsLayer.add(pointGraphic);
@@ -396,21 +396,28 @@ require([
         console.log(message);
       return fToCel;
     } 
-    async function  getWeather(){
+    async function  getWeather(nombrePunto){
       var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat=' 
       + this.y +'&lon='+this.x +'&lang=sp&units=metric';
       //console.log(url);
       var res;
       res = await fetch(url);
       var clima = await res.json();
-      console.log(clima);
+      //console.log(clima);
       
       //show clima data
       document.getElementById("dialogClima").showModal();
       
-      document.getElementById('divLugar').innerHTML = `
-      <b>${clima.name}</b><br>
-      `;
+      if (nombrePunto.length == 0){
+        document.getElementById('divLugar').innerHTML = `
+        <b>${clima.name}</b><br>
+        `;
+      }
+      else{
+        document.getElementById('divLugar').innerHTML = `
+        <b>Estacion: ${nombrePunto}</b><br>
+        `;
+      }
 
 
       document.getElementById('divClimaMain').innerHTML = `
@@ -447,15 +454,11 @@ require([
     function getGraphics(response) {
       
       if (response.results.length) {
-        console.log("picked something");
+        //console.log("picked something");
         this.parms.estacion = response.results[0].graphic.atributos.estacion;
-        console.log(response.results[0].graphic.atributos);
-        document.getElementById("selectEstacion").value =
-          response.results[0].graphic.atributos.estacion;
-        this.parms.estacion = response.results[0].graphic.atributos.estacion;
-        //unhide("infoForm");  //UNHIDE THIS TO DISPLAY THE SETTINGS WHEN SELECTED A POINT
+        getWeather(this.parms.estacion);
       }else
-        getWeather();
+        getWeather("");
     }
   });
   // Create an instance of the Track widget
