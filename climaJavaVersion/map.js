@@ -25,6 +25,17 @@ var SceneView;
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 //var stamm = "http://localhost:3000/incyt/api/sosguate";
 
+function abrirPronostico(){
+  console.log(this.y,this.x);
+  var url = `clima.html?titulo=Clima&y=${this.y}&x=${this.x}`  ;
+
+myWindow = window.open(url, "", "scrollbars=1");
+myWindow.focus();
+
+
+}
+
+
 function reportes() {
   //console.log("inicia reportes");
   var selectEstacion = document.getElementById("selectEstacion").value;
