@@ -41,16 +41,60 @@ function graficarArreglos(daily){
     this.humidity.push(daily[i].humidity);
     this.weather.push(daily[i].weather[0].description);
   }
-  console.log(this.fecha);
-  console.log(this.maxTemp);
-  console.log(this.minTemp);
-  console.log(this.rain);
-  console.log(this.humidity);
-  console.log(this.weather);
   graficaTemperatura();
   graficaLluvia();
+  graficaIconos(daily);
 }
 
+function graficaIconos(daily){
+  var dia = false;
+  var icon = 'fa-sun';
+  var colorIcon = 'orange';
+  var climaTexto = 'soleado bonito';
+  var fechaTexto = 'algun dia';
+
+var d = new Date();
+//fecha = d.toString();
+thishora = d.getHours();
+
+
+
+var ld=''
+for(var i = 0; i < daily.length; i++)
+  {
+    if (this.hora > 5 && this.hora < 19){
+      dia = true;
+      colorIcon = 'orange';
+      if (this.weather[i].indexOf( "nub" )>-1)
+        icon = 'fa-cloud-sun';
+      if (this.weather[i].indexOf( "lluvi" )>-1)
+        icon = 'fa-cloud-sun-rain';
+    }
+      
+    else{
+      dia = false;
+      colorIcon = 'steelblue';
+      icon = 'fa-moon'
+      if (this.weather[i].indexOf( "nub" )>-1)
+        icon = 'fa-cloud-moon';
+      if (this.weather[i].indexOf( "lluvi" )>-1)
+        icon = 'fa-cloud-moon-rain';
+
+    }
+    var colTemplate = `  
+    <div class="col">
+    <i  class="fas fa-5x fa-align-center ${icon}" style="color:${colorIcon}"></i>
+    <div><b>${this.weather[i]}</b></div>
+    <p>${this.fecha[i]}</p>            
+  </div>
+  `;
+          
+    ld = ld + colTemplate;
+  }
+
+
+  document.getElementById("iconosClima").innerHTML =  ld;
+}
 
 function graficaTemperatura(){
 
@@ -91,7 +135,6 @@ function graficaTemperatura(){
         borderWidth: 1,
         data: this.nocheTemp,
       },
-
 
     ],
   };
@@ -169,17 +212,17 @@ async function fetchData(y,  x) {
   //var url = `https://api.openweathermap.org/data/2.5/forecast?lat=${y}&lon=${x}&appid=98674de6a91859bcea48ba07be964379&units=metric&lang=sp`;
   var url = `https://api.openweathermap.org/data/2.5/onecall?lat=${y}&lon=${x}&appid=98674de6a91859bcea48ba07be964379&units=metric&lang=sp`;
   
-  /*
+  
   //esto es para produccion
   var res = await fetch(url);
   console.log(res);
   var data = await res.json();
   console.log(data);
   var daily = data.daily;
-  */
+  
   //con daily voy a trabajar ahorita que es dev
  
- 
+ /*
   console.log('******************************************');
   var daily = [
     {
@@ -504,7 +547,7 @@ async function fetchData(y,  x) {
     }
 ];
 
-  
+*/  
   graficarArreglos(daily);
 }
 
