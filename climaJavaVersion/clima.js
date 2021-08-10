@@ -24,7 +24,8 @@ var weather = [];
 function parseFecha(l){
   var d =  new Date(l.dt * 1000).toString().split(' '); 
   //console.log(d);
-  return (d[0] + ' '+ d[2] + ' ' + d[1] +' ' +d[3] );
+  //return (d[0] + ' '+ d[2] + ' ' + d[1] +' ' +d[3] );
+  return ( d[2] + ' ' + d[1] +' ' +d[3] );
 }
 
 function graficarArreglos(daily){
@@ -55,16 +56,19 @@ function graficaIconos(daily){
 
 var d = new Date();
 //fecha = d.toString();
-thishora = d.getHours();
+hora = d.getHours();
 
 
 
 var ld=''
 for(var i = 0; i < daily.length; i++)
   {
-    if (this.hora > 5 && this.hora < 19){
+    if (hora > 5 && hora < 19){
       dia = true;
       colorIcon = 'orange';
+
+      if (this.weather[i].indexOf( "clar" )>-1)
+        icon = 'fa-sun';
       if (this.weather[i].indexOf( "nub" )>-1)
         icon = 'fa-cloud-sun';
       if (this.weather[i].indexOf( "lluvi" )>-1)
@@ -118,7 +122,7 @@ function graficaTemperatura(){
         data: this.minTemp,
       },
       {
-        label: 'Temperatura Dia',
+        label: 'Temperatura de Dia',
         backgroundColor: color(window.chartColors.green)
           .alpha(0)
           .rgbString(),
@@ -127,7 +131,7 @@ function graficaTemperatura(){
         data: this.diaTemp,
       },
       {
-        label: 'Temperatura Noche',
+        label: 'Temperatura de Noche',
         backgroundColor: color(window.chartColors.blue)
           .alpha(0)
           .rgbString(),
@@ -175,6 +179,7 @@ function graficaLluvia(){
       },
       {
         label: 'Lluvia',
+        
         backgroundColor: color(window.chartColors.green)
           .alpha(0.5)
           .rgbString(),
@@ -197,7 +202,7 @@ function graficaLluvia(){
       },
       title: {
         display: true,
-        text: 'Temperaturas de los proximos días',
+        text: 'Lluvia de los proximos días',
       },
     },
   });
