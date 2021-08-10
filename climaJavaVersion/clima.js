@@ -51,12 +51,10 @@ function graficaIconos(daily){
   var dia = false;
   var icon = 'fa-sun';
   var colorIcon = 'orange';
-  var climaTexto = 'soleado bonito';
-  var fechaTexto = 'algun dia';
 
-var d = new Date();
-//fecha = d.toString();
-hora = d.getHours();
+  var d = new Date();
+  //fecha = d.toString();
+  hora = d.getHours();
 
 
 
@@ -89,7 +87,11 @@ for(var i = 0; i < daily.length; i++)
     <div class="col">
     <i  class="fas fa-5x fa-align-center ${icon}" style="color:${colorIcon}"></i>
     <div><b>${this.weather[i]}</b></div>
-    <p>${this.fecha[i]}</p>            
+    <div><b>${this.diaTemp[i]}℃</b></div>
+    <div>${this.fecha[i]}</div>
+    <div>Viento: ${daily[i].wind_speed}m/s</div>
+    <div>uvi: ${daily[i].uvi}</div>
+    <div>Fase Lunar: ${daily[i].moon_phase}</div>
   </div>
   `;
           
