@@ -90,7 +90,7 @@ for(var i = 0; i < daily.length; i++)
     <div><b>${this.diaTemp[i]}℃</b></div>
     <div>${this.fecha[i]}</div>
     <div>Viento: ${daily[i].wind_speed}m/s</div>
-    <div>uvi: ${daily[i].uvi}</div>
+    <div>uvi: ${daily[i].uvi}UV</div>
     <div>Fase Lunar: ${daily[i].moon_phase}</div>
   </div>
   `;
@@ -157,7 +157,7 @@ function graficaTemperatura(){
       },
       title: {
         display: true,
-        text: 'Lluvia de los proximos días',
+        text: 'Temperatura de los proximos días',
       },
     },
   });

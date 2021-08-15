@@ -23,7 +23,6 @@ var TextSymbol;
 var SceneView;
 
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
-//var stamm = "http://localhost:3000/incyt/api/sosguate";
 
 function abrirPronostico(){
   var url =
@@ -185,13 +184,6 @@ async function fetchData() {
   res = await fetch(stamm + "/getanios");
   this.anios = await res.json();
 
-  //url = stamm  + "/getmunicipios";
-  //url = stamm  + "/getdepartamentos";
-
-  //console.log(estaciones);
-  //console.log(this.meses);
-  //console.log(this.estaciones);
-  //console.log(this.anios);
 
   cargaFechas(2);
   cargaFechas(1);
@@ -393,33 +385,18 @@ require([
   view.on(["click"], function (evt) {
     view.hitTest(evt).then(getGraphics);
 
-    function cToF(celsius) 
-    {
-      var cTemp = celsius;
-      var cToFahr = cTemp * 9 / 5 + 32;
-      var message = cTemp+'\xB0C is ' + cToFahr + ' \xB0F.';
-      console.log(message);
-      return cToFahr;
-    }
-    
-    function fToC(fahrenheit) 
-    {
-      var fTemp = fahrenheit;
-      var fToCel = (fTemp - 32) * 5 / 9;
-      var message = fTemp+'\xB0F is ' + fToCel + '\xB0C.';
-        console.log(message);
-      return fToCel;
-    } 
     async function  getWeather(nombrePunto){
       var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat=' 
       + this.y +'&lon='+this.x +'&lang=sp&units=metric';
       //console.log(url);
-      var res;
-      res = await fetch(url);
-      var clima = await res.json();
-      //console.log(clima);
       
-      //show clima data
+      //var res = await fetch(url);
+      //var clima = await res.json();
+
+      console.log(this.y,this.x);
+
+
+      /*
       document.getElementById("dialogClima").showModal();
       
       if (nombrePunto.length == 0){
@@ -462,6 +439,7 @@ require([
       Gust: ${clima.wind.gust}<br>
       Velocidad: ${clima.wind.speed} m/s<br>
       `;
+      */
     }
 
 
@@ -518,7 +496,24 @@ require([
   loadPoints();
   this.MapView = MapView;
 });
+function getCoordinates(){
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position)=>{
+      this.y = position.coords.latitude;
+      this.x = position.coords.longitude;
+      console.log(position.coords.latitude,position.coords.longitude);
+      
+      //https://api.openweathermap.org/data/2.5/forecast?lat=14.6341888&lon=-90.5248768&appid=98674de6a91859bcea48ba07be964379&units=metric&lang=sp
+      //https://openweathermap.org/forecast5
 
+      //https://openweathermap.org/forecast5
+
+    });
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
 //run stuff
 
 fetchData();
+getCoordinates();
