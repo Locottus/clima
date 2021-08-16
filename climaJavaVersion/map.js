@@ -1,6 +1,7 @@
 var meses = [];
 var estaciones = [];
 var anios = [];
+var clima = [];
 var x = 0;
 var y = 0;
 var accuLocation = false;
@@ -24,16 +25,16 @@ var SceneView;
 
 var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
 
-function abrirPronostico(){
+function abrirPronostico() {
   var url =
-  "clima.html?titulo=Clima" +
-  "&y=" +
-  this.y +
-  "&x=" +
-  this.x ;
+    "clima.html?titulo=Clima" +
+    "&y=" +
+    this.y +
+    "&x=" +
+    this.x;
 
-myWindow = window.open(url, "", "scrollbars=1");
-myWindow.focus();
+  myWindow = window.open(url, "", "scrollbars=1");
+  myWindow.focus();
 
 }
 
@@ -49,76 +50,76 @@ function reportes() {
 
   if (selectDatos === datos[0]) {
     //var visualizacion = ["Promedio", "Historico", "Proyeccion"];
-    if (selectVisualizacion ==visualizacion[2]){
+    if (selectVisualizacion == visualizacion[2]) {
 
       var url =
-      "proyeccionLluvia.html?titulo=Proyecciones" +
-      "&selectEstacion=" +
-      selectEstacion +
-      "&selectEstacion2=" +
-      selectEstacion2 +
-      "&selectYYYY1=" +
-      selectYYYY1 +
-      "&selectYYYY2=" +
-      selectYYYY2 +
-      "&selectVisualizacion=" +
-      selectVisualizacion;
+        "proyeccionLluvia.html?titulo=Proyecciones" +
+        "&selectEstacion=" +
+        selectEstacion +
+        "&selectEstacion2=" +
+        selectEstacion2 +
+        "&selectYYYY1=" +
+        selectYYYY1 +
+        "&selectYYYY2=" +
+        selectYYYY2 +
+        "&selectVisualizacion=" +
+        selectVisualizacion;
 
-    myWindow = window.open(url, "", "scrollbars=1");
-    myWindow.focus();
+      myWindow = window.open(url, "", "scrollbars=1");
+      myWindow.focus();
 
 
-    }else{
-    var url =
-      "lluvia.html?titulo=Historico de LLuvia" +
-      "&selectEstacion=" +
-      selectEstacion +
-      "&selectEstacion2=" +
-      selectEstacion2 +
-      "&selectYYYY1=" +
-      selectYYYY1 +
-      "&selectYYYY2=" +
-      selectYYYY2 +
-      "&selectVisualizacion=" +
-      selectVisualizacion;
-    myWindow = window.open(url, "", "scrollbars=1");
-    myWindow.focus();
-  }
+    } else {
+      var url =
+        "lluvia.html?titulo=Historico de LLuvia" +
+        "&selectEstacion=" +
+        selectEstacion +
+        "&selectEstacion2=" +
+        selectEstacion2 +
+        "&selectYYYY1=" +
+        selectYYYY1 +
+        "&selectYYYY2=" +
+        selectYYYY2 +
+        "&selectVisualizacion=" +
+        selectVisualizacion;
+      myWindow = window.open(url, "", "scrollbars=1");
+      myWindow.focus();
+    }
   } else if (selectDatos === datos[1]) {
-    if (selectVisualizacion ==visualizacion[2]){
+    if (selectVisualizacion == visualizacion[2]) {
       var url =
-      "proyeccionTemperatura.html?titulo=Proyecciones" +
-      "&selectEstacion=" +
-      selectEstacion +
-      "&selectEstacion2=" +
-      selectEstacion2 +
-      "&selectYYYY1=" +
-      selectYYYY1 +
-      "&selectYYYY2=" +
-      selectYYYY2 +
-      "&selectVisualizacion=" +
-      selectVisualizacion;
+        "proyeccionTemperatura.html?titulo=Proyecciones" +
+        "&selectEstacion=" +
+        selectEstacion +
+        "&selectEstacion2=" +
+        selectEstacion2 +
+        "&selectYYYY1=" +
+        selectYYYY1 +
+        "&selectYYYY2=" +
+        selectYYYY2 +
+        "&selectVisualizacion=" +
+        selectVisualizacion;
 
-    myWindow = window.open(url, "", "scrollbars=1");
-    myWindow.focus();
+      myWindow = window.open(url, "", "scrollbars=1");
+      myWindow.focus();
 
-    }else{
+    } else {
 
-    var url =
-      "temperatura.html?titulo=Historico de LLuvia" +
-      "&selectEstacion=" +
-      selectEstacion +
-      "&selectEstacion2=" +
-      selectEstacion2 +
-      "&selectYYYY1=" +
-      selectYYYY1 +
-      "&selectYYYY2=" +
-      selectYYYY2 +
-      "&selectVisualizacion=" +
-      selectVisualizacion;
+      var url =
+        "temperatura.html?titulo=Historico de LLuvia" +
+        "&selectEstacion=" +
+        selectEstacion +
+        "&selectEstacion2=" +
+        selectEstacion2 +
+        "&selectYYYY1=" +
+        selectYYYY1 +
+        "&selectYYYY2=" +
+        selectYYYY2 +
+        "&selectVisualizacion=" +
+        selectVisualizacion;
 
-    myWindow = window.open(url, "", "scrollbars=1");
-    myWindow.focus();
+      myWindow = window.open(url, "", "scrollbars=1");
+      myWindow.focus();
     }
   }
 }
@@ -169,8 +170,11 @@ function hide(elemento) {
   }
 }*/
 
+
 async function fetchData() {
-  
+
+
+
   //MESES
   var res;
   res = await fetch(stamm + "/getmeses");
@@ -191,6 +195,17 @@ async function fetchData() {
   cargaEstacion("selectEstacion2");
   cargaTipoReporte();
   cargaTipoDato();
+
+  obtenerCoordenadas();
+  var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat='
+    + this.y + '&lon=' + this.x + '&lang=sp&units=metric';
+  console.log(url);
+
+  var res = await fetch(url);
+  this.clima = await res.json();
+  graficaIconos();
+
+
 }
 
 function cargaFechas(opcion) {
@@ -323,7 +338,7 @@ require([
         width: 1,
       },
     };
-//https://developers.arcgis.com/javascript/latest/guide/display-point-line-and-polygon-graphics/
+    //https://developers.arcgis.com/javascript/latest/guide/display-point-line-and-polygon-graphics/
     var popupTemplate = {
       title: "Estacion Metereologica",
       content: atributos.estacion,
@@ -385,15 +400,15 @@ require([
   view.on(["click"], function (evt) {
     view.hitTest(evt).then(getGraphics);
 
-    async function  getWeather(nombrePunto){
-      var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat=' 
-      + this.y +'&lon='+this.x +'&lang=sp&units=metric';
+    async function getWeather(nombrePunto) {
+      var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat='
+        + this.y + '&lon=' + this.x + '&lang=sp&units=metric';
       //console.log(url);
-      
+
       //var res = await fetch(url);
       //var clima = await res.json();
 
-      console.log(this.y,this.x);
+      console.log(this.y, this.x);
 
 
       /*
@@ -444,12 +459,12 @@ require([
 
 
     function getGraphics(response) {
-      
+
       if (response.results.length) {
         //console.log("picked something");
         this.parms.estacion = response.results[0].graphic.atributos.estacion;
         getWeather(this.parms.estacion);
-      }else
+      } else
         getWeather("");
     }
   });
@@ -496,24 +511,125 @@ require([
   loadPoints();
   this.MapView = MapView;
 });
-function getCoordinates(){
+
+var dataClima =
+
+{
+  "coord": {
+    "lon": -90.5249,
+    "lat": 14.6342
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "muy nuboso",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 20.82,
+    "feels_like": 20.99,
+    "temp_min": 20.82,
+    "temp_max": 21.86,
+    "pressure": 1022,
+    "humidity": 78
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 3.09,
+    "deg": 200
+  },
+  "clouds": {
+    "all": 75
+  },
+  "dt": 1629128150,
+  "sys": {
+    "type": 1,
+    "id": 7079,
+    "country": "GT",
+    "sunrise": 1629114506,
+    "sunset": 1629159868
+  },
+  "timezone": -21600,
+  "id": 3598132,
+  "name": "Guatemala City",
+  "cod": 200
+}
+  ;
+
+
+
+function graficaIconos() {
+  //console.log('creando icono',daily);
+  var dia = false;
+  var icon = 'fa-sun';
+  var colorIcon = 'black';
+
+  var d = new Date();
+  //fecha = d.toString();
+  hora = d.getHours();
+
+  var ld = ''
+  //for (var i = 0; i < daily.length; i++) 
+  {
+    if (hora > 5 && hora < 19) {
+      dia = true;
+      //colorIcon = 'orange';
+
+      if (this.clima["weather"][0].description.indexOf("clar") > -1)
+        icon = 'fa-sun';
+      if (this.clima["weather"][0].description.indexOf("nub") > -1)
+        icon = 'fa-cloud-sun';
+      if (this.clima["weather"][0].description.indexOf("lluvi") > -1)
+        icon = 'fa-cloud-sun-rain';
+    }
+
+    else {
+      dia = false;
+      //colorIcon = 'steelblue';
+      icon = 'fa-moon'
+      if (this.clima["weather"][0].description.indexOf("nub") > -1)
+        icon = 'fa-cloud-moon';
+      if (this.clima["weather"][0].description.indexOf("lluvi") > -1)
+        icon = 'fa-cloud-moon-rain';
+
+    }
+    var colTemplate = `  
+      <i  class="fas fa-4x fa-align-center ${icon}" style="color:${colorIcon}"></i>
+     `;
+    //console.log(colTemplate);
+    ld = ld + colTemplate;
+  }
+  document.getElementById("iconosClima").innerHTML = ld;
+
+  //var clima = this.dataClima;
+  console.log(this.clima);
+  document.getElementById("name").innerHTML = ' ' + this.clima["name"].toUpperCase();
+  document.getElementById("temp").innerHTML = ' ' + this.clima["main"].feels_like + '℃';
+  document.getElementById("descripcion").innerHTML = ' ' + this.clima["weather"][0].description;
+  document.getElementById("humedad").innerHTML = ' ' + this.clima["main"].humidity + '%';
+  document.getElementById("maxTemp").innerHTML = ' ' + this.clima["main"].temp_max + '℃';
+  document.getElementById("minTemp").innerHTML = ' ' + this.clima["main"].temp_min + '℃';
+  document.getElementById("viento").innerHTML = ' ' + this.clima["wind"].speed + 'm/s';
+  document.getElementById("nubes").innerHTML = ' ' + this.clima["clouds"].all + '%';
+
+}
+
+function obtenerCoordenadas() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position)=>{
+    navigator.geolocation.getCurrentPosition((position) => {
       this.y = position.coords.latitude;
       this.x = position.coords.longitude;
-      console.log(position.coords.latitude,position.coords.longitude);
-      
-      //https://api.openweathermap.org/data/2.5/forecast?lat=14.6341888&lon=-90.5248768&appid=98674de6a91859bcea48ba07be964379&units=metric&lang=sp
-      //https://openweathermap.org/forecast5
-
-      //https://openweathermap.org/forecast5
+      console.log(position.coords.latitude, position.coords.longitude);
 
     });
   } else {
     console.log("Geolocation is not supported by this browser.");
   }
 }
+
 //run stuff
 
 fetchData();
-getCoordinates();
