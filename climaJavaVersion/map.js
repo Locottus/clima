@@ -38,6 +38,22 @@ function abrirPronostico() {
 
 }
 
+function abrirPronosticoWidget() {
+  this.y = document.getElementById("latitud").innerHTML ;
+  this.x = document.getElementById("longitud").innerHTML ;
+  var url =
+    "clima.html?titulo=Clima" +
+    "&y=" +
+    this.y +
+    "&x=" +
+    this.x;
+  console.log(url);
+  myWindow = window.open(url, "", "scrollbars=1");
+  myWindow.focus();
+
+}
+
+
 function reportes() {
   //console.log("inicia reportes");
   var selectEstacion = document.getElementById("selectEstacion").value;
@@ -403,58 +419,15 @@ require([
     async function getWeather(nombrePunto) {
       var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat='
         + this.y + '&lon=' + this.x + '&lang=sp&units=metric';
-      //console.log(url);
+      console.log(url);
 
-      //var res = await fetch(url);
-      //var clima = await res.json();
+      var res = await fetch(url);
+      this.clima = await res.json();
 
       console.log(this.y, this.x);
+      graficaIconos();
 
-
-      /*
-      document.getElementById("dialogClima").showModal();
       
-      if (nombrePunto.length == 0){
-        document.getElementById('divLugar').innerHTML = `
-        <b>${clima.name}</b><br>
-        `;
-      }
-      else{
-        document.getElementById('divLugar').innerHTML = `
-        <b>Estacion: ${nombrePunto}</b><br>
-        `;
-      }
-
-
-      document.getElementById('divClimaMain').innerHTML = `
-      <b>Datos Generales</b><br>
-      Latitud: ${this.y} Longitud: ${this.x} <br>
-      Nubosidad: ${clima.clouds.all} %<br>
-      Visibilidad: ${clima.visibility} m<br>
-      Humedad: ${clima.main.humidity} %<br>
-      Presión: ${clima.main.pressure} hPa<br>
-      Altura a nivel del mar: ${clima.main.sea_level} m<br>
-      Temperatura: ${(clima.main.temp)} ℃<br>
-      Max: ${(clima.main.temp_max)} ℃<br>
-      Min: ${(clima.main.temp_min)} ℃<br>
-      feels like: ${(clima.main.feels_like)} ℃
-      `;
-
-      document.getElementById('divClimaWeather').innerHTML = `
-      <b>Estado del cielo: ${clima.weather[0].description}</b>
-      <!--Amanecer: ${clima.sys.sunrise}<br>
-      Atardecer: ${clima.sys.sunset}<br>-->
-      
-      `;
-
-
-      document.getElementById('divClimaWind').innerHTML = `
-      <b>Viento</b><br>
-      Grados: ${clima.wind.deg} ℃<br>
-      Gust: ${clima.wind.gust}<br>
-      Velocidad: ${clima.wind.speed} m/s<br>
-      `;
-      */
     }
 
 
@@ -615,6 +588,8 @@ function graficaIconos() {
   document.getElementById("viento").innerHTML = ' ' + this.clima["wind"].speed + 'm/s';
   document.getElementById("nubes").innerHTML = ' ' + this.clima["clouds"].all + '%';
 
+  document.getElementById("latitud").innerHTML = this.y;
+  document.getElementById("longitud").innerHTML = this.x;
 }
 
 function obtenerCoordenadas() {
