@@ -348,7 +348,7 @@ require([
 
     var simpleMarkerSymbol = {
       type: "simple-marker",
-      color: [255, 0, 0], // https://www.w3schools.com/colors/colors_picker.asp
+      color: [0, 0, 0], // https://www.w3schools.com/colors/colors_picker.asp
       outline: {
         color: [255, 255, 255], // white
         width: 1,
