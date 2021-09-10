@@ -139,9 +139,83 @@ function reportes() {
     }
   }
   //etp
-  else if (selectDatos === datos[2]){}
+  else if (selectDatos === datos[2]){
+    if (selectVisualizacion == visualizacion[2]) {
+
+      var url =
+        "proyeccionETP.html?titulo=Proyecciones" +
+        "&selectEstacion=" +
+        selectEstacion +
+        "&selectEstacion2=" +
+        selectEstacion2 +
+        "&selectYYYY1=" +
+        selectYYYY1 +
+        "&selectYYYY2=" +
+        selectYYYY2 +
+        "&selectVisualizacion=" +
+        selectVisualizacion;
+
+      myWindow = window.open(url, "", "scrollbars=1");
+      myWindow.focus();
+
+
+    } else {
+      var url =
+        "etp.html?titulo=Historico de LLuvia" +
+        "&selectEstacion=" +
+        selectEstacion +
+        "&selectEstacion2=" +
+        selectEstacion2 +
+        "&selectYYYY1=" +
+        selectYYYY1 +
+        "&selectYYYY2=" +
+        selectYYYY2 +
+        "&selectVisualizacion=" +
+        selectVisualizacion;
+      myWindow = window.open(url, "", "scrollbars=1");
+      myWindow.focus();
+    }
+
+  }
   //bc
-  else if (selectDatos === datos[3]){}
+  else if (selectDatos === datos[3]){
+    if (selectVisualizacion == visualizacion[2]) {
+
+      var url =
+        "proyeccionBC.html?titulo=Proyecciones" +
+        "&selectEstacion=" +
+        selectEstacion +
+        "&selectEstacion2=" +
+        selectEstacion2 +
+        "&selectYYYY1=" +
+        selectYYYY1 +
+        "&selectYYYY2=" +
+        selectYYYY2 +
+        "&selectVisualizacion=" +
+        selectVisualizacion;
+
+      myWindow = window.open(url, "", "scrollbars=1");
+      myWindow.focus();
+
+
+    } else {
+      var url =
+        "bc.html?titulo=Historico de LLuvia" +
+        "&selectEstacion=" +
+        selectEstacion +
+        "&selectEstacion2=" +
+        selectEstacion2 +
+        "&selectYYYY1=" +
+        selectYYYY1 +
+        "&selectYYYY2=" +
+        selectYYYY2 +
+        "&selectVisualizacion=" +
+        selectVisualizacion;
+      myWindow = window.open(url, "", "scrollbars=1");
+      myWindow.focus();
+    }
+
+  }
 }
 
 function zoom2Map() {
