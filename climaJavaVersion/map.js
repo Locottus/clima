@@ -6,7 +6,7 @@ var x = 0;
 var y = 0;
 var accuLocation = false;
 var visualizacion = ["Promedio", "Historico", "Proyeccion"];
-var datos = ["Lluvia", "Temperatura"];
+var datos = ["Lluvia", "Temperatura","ETP","BC"];
 var parms = {
   estacion: "",
   estacion2: "",
@@ -60,8 +60,7 @@ function reportes() {
   var selectEstacion2 = document.getElementById("selectEstacion2").value;
   var selectYYYY1 = document.getElementById("selectYYYY1").value;
   var selectYYYY2 = document.getElementById("selectYYYY2").value;
-  var selectVisualizacion = document.getElementById("selectVisualizacion")
-    .value;
+  var selectVisualizacion = document.getElementById("selectVisualizacion").value;
   var selectDatos = document.getElementById("selectDatos").value;
 
   if (selectDatos === datos[0]) {
@@ -101,7 +100,8 @@ function reportes() {
       myWindow = window.open(url, "", "scrollbars=1");
       myWindow.focus();
     }
-  } else if (selectDatos === datos[1]) {
+  } 
+  else if (selectDatos === datos[1]) {
     if (selectVisualizacion == visualizacion[2]) {
       var url =
         "proyeccionTemperatura.html?titulo=Proyecciones" +
@@ -138,6 +138,10 @@ function reportes() {
       myWindow.focus();
     }
   }
+  //etp
+  else if (selectDatos === datos[2]){}
+  //bc
+  else if (selectDatos === datos[3]){}
 }
 
 function zoom2Map() {
@@ -320,6 +324,7 @@ require([
   var map = new Map({
     basemap: "topo",
     //basemap: Additional basemap options are: satellite, hybrid, topo, gray, dark-gray, oceans, osm, national-geographic
+    //https://community.esri.com/t5/arcgis-api-for-javascript-questions/adding-two-tiled-layers-to-the-map-javascript-api/td-p/357762
   });
 
   //this is hardcoded to Guatemalan centroid (approximate centroid)
