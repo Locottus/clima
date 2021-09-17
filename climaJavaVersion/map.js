@@ -6,7 +6,8 @@ var x = 0;
 var y = 0;
 var accuLocation = false;
 var visualizacion = ["Promedio", "Historico", "Proyeccion"];
-var datos = ["Lluvia", "Temperatura","ETP","BC"];
+//var datos = ["Lluvia", "Temperatura","ETP","BC"];
+var datos = ["Lluvia", "Temperatura"];
 var parms = {
   estacion: "",
   estacion2: "",

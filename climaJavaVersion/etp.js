@@ -186,7 +186,7 @@ async function fetchData2(
   console.log(selectVisualizacion);
   if (selectVisualizacion === "Historico") {
     titulo =
-      "Historico de temperatBura comparativo " + estacion + " " + estacion2;
+      "Historico de ETP comparativo " + estacion + " " + estacion2;
     var url =
       stamm +
       "/getdata3?yyyy1=" +
@@ -200,15 +200,15 @@ async function fetchData2(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","year","mes","dia","bc","zona_vida"]);
+    createTableColumns(this.data,["estacion","year","mes","dia","tmax","tmin","zona_vida"]);
 
     l = poblarFechas(data,"Historico");
     
-    bc1 = poblarEstaciones(data,estacion,l,"Historico","bc");
-    //tmin1 = poblarEstaciones(data,estacion,l,"Historico","tmin");
+    tmax1 = poblarEstaciones(data,estacion,l,"Historico","tmax");
+    tmin1 = poblarEstaciones(data,estacion,l,"Historico","tmin");
 
-    bc2 = poblarEstaciones(data,estacion2,l,"Historico","bc");
-    //tmin1 = poblarEstaciones(data,estacion2,l,"Historico","tmin");
+    tmax2 = poblarEstaciones(data,estacion2,l,"Historico","tmax");
+    tmin1 = poblarEstaciones(data,estacion2,l,"Historico","tmin");
 
     
     this.labels = l;
@@ -218,19 +218,33 @@ async function fetchData2(
       labels: labels,
       datasets: [
         {
-          label: "BC " + estacion,
+          label: "Temperatura Maxima " + estacion,
           //backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
           borderColor: window.chartColors.red,
           borderWidth: 1,
-          data: bc1,
+          data: tmax1,
+        },
+        {
+          label: "Temperatura Minima " + estacion,
+          //backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.blue,
+          borderWidth: 1,
+          data: tmin1,
         },
 
         {
-          label: "BC " + estacion2,
+          label: "Temperatura Maxima " + estacion2,
           //backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
           borderColor: window.chartColors.green,
           borderWidth: 1,
-          data: bc2,
+          data: tmax2,
+        },
+        {
+          label: "Temperatura Minima " + estacion2,
+          //backgroundColor: color(window.chartColors.yellow).alpha(0.5).rgbString(),
+          borderColor: window.chartColors.yellow,
+          borderWidth: 1,
+          data: tmin2,
         },
       ],
     };
@@ -372,7 +386,7 @@ async function fetchData(
   //https://arcgis-web.url.edu.gt/incyt/api/clima/getdata?yyyy1=1979&yyyy2=1982&estacion=Alameda
   console.log(selectVisualizacion);
   if (selectVisualizacion === "Historico") {
-    titulo = "Historico de BC";
+    titulo = "Historico de Temperatura";
     var url =
       stamm +
       "/getdata?yyyy1=" +
@@ -381,35 +395,41 @@ async function fetchData(
       yyyy2 +
       "&estacion=" +
       estacion;
-    console.log(url);
+    //console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","year","mes","dia","bc","zona_vida"]);
+    createTableColumns(this.data,["estacion","year","mes","dia","tmax","tmin","zona_vida"]);
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(
         this.data[i].year + "/" + this.data[i].mes + "/" + this.data[i].dia
       );
-      d1.push(this.data[i].bc);
-      //d2.push(this.data[i].tmin);
+      d1.push(this.data[i].tmax);
+      d2.push(this.data[i].tmin);
     }
 
     barChartData = {
       labels: l,
       datasets: [
         {
-          label: "BC",
+          label: "temperatura maxima",
           //backgroundColor: window.chartColors.red,
-          borderColor: window.chartColors.blue,
-          //borderWidth: 1,
+          borderColor: window.chartColors.red,
+          borderWidth: 1,
           data: d1,
         },
-       
+        {
+          label: "temperatura minima",
+          //backgroundColor: window.chartColors.blue,
+          borderColor: window.chartColors.blue,
+          borderWidth: 1,
+          data: d2,
+        },
       ],
     };
     console.log(barChartData);
   } else if (selectVisualizacion === "Promedio") {
-    titulo = "Promedio de BC";
+    titulo = "Promedio de Temperatura";
     var url =
       stamm +
       "/getdataAVG?yyyy1=" +
@@ -421,26 +441,26 @@ async function fetchData(
     console.log(url);
     res = await fetch(url);
     this.data = await res.json();
-    createTableColumns(this.data,["estacion","year","mes","BC","tPromedio"]);
+    createTableColumns(this.data,["estacion","year","mes","tmax","tmin","tPromedio"]);
 
     for (var i = 0; i < this.data.length; i++) {
       l.push(this.data[i].year + "/" + this.data[i].mes);
-      d1.push(this.data[i].bc);
-      //d2.push(this.data[i].tmin);
-      //d3.push(this.data[i].tPromedio);
+      d1.push(this.data[i].tmax);
+      d2.push(this.data[i].tmin);
+      d3.push(this.data[i].tPromedio);
     }
 
     barChartData = {
       labels: l,
       datasets: [
         {
-          label: "BC",
+          label: "temperatura maxima",
           //backgroundColor: window.chartColors.red,
           borderColor: window.chartColors.red,
           borderWidth: 1,
           data: d1,
         },
-        /*{
+        {
           label: "temperatura minima",
           //backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
@@ -453,13 +473,16 @@ async function fetchData(
           borderColor: window.chartColors.green,
           borderWidth: 1,
           data: d3,
-        },*/
+        },
       ],
     };
     //console.log(barChartData);
   } else if (selectVisualizacion === "Proyeccion") {
   }
 
+  //console.log(this.meses);
+  //console.log(this.data);
+  //display data
   window.myBar = new Chart(ctx, {
     type: "line",
     data: barChartData,
@@ -477,6 +500,9 @@ async function fetchData(
 }
 
 function reporte(id) {
+  //console.log("entrando a generar reporte");
+  //console.log(currentDepartment + ' ' + currentMunicipio + ' ' +currentMunicipioId);
+  //https://github.com/chartjs/Chart.js
 
   var stamm = "https://arcgis-web.url.edu.gt/incyt/api/clima";
   //var stamm = "http://localhost:3000/incyt/api/sosguate";
@@ -507,6 +533,15 @@ $(document).ready(function () {
   this.yyyy2 = urlParams.get("selectYYYY2");
   this.selectVisualizacion = urlParams.get("selectVisualizacion");
 
+  // document.getElementById("tituloPrincipal").innerHTML =
+  //   "Estacion: " +
+  //   this.estacion +
+  //   " año inicial " +
+  //   this.yyyy1 +
+  //   " año final " +
+  //   this.yyyy2 +
+  //   " visualizacion " +
+  //   this.selectVisualizacion;
 
   if (this.estacion2.length > 1) {
     //son 2 a comparar
