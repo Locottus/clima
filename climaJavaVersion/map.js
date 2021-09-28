@@ -291,6 +291,8 @@ async function fetchData() {
   cargaTipoReporte();
   cargaTipoDato();
 
+
+  /*
   obtenerCoordenadas();
   var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat='
     + this.y + '&lon=' + this.x + '&lang=sp&units=metric';
@@ -300,7 +302,7 @@ async function fetchData() {
   this.clima = await res.json();
   graficaIconos();
 
-
+*/
 }
 
 function cargaFechas(opcion) {
@@ -495,7 +497,8 @@ require([
 
   view.on(["click"], function (evt) {
     view.hitTest(evt).then(getGraphics);
-
+    console.log(view);
+    /*
     async function getWeather(nombrePunto) {
       var url = 'https://api.openweathermap.org/data/2.5/weather?APPID=98674de6a91859bcea48ba07be964379&lat='
         + this.y + '&lon=' + this.x + '&lang=sp&units=metric';
@@ -509,16 +512,20 @@ require([
 
       
     }
-
+*/
 
     function getGraphics(response) {
 
       if (response.results.length) {
-        //console.log("picked something");
+        console.log("picked something");
         this.parms.estacion = response.results[0].graphic.atributos.estacion;
-        getWeather(this.parms.estacion);
-      } else
-        getWeather("");
+        document.getElementById("selectEstacion").value = this.parms.estacion;
+        //getWeather(this.parms.estacion);
+        console.log(this.parms.estacion);
+      } else{
+        //getWeather("");
+      }
+        
     }
   });
   // Create an instance of the Track widget
