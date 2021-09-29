@@ -17,6 +17,10 @@ body,
   padding: 10px;
 }
 
+.ocultar{
+  display: none;
+}
+
 #mainImage {
   bottom: 30px;
   left: 15px;
